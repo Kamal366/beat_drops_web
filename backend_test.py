@@ -18,7 +18,7 @@ def get_base_url():
         for line in f:
             if line.startswith('NEXT_PUBLIC_BASE_URL='):
                 return line.split('=', 1)[1].strip()
-    return 'http://localhost:3000'
+    return os.environ.get('NEXT_PUBLIC_BASE_URL', 'https://drops-student-hub.preview.emergentagent.com')
 
 BASE_URL = get_base_url()
 API_BASE = urljoin(BASE_URL, '/api')
