@@ -211,9 +211,12 @@
 ##       - working: "NA"
 ##         agent: "main"
 ##         comment: "Built public routes for home, about, courses, gallery, admission, contact, and login with premium mobile-first layout. Manual fetch confirmed page responses return 200."
-##       - working: true
-##         agent: "testing"
-##         comment: "Comprehensive UI testing completed successfully. All 7 public routes (/, /about, /courses, /gallery, /admission, /contact, /login) load correctly with proper titles 'Beat Drops Music Class | Bhubaneswar Music Academy', contain Beat Drops branding, and have navigation elements. Mobile responsiveness verified - content fits properly within mobile viewport. All public pages are production-ready."
+##       - working: false
+##         agent: "user"
+##         comment: "User reports the mobile header/navigation is overflowing, and the Login button with the section below is not visible properly on mobile devices."
+##       - working: "NA"
+##         agent: "main"
+##         comment: "Will refactor the marketing header for mobile so navigation becomes horizontally scrollable and the CTA remains visible below it instead of getting squeezed off-screen."
 ##   - task: "Student and admin dashboard shells"
 ##     implemented: true
 ##     working: true
