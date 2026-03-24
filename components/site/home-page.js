@@ -9,17 +9,20 @@ import {
   PromoBanners,
   StudentLove,
 } from '@/components/site/section-blocks'
+import { getLiveSiteContent } from '@/lib/live-site-content'
 
-export default function HomePage() {
+export default async function HomePage() {
+  const liveContent = await getLiveSiteContent()
+
   return (
     <MarketingShell activePath="/">
       <HeroSection />
       <AboutStory />
       <CourseGrid />
       <BranchGrid />
-      <GalleryPreview />
-      <PromoBanners />
-      <StudentLove />
+      <GalleryPreview items={liveContent.galleryItems} />
+      <PromoBanners items={liveContent.banners} />
+      <StudentLove items={liveContent.testimonials} />
       <ContactPanel />
     </MarketingShell>
   )

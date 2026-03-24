@@ -4,39 +4,39 @@
 
 @layer base {
   :root {
-    --background: 226 44% 7%;
-    --foreground: 220 33% 98%;
-    --card: 226 44% 10%;
-    --card-foreground: 220 33% 98%;
-    --popover: 226 44% 10%;
-    --popover-foreground: 220 33% 98%;
-    --primary: 318 92% 61%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 216 34% 17%;
-    --secondary-foreground: 220 33% 98%;
-    --muted: 221 29% 18%;
-    --muted-foreground: 216 18% 75%;
-    --accent: 191 95% 56%;
-    --accent-foreground: 226 44% 7%;
-    --destructive: 0 84% 60%;
+    --background: 18 20% 8%;
+    --foreground: 32 40% 96%;
+    --card: 18 18% 11%;
+    --card-foreground: 32 40% 96%;
+    --popover: 18 18% 11%;
+    --popover-foreground: 32 40% 96%;
+    --primary: 35 61% 74%;
+    --primary-foreground: 18 18% 10%;
+    --secondary: 336 20% 20%;
+    --secondary-foreground: 32 40% 96%;
+    --muted: 18 14% 18%;
+    --muted-foreground: 28 18% 74%;
+    --accent: 330 28% 68%;
+    --accent-foreground: 18 18% 10%;
+    --destructive: 0 72% 58%;
     --destructive-foreground: 0 0% 100%;
-    --border: 221 28% 23%;
-    --input: 221 28% 23%;
-    --ring: 318 92% 61%;
-    --chart-1: 318 92% 61%;
-    --chart-2: 191 95% 56%;
-    --chart-3: 35 95% 60%;
-    --chart-4: 145 70% 50%;
-    --chart-5: 262 83% 65%;
+    --border: 18 14% 24%;
+    --input: 18 14% 24%;
+    --ring: 35 61% 74%;
+    --chart-1: 35 61% 74%;
+    --chart-2: 330 28% 68%;
+    --chart-3: 18 30% 45%;
+    --chart-4: 268 22% 64%;
+    --chart-5: 12 45% 64%;
     --radius: 1rem;
-    --sidebar-background: 226 44% 10%;
-    --sidebar-foreground: 220 33% 98%;
-    --sidebar-primary: 318 92% 61%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 221 29% 18%;
-    --sidebar-accent-foreground: 220 33% 98%;
-    --sidebar-border: 221 28% 23%;
-    --sidebar-ring: 191 95% 56%;
+    --sidebar-background: 18 18% 11%;
+    --sidebar-foreground: 32 40% 96%;
+    --sidebar-primary: 35 61% 74%;
+    --sidebar-primary-foreground: 18 18% 10%;
+    --sidebar-accent: 18 14% 18%;
+    --sidebar-accent-foreground: 32 40% 96%;
+    --sidebar-border: 18 14% 24%;
+    --sidebar-ring: 330 28% 68%;
   }
 
   * {
@@ -50,9 +50,9 @@
   body {
     @apply bg-background text-foreground antialiased;
     background-image:
-      radial-gradient(circle at top, rgba(236, 72, 153, 0.18), transparent 28%),
-      radial-gradient(circle at right, rgba(34, 211, 238, 0.12), transparent 22%),
-      linear-gradient(180deg, rgba(15, 23, 42, 1) 0%, rgba(6, 10, 26, 1) 100%);
+      radial-gradient(circle at top, rgba(217, 184, 127, 0.14), transparent 26%),
+      radial-gradient(circle at right, rgba(173, 114, 143, 0.1), transparent 20%),
+      linear-gradient(180deg, rgba(22, 17, 16, 1) 0%, rgba(11, 9, 10, 1) 100%);
   }
 
   a {

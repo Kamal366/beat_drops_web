@@ -5,16 +5,16 @@ values
     'sailashree-vihar',
     'Saswat Vihar, Plot 30, Sailashree Vihar, Patia, Bhubaneswar, Odisha 751021, India',
     'https://share.google/2X03rDa9ajdUiapKK',
-    '+91 97768 15715',
-    'https://wa.me/919776815715'
+    '+91 9439395040',
+    'https://wa.me/919439395040'
   ),
   (
     'Gothapatna Branch',
     'gothapatna',
     'Acropolis Apartment, B-202, Gothapatna, Bhubaneswar, Odisha 751003, India',
     'https://share.google/FVkgH5VhdrbfTsKcv',
-    '+91 97768 15715',
-    'https://wa.me/919776815715'
+    '+91 9439395040',
+    'https://wa.me/919439395040'
   )
 on conflict (slug) do nothing;
 

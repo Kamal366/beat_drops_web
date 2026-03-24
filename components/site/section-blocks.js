@@ -37,7 +37,7 @@ export function HeroSection() {
               Beat Drops Music Class — premium training, joyful energy, and smarter admissions.
             </h1>
             <p className="max-w-2xl text-base text-slate-300 sm:text-lg">
-              A vibrant, mobile-first website for advertisements and admissions, plus a secure student/admin system designed for a growing academy in Bhubaneswar.
+              A soft, mobile-first studio experience for advertisements, admissions, and a secure student/admin system designed for a growing academy in Bhubaneswar.
             </p>
           </div>
 
@@ -110,7 +110,7 @@ export function AboutStory({ expanded = false }) {
 
         <div className="grid gap-4">
           <HighlightPanel icon={GraduationCap} title="Built for admissions and retention" text="The website is designed to attract new families, collect inquiries, and organize lead follow-up clearly." />
-          <HighlightPanel icon={CalendarClock} title="Class timing friendly" text="Batch preferences and branch selection are captured right from the admission inquiry flow." />
+          <HighlightPanel icon={CalendarClock} title="Flexible scheduling" text="Branch selection is captured instantly, while timing can be assigned personally after the inquiry comes in." />
           {expanded ? <HighlightPanel icon={Mic2} title="Performance culture" text="From voice development to public confidence, the academy identity is crafted around expressive growth." /> : null}
         </div>
       </div>
@@ -197,8 +197,8 @@ export function BranchGrid({ expanded = false }) {
   )
 }
 
-export function GalleryPreview({ expanded = false }) {
-  const items = expanded ? galleryHighlights : galleryHighlights.slice(0, 3)
+export function GalleryPreview({ expanded = false, items = galleryHighlights }) {
+  const displayItems = expanded ? items : items.slice(0, 3)
   return (
     <section className="container py-6 md:py-10">
       <SectionHeading
@@ -207,7 +207,7 @@ export function GalleryPreview({ expanded = false }) {
         description="Even before real media is connected, the gallery and banner architecture is built for premium presentation and future admin uploads."
       />
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {items.map((item, index) => (
+        {displayItems.map((item, index) => (
           <div key={item.title} className="group overflow-hidden rounded-[2rem] border border-white/10 bg-white/5">
             <div className={`h-52 bg-gradient-to-br ${index % 2 === 0 ? 'from-fuchsia-500/70 via-purple-500/40 to-cyan-400/50' : 'from-cyan-400/60 via-slate-900 to-fuchsia-500/60'} p-6`}>
               <div className="flex h-full items-end rounded-[1.5rem] border border-white/20 bg-slate-950/20 p-4 backdrop-blur-sm">
@@ -222,7 +222,7 @@ export function GalleryPreview({ expanded = false }) {
   )
 }
 
-export function PromoBanners() {
+export function PromoBanners({ items = banners }) {
   return (
     <section className="container py-6 md:py-10">
       <SectionHeading
@@ -243,7 +243,7 @@ export function PromoBanners() {
   )
 }
 
-export function StudentLove() {
+export function StudentLove({ items = testimonials }) {
   return (
     <section className="container py-6 md:py-10">
       <SectionHeading
@@ -283,7 +283,7 @@ export function ContactPanel() {
 
         <div className="grid gap-4 sm:grid-cols-2">
           <MiniContactCard icon={MapPin} title="Branches" text="Both Bhubaneswar branches are listed with direct Google Maps links." />
-          <MiniContactCard icon={CalendarClock} title="Timings" text="Class preference capture is built into the inquiry form for easy admission follow-up." />
+          <MiniContactCard icon={CalendarClock} title="Timings" text="Timings are assigned by the academy after inquiry so each learner can be matched to the right batch." />
           <MiniContactCard icon={Users2} title="Student support" text="Private dashboard architecture is ready for admitted students after Google login." />
           <MiniContactCard icon={Phone} title="Admin operations" text="Lead management, gallery uploads, and testimonials will be controlled from the admin panel." />
         </div>

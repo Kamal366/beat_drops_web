@@ -36,7 +36,7 @@ export function MarketingShell({ activePath, children }) {
       <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/70 backdrop-blur-xl">
         <div className="container flex items-center justify-between gap-4 py-4">
           <Link href="/" className="inline-flex min-w-0 items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-fuchsia-500 via-purple-500 to-cyan-400 shadow-lg shadow-fuchsia-500/20">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-200 via-rose-300 to-violet-300 shadow-lg shadow-amber-200/20">
               <Music3 className="h-5 w-5 text-white" />
             </div>
             <div className="min-w-0">
@@ -62,7 +62,7 @@ export function MarketingShell({ activePath, children }) {
             })}
           </nav>
 
-          <Link href="/admission" className="inline-flex rounded-full bg-fuchsia-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/30 hover:bg-fuchsia-400">
+          <Link href="/admission" className="inline-flex rounded-full bg-amber-200 px-4 py-2 text-sm font-semibold text-stone-950 shadow-lg shadow-amber-200/20 hover:bg-amber-100">
             Enquire Now
           </Link>
         </div>

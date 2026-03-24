@@ -1,16 +1,19 @@
 import { MarketingShell } from '@/components/site/marketing-shell'
 import { GalleryPreview, PageHero, PromoBanners } from '@/components/site/section-blocks'
+import { getLiveSiteContent } from '@/lib/live-site-content'
 
-function App() {
+async function App() {
+  const liveContent = await getLiveSiteContent()
+
   return (
     <MarketingShell activePath="/gallery">
       <PageHero
         eyebrow="Gallery"
-        title="A vibrant showcase area ready for class moments, recitals, and promotions."
-        description="The gallery module is designed for Supabase image storage so the academy can manage photos and ad banners from the admin dashboard."
+        title="A quiet, premium showcase for class moments, recitals, and studio culture."
+        description="The gallery module reads live media managed from the admin dashboard so Beat Drops can keep the website fresh and elegant."
       />
-      <GalleryPreview expanded />
-      <PromoBanners />
+      <GalleryPreview expanded items={liveContent.galleryItems} />
+      <PromoBanners items={liveContent.banners} />
     </MarketingShell>
   )
 }

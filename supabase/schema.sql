@@ -75,6 +75,17 @@ create table if not exists public.students (
   updated_at timestamptz not null default now()
 );
 
+create table if not exists public.attendance (
+  id uuid primary key default gen_random_uuid(),
+  student_id uuid not null references public.students(id) on delete cascade,
+  attendance_date date not null,
+  status text not null default 'present' check (status in ('present', 'absent', 'late')),
+  notes text,
+  marked_by uuid references public.users(id) on delete set null,
+  created_at timestamptz not null default now(),
+  unique (student_id, attendance_date)
+);
+
 create table if not exists public.gallery_images (
   id uuid primary key default gen_random_uuid(),
   title text,
@@ -149,6 +160,7 @@ $$;
 alter table public.users enable row level security;
 alter table public.admission_leads enable row level security;
 alter table public.students enable row level security;
+alter table public.attendance enable row level security;
 alter table public.gallery_images enable row level security;
 alter table public.banners enable row level security;
 alter table public.testimonials enable row level security;
@@ -208,6 +220,30 @@ create policy "Students can read own student row"
 drop policy if exists "Admins manage students" on public.students;
 create policy "Admins manage students"
   on public.students
+  for all
+  to authenticated
+  using (public.is_admin())
+  with check (public.is_admin());
+
+drop policy if exists "Students can read own attendance" on public.attendance;
+create policy "Students can read own attendance"
+  on public.attendance
+  for select
+  to authenticated
+  using (
+    public.is_admin()
+    or exists (
+      select 1
+      from public.students
+      join public.users on public.users.id = public.students.user_id
+      where public.students.id = attendance.student_id
+        and public.users.auth_user_id = auth.uid()
+    )
+  );
+
+drop policy if exists "Admins manage attendance" on public.attendance;
+create policy "Admins manage attendance"
+  on public.attendance
   for all
   to authenticated
   using (public.is_admin())

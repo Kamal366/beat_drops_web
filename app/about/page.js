@@ -1,7 +1,10 @@
 import { MarketingShell } from '@/components/site/marketing-shell'
 import { AboutStory, ContactPanel, PageHero, StudentLove } from '@/components/site/section-blocks'
+import { getLiveSiteContent } from '@/lib/live-site-content'
 
-function App() {
+async function App() {
+  const liveContent = await getLiveSiteContent()
+
   return (
     <MarketingShell activePath="/about">
       <PageHero
@@ -10,7 +13,7 @@ function App() {
         description="Beat Drops Music Class helps kids, teens, college students, and adults build confidence through structured musical learning in Bhubaneswar."
       />
       <AboutStory expanded />
-      <StudentLove />
+      <StudentLove items={liveContent.testimonials} />
       <ContactPanel />
     </MarketingShell>
   )
