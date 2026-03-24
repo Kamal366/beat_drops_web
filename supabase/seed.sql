@@ -43,4 +43,4 @@ values
 on conflict do nothing;
 
 -- Run this after the first Google login by the owner email:
--- update public.users set role = 'admin' where email = 'k.ksamal366@gmail.com';
+-- update public.users set role = 'admin' where email = 'beatdrops2022@gamil.com';

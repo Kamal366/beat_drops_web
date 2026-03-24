@@ -28,6 +28,48 @@ function json(payload, status = 200) {
   })
 }
 
+function isSchemaMissingError(error) {
+  return Boolean(
+    error && (error.code === 'PGRST205' || error.code === '42P01' || /Could not find the table/i.test(error.message || '')),
+  )
+}
+
+async function getSchemaStatus() {
+  if (!hasSupabaseServiceEnv()) {
+    return {
+      schemaReady: false,
+      schemaMessage: 'SUPABASE_SERVICE_ROLE_KEY is not configured yet.',
+    }
+  }
+
+  const supabase = createServiceSupabaseClient()
+  const requiredTables = ['branches', 'courses', 'users', 'students', 'admission_leads']
+  const results = await Promise.all(requiredTables.map((table) => supabase.from(table).select('id').limit(1)))
+
+  const missingTables = requiredTables.filter((table, index) => isSchemaMissingError(results[index]?.error))
+
+  if (!missingTables.length) {
+    return {
+      schemaReady: true,
+      schemaMessage: 'Required Supabase tables detected successfully.',
+    }
+  }
+
+  const unknownError = results.find((result) => result.error && !isSchemaMissingError(result.error))?.error
+
+  if (unknownError) {
+    return {
+      schemaReady: false,
+      schemaMessage: unknownError.message || 'Unable to verify Supabase schema status.',
+    }
+  }
+
+  return {
+    schemaReady: false,
+    schemaMessage: `Missing Supabase tables: ${missingTables.join(', ')}. Run supabase/schema.sql and supabase/seed.sql in the Supabase SQL Editor.`,
+  }
+}
+
 async function handleAdmissionSubmission(request) {
   const body = await request.json()
   const result = admissionLeadSchema.safeParse(body)
@@ -71,6 +113,16 @@ async function handleAdmissionSubmission(request) {
   const { data, error } = await supabase.from('admission_leads').insert(payload).select('id, status').single()
 
   if (error) {
+    if (isSchemaMissingError(error)) {
+      return json(
+        {
+          error:
+            'Supabase tables are not created yet. Please run supabase/schema.sql and supabase/seed.sql in the Supabase SQL Editor, then retry the admission form.',
+        },
+        503,
+      )
+    }
+
     return json(
       {
         error: error.message || 'Unable to save your admission inquiry right now.',
@@ -101,11 +153,14 @@ async function handleRoute(request, { params }) {
   }
 
   if (route === '/health' && request.method === 'GET') {
+    const schemaStatus = await getSchemaStatus()
+
     return json({
       ok: true,
       app: academyProfile.name,
       publicSupabaseConfigured: hasSupabasePublicEnv(),
       serviceSupabaseConfigured: hasSupabaseServiceEnv(),
+      ...schemaStatus,
     })
   }
 

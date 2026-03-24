@@ -52,8 +52,18 @@ def test_health_endpoint():
                 print(f"❌ Expected publicSupabaseConfigured to be true, got: {data.get('publicSupabaseConfigured')}")
                 return False
                 
-            if data.get('serviceSupabaseConfigured') != False:
-                print(f"❌ Expected serviceSupabaseConfigured to be false, got: {data.get('serviceSupabaseConfigured')}")
+            if data.get('serviceSupabaseConfigured') != True:
+                print(f"❌ Expected serviceSupabaseConfigured to be true, got: {data.get('serviceSupabaseConfigured')}")
+                return False
+            
+            # Verify schema status
+            if data.get('schemaReady') != False:
+                print(f"❌ Expected schemaReady to be false, got: {data.get('schemaReady')}")
+                return False
+            
+            schema_message = data.get('schemaMessage', '')
+            if 'schema.sql' not in schema_message or 'seed.sql' not in schema_message:
+                print(f"❌ Expected schemaMessage to mention schema.sql and seed.sql, got: {schema_message}")
                 return False
             
             print("✅ Health endpoint working correctly")
@@ -144,7 +154,7 @@ def test_admission_validation():
         print(f"❌ Invalid data test failed with error: {str(e)}")
         return False
     
-    # Test 2: Valid data (should fail gracefully due to missing SUPABASE_SERVICE_ROLE_KEY)
+    # Test 2: Valid data (should fail gracefully due to missing Supabase tables)
     print("\n📝 Test 2: Valid admission data (should fail gracefully)")
     try:
         valid_data = {
@@ -167,14 +177,15 @@ def test_admission_validation():
             data = response.json()
             print(f"Response: {json.dumps(data, indent=2)}")
             
-            if 'error' in data and 'SUPABASE_SERVICE_ROLE_KEY' in data['error']:
-                print("✅ Admission correctly failed gracefully with configuration message")
+            error_message = data.get('error', '')
+            if 'schema.sql' in error_message and 'seed.sql' in error_message:
+                print("✅ Admission correctly failed gracefully with SQL setup message")
                 return True
             else:
-                print("❌ Expected graceful failure message about SUPABASE_SERVICE_ROLE_KEY")
+                print(f"❌ Expected graceful failure message about schema.sql and seed.sql, got: {error_message}")
                 return False
         else:
-            print(f"❌ Expected 503 status for missing service key, got {response.status_code}")
+            print(f"❌ Expected 503 status for missing tables, got {response.status_code}")
             print(f"Response: {response.text}")
             return False
             

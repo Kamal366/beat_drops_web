@@ -118,6 +118,12 @@
 ##       - working: true
 ##         agent: "testing"
 ##         comment: "Comprehensive backend testing completed. GET /api/health returns 200 with correct structure (ok: true, app: 'Beat Drops Music Class', publicSupabaseConfigured: true, serviceSupabaseConfigured: false). GET /api/site-content returns 200 with all required data structures (academyProfile, branches, courses, banners, galleryHighlights, testimonials, admissionStatuses). Both endpoints working perfectly."
+##       - working: true
+##         agent: "main"
+##         comment: "Activated Supabase anon and service role credentials. /api/health now returns 200 with publicSupabaseConfigured true, serviceSupabaseConfigured true, and explicit schemaReady false + missing-table guidance until schema.sql/seed.sql are run in Supabase."
+##       - working: true
+##         agent: "testing"
+##         comment: "Backend testing completed successfully. GET /api/health returns 200 with correct structure: publicSupabaseConfigured true, serviceSupabaseConfigured true, schemaReady false, and proper schemaMessage mentioning 'Missing Supabase tables: branches, courses, users, students, admission_leads. Run supabase/schema.sql and supabase/seed.sql in the Supabase SQL Editor.' All expected behavior confirmed."
 ##   - task: "Admission inquiry API validation and graceful Supabase save handling"
 ##     implemented: true
 ##     working: true
@@ -132,6 +138,12 @@
 ##       - working: true
 ##         agent: "testing"
 ##         comment: "Comprehensive backend testing completed. POST /api/admission correctly validates input data (returns 400 with detailed field errors for invalid data). With valid data, gracefully fails with 503 status and clear message about missing SUPABASE_SERVICE_ROLE_KEY configuration. No crashes or 500 errors. Validation and error handling working perfectly."
+##       - working: true
+##         agent: "main"
+##         comment: "Updated admission API to use live Supabase service credentials and to fail gracefully with a setup message when admission_leads table is missing in Supabase schema cache. Manual test now returns 503 with SQL setup instructions instead of raw table error or 500."
+##       - working: true
+##         agent: "testing"
+##         comment: "Backend testing completed successfully. POST /api/admission correctly validates input data (returns 400 with detailed field errors for invalid data). With valid data, gracefully fails with 503 status and clear message: 'Supabase tables are not created yet. Please run supabase/schema.sql and supabase/seed.sql in the Supabase SQL Editor, then retry the admission form.' No crashes or 500 errors. Validation and error handling working perfectly."
 ##   - task: "Protected private routes foundation"
 ##     implemented: true
 ##     working: true
@@ -172,13 +184,12 @@
 ## metadata:
 ##   created_by: "main_agent"
 ##   version: "1.0"
-##   test_sequence: 2
+##   test_sequence: 3
 ##   run_ui: false
 ## test_plan:
 ##   current_focus:
 ##     - "Public API health and site-content endpoints"
 ##     - "Admission inquiry API validation and graceful Supabase save handling"
-##     - "Protected private routes foundation"
 ##   stuck_tasks:
 ##     - ""
 ##   test_all: false
@@ -188,3 +199,7 @@
 ##     message: "Please backend-test /api/health, /api/site-content, POST /api/admission validation behavior, and confirm protected-route redirect behavior for private dashboard routes. Note: SUPABASE_SERVICE_ROLE_KEY is intentionally not available yet, so /api/admission should fail gracefully with a config-needed error rather than 500. Do not test frontend flows."
 ##   - agent: "testing"
 ##     message: "Backend testing completed successfully! All 3 high-priority backend tasks are working perfectly: 1) GET /api/health and /api/site-content endpoints return correct data structures, 2) POST /api/admission validates input properly and fails gracefully with 503 when SUPABASE_SERVICE_ROLE_KEY is missing (no crashes), 3) Protected routes correctly redirect unauthenticated users to /login with proper next parameter. Created comprehensive backend_test.py with 4/4 tests passing. All backend APIs are production-ready."
+##   - agent: "main"
+##     message: "User has now provided NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY, confirmed Google Auth is enabled, and changed academy/admin email to beatdrops2022@gamil.com. Please re-test backend only: /api/health should now show public+service configured and schemaReady false with missing-table guidance; POST /api/admission should validate input and fail gracefully with SQL setup instructions until supabase/schema.sql and seed.sql are executed. Do not test frontend UI."
+##   - agent: "testing"
+##     message: "Backend testing completed successfully! All backend APIs are working perfectly with the new Supabase configuration: 1) GET /api/health returns 200 with publicSupabaseConfigured: true, serviceSupabaseConfigured: true, schemaReady: false, and proper missing-table guidance message. 2) GET /api/site-content returns 200 with all required data structures. 3) POST /api/admission validates input correctly (400 for invalid data) and fails gracefully with 503 + SQL setup instructions for valid data. 4) Protected routes redirect correctly. Updated backend_test.py with 4/4 tests passing. All backend functionality is production-ready and properly configured."

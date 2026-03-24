@@ -64,10 +64,10 @@ Inside Supabase:
   - your production domain
 
 ### 3. Promote the first admin
-After `k.ksamal366@gmail.com` logs in once with Google, run:
+After `beatdrops2022@gamil.com` logs in once with Google, run:
 
 ```sql
-update public.users set role = 'admin' where email = 'k.ksamal366@gmail.com';
+update public.users set role = 'admin' where email = 'beatdrops2022@gamil.com';
 ```
 
 ### 4. Storage buckets

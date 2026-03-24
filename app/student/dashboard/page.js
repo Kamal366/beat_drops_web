@@ -3,6 +3,12 @@ import { DashboardShell, InfoCard, MetricTile } from '@/components/site/dashboar
 import { createServerSupabaseClient } from '@/lib/supabase/server'
 import { academyProfile } from '@/lib/site-data'
 
+function isSchemaMissingError(error) {
+  return Boolean(
+    error && (error.code === 'PGRST205' || error.code === '42P01' || /Could not find the table/i.test(error.message || '')),
+  )
+}
+
 async function loadStudentDashboard() {
   const supabase = createServerSupabaseClient()
 
@@ -19,17 +25,25 @@ async function loadStudentDashboard() {
     return { state: 'signed-out' }
   }
 
-  const { data: userRow } = await supabase
+  const { data: userRow, error: userRowError } = await supabase
     .from('users')
     .select('id, full_name, role, email, phone, is_active')
     .eq('auth_user_id', user.id)
     .maybeSingle()
 
-  const { data: studentRow } = await supabase
+  if (isSchemaMissingError(userRowError)) {
+    return { state: 'schema-missing' }
+  }
+
+  const { data: studentRow, error: studentRowError } = await supabase
     .from('students')
     .select('id, course_id, branch_id, class_timing, admission_status, is_active')
     .eq('email', user.email)
     .maybeSingle()
+
+  if (isSchemaMissingError(studentRowError)) {
+    return { state: 'schema-missing' }
+  }
 
   let branch = null
   let course = null
@@ -73,6 +87,16 @@ async function App() {
         <InfoCard title="Login required">
           <p className="text-sm text-slate-300">Please continue with Google Sign-In first.</p>
           <Link href="/login" className="mt-4 inline-flex rounded-full bg-fuchsia-500 px-4 py-2 text-sm font-semibold text-white">Go to login</Link>
+        </InfoCard>
+      </DashboardShell>
+    )
+  }
+
+  if (dashboard.state === 'schema-missing') {
+    return (
+      <DashboardShell title="Student Dashboard" subtitle="Google login is configured, but the student tables are not created in Supabase yet.">
+        <InfoCard title="Finish database setup">
+          <p className="text-sm text-slate-300">Run <code>supabase/schema.sql</code> and <code>supabase/seed.sql</code> inside the Supabase SQL Editor, then log in again.</p>
         </InfoCard>
       </DashboardShell>
     )

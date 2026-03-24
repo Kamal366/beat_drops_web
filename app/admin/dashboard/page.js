@@ -3,6 +3,13 @@ import { DashboardShell, InfoCard, MetricTile } from '@/components/site/dashboar
 import { createServerSupabaseClient } from '@/lib/supabase/server'
 import { createServiceSupabaseClient } from '@/lib/supabase/service'
 import { hasSupabaseServiceEnv } from '@/lib/supabase/env'
+import { academyProfile } from '@/lib/site-data'
+
+function isSchemaMissingError(error) {
+  return Boolean(
+    error && (error.code === 'PGRST205' || error.code === '42P01' || /Could not find the table/i.test(error.message || '')),
+  )
+}
 
 async function loadAdminDashboard() {
   const supabase = createServerSupabaseClient()
@@ -19,11 +26,15 @@ async function loadAdminDashboard() {
     return { state: 'signed-out' }
   }
 
-  const { data: userRow } = await supabase
+  const { data: userRow, error: userRowError } = await supabase
     .from('users')
     .select('id, role, full_name, email')
     .eq('auth_user_id', user.id)
     .maybeSingle()
+
+  if (isSchemaMissingError(userRowError)) {
+    return { state: 'schema-missing' }
+  }
 
   if (userRow?.role !== 'admin') {
     return { state: 'forbidden', userEmail: user.email }
@@ -42,11 +53,23 @@ async function loadAdminDashboard() {
     service.from('courses').select('title'),
   ])
 
-  const { data: recentLeads } = await service
+  const schemaError = [leadResponse.error, studentResponse.error, branchResponse.error, courseResponse.error].find((error) =>
+    isSchemaMissingError(error),
+  )
+
+  if (schemaError) {
+    return { state: 'schema-missing' }
+  }
+
+  const { data: recentLeads, error: recentLeadsError } = await service
     .from('admission_leads')
     .select('id, full_name, interested_course, preferred_branch, status, created_at')
     .order('created_at', { ascending: false })
     .limit(5)
+
+  if (isSchemaMissingError(recentLeadsError)) {
+    return { state: 'schema-missing' }
+  }
 
   return {
     state: 'ready',
@@ -90,7 +113,17 @@ async function App() {
       <DashboardShell title="Admin Dashboard" subtitle="This route is restricted to admin users only.">
         <InfoCard title="Access denied">
           <p className="text-sm text-slate-300">The signed-in account does not yet have the admin role in the users table.</p>
-          <p className="mt-2 text-xs text-slate-400">Expected admin email: {dashboard.userEmail}</p>
+          <p className="mt-2 text-xs text-slate-400">Expected admin email: {academyProfile.adminEmail}</p>
+        </InfoCard>
+      </DashboardShell>
+    )
+  }
+
+  if (dashboard.state === 'schema-missing') {
+    return (
+      <DashboardShell title="Admin Dashboard" subtitle="Supabase authentication is connected, but the required tables are still missing.">
+        <InfoCard title="Run the SQL setup first">
+          <p className="text-sm text-slate-300">Please run <code>supabase/schema.sql</code> and <code>supabase/seed.sql</code> in Supabase SQL Editor, then log in again with {academyProfile.adminEmail}.</p>
         </InfoCard>
       </DashboardShell>
     )
