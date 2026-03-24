@@ -230,6 +230,12 @@
 ##       - working: true
 ##         agent: "testing"
 ##         comment: "OAuth redirect fix verified successfully! Both student and admin login buttons correctly redirect to Google OAuth with proper callback URLs. Network monitoring confirmed that the Supabase authorization requests now use redirect_to=https://drops-student-hub.preview.emergentagent.com/auth/callback?next=/student/dashboard (and /admin/dashboard respectively). No localhost or 0.0.0.0 references found in the OAuth flow. The getRedirectUrl function correctly uses NEXT_PUBLIC_BASE_URL. User-reported bug is fixed."
+##       - working: false
+##         agent: "user"
+##         comment: "User reports Google login is still not working and callback/dashboard redirect is still going to 0.0.0.0:3000. Requested syncing .env, removing hardcoded localhost/0.0.0.0 references, and ensuring signInWithOAuth uses NEXT_PUBLIC_BASE_URL/auth/callback."
+##       - working: "NA"
+##         agent: "main"
+##         comment: "Found the likely root cause: auth callback route was still redirecting with requestUrl.origin, which can resolve to 0.0.0.0:3000 in server context. Updated both login-panel and /auth/callback route to use NEXT_PUBLIC_BASE_URL for OAuth initiation and post-login dashboard redirect."
 ## metadata:
 ##   created_by: "main_agent"
 ##   version: "1.0"

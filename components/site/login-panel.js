@@ -8,16 +8,6 @@ export default function LoginPanel() {
   const [loadingPath, setLoadingPath] = useState('')
   const supabase = useMemo(() => createBrowserSupabaseClient(), [])
 
-  const getRedirectUrl = (nextPath) => {
-    const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || '').replace(/\/$/, '')
-
-    if (!baseUrl) {
-      throw new Error('NEXT_PUBLIC_BASE_URL is missing. Please set it to the active preview or production URL.')
-    }
-
-    return `${baseUrl}/auth/callback?next=${encodeURIComponent(nextPath)}`
-  }
-
   const signInWithGoogle = async (nextPath) => {
     if (!supabase) {
       setError('Supabase public credentials are missing. Please add the Supabase URL and publishable/anon key first.')
@@ -28,10 +18,16 @@ export default function LoginPanel() {
       setLoadingPath(nextPath)
       setError('')
 
+      const redirectBase = process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, '')
+
+      if (!redirectBase) {
+        throw new Error('NEXT_PUBLIC_BASE_URL is missing. Please set it to the active preview or production URL.')
+      }
+
       const { error: signInError } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: getRedirectUrl(nextPath),
+          redirectTo: `${redirectBase}/auth/callback?next=${encodeURIComponent(nextPath)}`,
         },
       })
 
