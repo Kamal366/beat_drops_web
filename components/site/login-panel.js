@@ -8,24 +8,39 @@ export default function LoginPanel() {
   const [loadingPath, setLoadingPath] = useState('')
   const supabase = useMemo(() => createBrowserSupabaseClient(), [])
 
+  const getRedirectUrl = (nextPath) => {
+    const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || '').replace(/\/$/, '')
+
+    if (!baseUrl) {
+      throw new Error('NEXT_PUBLIC_BASE_URL is missing. Please set it to the active preview or production URL.')
+    }
+
+    return `${baseUrl}/auth/callback?next=${encodeURIComponent(nextPath)}`
+  }
+
   const signInWithGoogle = async (nextPath) => {
     if (!supabase) {
       setError('Supabase public credentials are missing. Please add the Supabase URL and publishable/anon key first.')
       return
     }
 
-    setLoadingPath(nextPath)
-    setError('')
+    try {
+      setLoadingPath(nextPath)
+      setError('')
 
-    const { error: signInError } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(nextPath)}`,
-      },
-    })
+      const { error: signInError } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: getRedirectUrl(nextPath),
+        },
+      })
 
-    if (signInError) {
-      setError(signInError.message)
+      if (signInError) {
+        setError(signInError.message)
+        setLoadingPath('')
+      }
+    } catch (error) {
+      setError(error.message || 'Unable to start Google Sign-In right now.')
       setLoadingPath('')
     }
   }

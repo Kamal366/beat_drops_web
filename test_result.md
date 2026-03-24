@@ -212,15 +212,21 @@
 ##         comment: "Admission form testing completed successfully. Form renders correctly with all required fields (student name, parent name, age, phone, email, course selection, branch selection, class timing, experience, message). Form validation works properly - shows errors for empty fields. Form submission with valid data works perfectly against live backend, returns success message 'Your inquiry has been submitted successfully. Beat Drops will contact you soon.' and resets form after submission. Live Supabase integration confirmed working."
 ##   - task: "Google OAuth login page functionality"
 ##     implemented: true
-##     working: true
+##     working: false
 ##     file: "/app/components/site/login-panel.js"
-##     stuck_count: 0
+##     stuck_count: 1
 ##     priority: "high"
-##     needs_retesting: false
+##     needs_retesting: true
 ##     status_history:
 ##       - working: true
 ##         agent: "testing"
 ##         comment: "Login page testing completed successfully. Page renders correctly with both 'Continue as student' and 'Continue as admin' buttons present. Google OAuth setup information is displayed properly. Login buttons are functional and trigger OAuth flow as expected. Page layout and functionality are production-ready. End-to-end OAuth flow cannot be completed in automation environment but all UI elements and initial OAuth triggers are working correctly."
+##       - working: false
+##         agent: "user"
+##         comment: "User reported Google login redirects to https://0.0.0.0:3000/admin/dashboard instead of the preview URL. Requested updating signInWithOAuth redirectTo to use https://drops-student-hub.preview.emergentagent.com."
+##       - working: "NA"
+##         agent: "main"
+##         comment: "Updated login redirectTo generation to use NEXT_PUBLIC_BASE_URL (preview URL) instead of window.location.origin, which avoids 0.0.0.0/localhost callback redirects during Google OAuth."
 ## metadata:
 ##   created_by: "main_agent"
 ##   version: "1.0"
