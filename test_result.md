@@ -124,6 +124,12 @@
 ##       - working: true
 ##         agent: "testing"
 ##         comment: "Backend testing completed successfully. GET /api/health returns 200 with correct structure: publicSupabaseConfigured true, serviceSupabaseConfigured true, schemaReady false, and proper schemaMessage mentioning 'Missing Supabase tables: branches, courses, users, students, admission_leads. Run supabase/schema.sql and supabase/seed.sql in the Supabase SQL Editor.' All expected behavior confirmed."
+##       - working: true
+##         agent: "main"
+##         comment: "Automated Supabase DB setup through the transaction pooler and applied schema.sql + seed.sql successfully. /api/health now returns 200 with schemaReady true and confirms the required tables exist."
+##       - working: true
+##         agent: "testing"
+##         comment: "Backend testing completed successfully after Supabase schema setup. GET /api/health returns 200 with correct structure: publicSupabaseConfigured true, serviceSupabaseConfigured true, schemaReady true, and schemaMessage 'Required Supabase tables detected successfully.' GET /api/site-content returns 200 with all required data structures (academyProfile, branches, courses, banners, galleryHighlights, testimonials, admissionStatuses). Both endpoints working perfectly in live-ready state."
 ##   - task: "Admission inquiry API validation and graceful Supabase save handling"
 ##     implemented: true
 ##     working: true
@@ -144,6 +150,12 @@
 ##       - working: true
 ##         agent: "testing"
 ##         comment: "Backend testing completed successfully. POST /api/admission correctly validates input data (returns 400 with detailed field errors for invalid data). With valid data, gracefully fails with 503 status and clear message: 'Supabase tables are not created yet. Please run supabase/schema.sql and supabase/seed.sql in the Supabase SQL Editor, then retry the admission form.' No crashes or 500 errors. Validation and error handling working perfectly."
+##       - working: true
+##         agent: "main"
+##         comment: "After automated Supabase DB setup, POST /api/admission now succeeds with 200 and inserts a live lead with status new_lead."
+##       - working: true
+##         agent: "testing"
+##         comment: "Backend testing completed successfully in live-ready state. POST /api/admission correctly validates input data (returns 400 with detailed field errors for invalid data). With valid data, successfully creates new admission lead with 200 status, proper success message, and returns lead object with id and status 'new_lead'. Validation and live database insertion working perfectly."
 ##   - task: "Protected private routes foundation"
 ##     implemented: true
 ##     working: true
@@ -165,7 +177,7 @@
 ##     file: "/app/app/page.js"
 ##     stuck_count: 0
 ##     priority: "high"
-##     needs_retesting: false
+##     needs_retesting: true
 ##     status_history:
 ##       - working: "NA"
 ##         agent: "main"
@@ -176,7 +188,7 @@
 ##     file: "/app/app/student/dashboard/page.js"
 ##     stuck_count: 0
 ##     priority: "medium"
-##     needs_retesting: false
+##     needs_retesting: true
 ##     status_history:
 ##       - working: "NA"
 ##         agent: "main"
@@ -184,12 +196,14 @@
 ## metadata:
 ##   created_by: "main_agent"
 ##   version: "1.0"
-##   test_sequence: 3
-##   run_ui: false
+##   test_sequence: 4
+##   run_ui: true
 ## test_plan:
 ##   current_focus:
 ##     - "Public API health and site-content endpoints"
 ##     - "Admission inquiry API validation and graceful Supabase save handling"
+##     - "Premium public marketing website pages"
+##     - "Student and admin dashboard shells"
 ##   stuck_tasks:
 ##     - ""
 ##   test_all: false
@@ -203,3 +217,7 @@
 ##     message: "User has now provided NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY, confirmed Google Auth is enabled, and changed academy/admin email to beatdrops2022@gamil.com. Please re-test backend only: /api/health should now show public+service configured and schemaReady false with missing-table guidance; POST /api/admission should validate input and fail gracefully with SQL setup instructions until supabase/schema.sql and seed.sql are executed. Do not test frontend UI."
 ##   - agent: "testing"
 ##     message: "Backend testing completed successfully! All backend APIs are working perfectly with the new Supabase configuration: 1) GET /api/health returns 200 with publicSupabaseConfigured: true, serviceSupabaseConfigured: true, schemaReady: false, and proper missing-table guidance message. 2) GET /api/site-content returns 200 with all required data structures. 3) POST /api/admission validates input correctly (400 for invalid data) and fails gracefully with 503 + SQL setup instructions for valid data. 4) Protected routes redirect correctly. Updated backend_test.py with 4/4 tests passing. All backend functionality is production-ready and properly configured."
+##   - agent: "main"
+##     message: "Automated Supabase DB setup is now complete via the transaction pooler. schema.sql and seed.sql were applied successfully, beatdrops2022@gamil.com has been pre-seeded as admin, /api/health now returns schemaReady true, and POST /api/admission succeeds with 200 + new_lead insertion. Please backend-test the live-ready state, then UI-test the public pages, admission form, login screen, and protected dashboard route behavior because the user explicitly approved frontend testing."
+##   - agent: "testing"
+##     message: "Backend testing completed successfully in live-ready state! All 3 high-priority backend tasks are working perfectly: 1) GET /api/health returns 200 with publicSupabaseConfigured: true, serviceSupabaseConfigured: true, schemaReady: true, and success message. 2) GET /api/site-content returns 200 with all required data structures. 3) POST /api/admission validates input correctly (400 for invalid data) and successfully creates new leads with 200 + proper lead object for valid data. 4) Protected routes redirect correctly to /login. Updated backend_test.py with 4/4 tests passing. All backend APIs are production-ready and fully functional."

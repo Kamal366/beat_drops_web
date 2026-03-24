@@ -56,14 +56,14 @@ def test_health_endpoint():
                 print(f"❌ Expected serviceSupabaseConfigured to be true, got: {data.get('serviceSupabaseConfigured')}")
                 return False
             
-            # Verify schema status
-            if data.get('schemaReady') != False:
-                print(f"❌ Expected schemaReady to be false, got: {data.get('schemaReady')}")
+            # Verify schema status (should be ready now)
+            if data.get('schemaReady') != True:
+                print(f"❌ Expected schemaReady to be true, got: {data.get('schemaReady')}")
                 return False
             
             schema_message = data.get('schemaMessage', '')
-            if 'schema.sql' not in schema_message or 'seed.sql' not in schema_message:
-                print(f"❌ Expected schemaMessage to mention schema.sql and seed.sql, got: {schema_message}")
+            if 'successfully' not in schema_message.lower():
+                print(f"❌ Expected schemaMessage to indicate success, got: {schema_message}")
                 return False
             
             print("✅ Health endpoint working correctly")
@@ -154,38 +154,47 @@ def test_admission_validation():
         print(f"❌ Invalid data test failed with error: {str(e)}")
         return False
     
-    # Test 2: Valid data (should fail gracefully due to missing Supabase tables)
-    print("\n📝 Test 2: Valid admission data (should fail gracefully)")
+    # Test 2: Valid data (should succeed with 200 and create new_lead)
+    print("\n📝 Test 2: Valid admission data (should succeed)")
     try:
         valid_data = {
-            "full_name": "John Doe",
-            "parent_name": "Jane Doe",
-            "age": 12,
+            "full_name": "Arjun Sharma",
+            "parent_name": "Priya Sharma",
+            "age": 14,
             "phone_number": "9876543210",
-            "email": "john.doe@example.com",
+            "email": "arjun.sharma@example.com",
             "interested_course": "Hindustani Vocal",
             "preferred_branch": "Sailashree Vihar Branch",
             "preferred_class_timing": "Evening 6-8 PM",
-            "prior_music_experience": "None",
-            "message": "Looking forward to learning music"
+            "prior_music_experience": "Beginner level, learned basics at school",
+            "message": "Excited to learn classical music and improve my singing skills"
         }
         
         response = requests.post(f"{API_BASE}/admission", json=valid_data, timeout=10)
         print(f"Status Code: {response.status_code}")
         
-        if response.status_code == 503:
+        if response.status_code == 200:
             data = response.json()
             print(f"Response: {json.dumps(data, indent=2)}")
             
-            error_message = data.get('error', '')
-            if 'schema.sql' in error_message and 'seed.sql' in error_message:
-                print("✅ Admission correctly failed gracefully with SQL setup message")
-                return True
-            else:
-                print(f"❌ Expected graceful failure message about schema.sql and seed.sql, got: {error_message}")
+            # Verify success response structure
+            if 'message' not in data or 'lead' not in data:
+                print(f"❌ Expected message and lead fields in success response")
                 return False
+            
+            lead = data.get('lead', {})
+            if lead.get('status') != 'new_lead':
+                print(f"❌ Expected lead status to be 'new_lead', got: {lead.get('status')}")
+                return False
+            
+            if not lead.get('id'):
+                print(f"❌ Expected lead to have an id field")
+                return False
+            
+            print("✅ Admission successfully created new lead")
+            return True
         else:
-            print(f"❌ Expected 503 status for missing tables, got {response.status_code}")
+            print(f"❌ Expected 200 status for valid admission, got {response.status_code}")
             print(f"Response: {response.text}")
             return False
             

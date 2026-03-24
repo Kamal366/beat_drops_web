@@ -33,14 +33,20 @@ values
   ('Admissions Open', 'New weekday and weekend batches available in both branches.', 'Apply now', '/admission', 1),
   ('Student Login Ready', 'Google Sign-In dashboard for admitted learners.', 'Student login', '/login', 2),
   ('Admin Media Management', 'Gallery and promotional banner slots are prepared for Supabase storage.', 'Admin dashboard', '/admin/dashboard', 3)
-on conflict do nothing;
+on conflict (title) do nothing;
 
 insert into public.testimonials (name, role, quote, rating)
 values
   ('Parents & learners', 'Community feedback theme', 'Beat Drops blends structured teaching with an encouraging environment that makes students want to keep improving.', 5),
   ('Young performers', 'Student journey theme', 'The academy experience focuses on regular practice, confidence, and personal attention.', 5),
   ('Busy adults', 'Flexible learning theme', 'Batch flexibility and a premium learning vibe make it easy to continue music seriously.', 5)
-on conflict do nothing;
+on conflict (quote) do nothing;
+
+insert into public.users (email, full_name, role, is_active)
+values ('beatdrops2022@gamil.com', 'Beat Drops Admin', 'admin', true)
+on conflict (email) do update set role = 'admin', is_active = true;
+
+-- After the first Google login, auth_user_id will be linked automatically by the trigger because the email already exists.
 
 -- Run this after the first Google login by the owner email:
 -- update public.users set role = 'admin' where email = 'beatdrops2022@gamil.com';

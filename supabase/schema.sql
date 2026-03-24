@@ -89,7 +89,7 @@ create table if not exists public.gallery_images (
 
 create table if not exists public.banners (
   id uuid primary key default gen_random_uuid(),
-  title text not null,
+  title text not null unique,
   subtitle text,
   image_path text,
   image_url text,
@@ -104,7 +104,7 @@ create table if not exists public.testimonials (
   id uuid primary key default gen_random_uuid(),
   name text not null,
   role text,
-  quote text not null,
+  quote text not null unique,
   rating int check (rating between 1 and 5),
   is_active boolean not null default true,
   created_at timestamptz not null default now()
@@ -153,39 +153,45 @@ alter table public.gallery_images enable row level security;
 alter table public.banners enable row level security;
 alter table public.testimonials enable row level security;
 
-create policy if not exists "Public can create admission leads"
+drop policy if exists "Public can create admission leads" on public.admission_leads;
+create policy "Public can create admission leads"
   on public.admission_leads
   for insert
   to anon, authenticated
   with check (true);
 
-create policy if not exists "Admins can read all admission leads"
+drop policy if exists "Admins can read all admission leads" on public.admission_leads;
+create policy "Admins can read all admission leads"
   on public.admission_leads
   for select
   to authenticated
   using (public.is_admin());
 
-create policy if not exists "Admins can update admission leads"
+drop policy if exists "Admins can update admission leads" on public.admission_leads;
+create policy "Admins can update admission leads"
   on public.admission_leads
   for update
   to authenticated
   using (public.is_admin())
   with check (public.is_admin());
 
-create policy if not exists "Users can read own profile"
+drop policy if exists "Users can read own profile" on public.users;
+create policy "Users can read own profile"
   on public.users
   for select
   to authenticated
   using (auth.uid() = auth_user_id or public.is_admin());
 
-create policy if not exists "Users can update own profile"
+drop policy if exists "Users can update own profile" on public.users;
+create policy "Users can update own profile"
   on public.users
   for update
   to authenticated
   using (auth.uid() = auth_user_id or public.is_admin())
   with check (auth.uid() = auth_user_id or public.is_admin());
 
-create policy if not exists "Students can read own student row"
+drop policy if exists "Students can read own student row" on public.students;
+create policy "Students can read own student row"
   on public.students
   for select
   to authenticated
@@ -199,46 +205,53 @@ create policy if not exists "Students can read own student row"
     )
   );
 
-create policy if not exists "Admins manage students"
+drop policy if exists "Admins manage students" on public.students;
+create policy "Admins manage students"
   on public.students
   for all
   to authenticated
   using (public.is_admin())
   with check (public.is_admin());
 
-create policy if not exists "Public can read testimonials"
+drop policy if exists "Public can read testimonials" on public.testimonials;
+create policy "Public can read testimonials"
   on public.testimonials
   for select
   to anon, authenticated
   using (is_active = true);
 
-create policy if not exists "Admins manage testimonials"
+drop policy if exists "Admins manage testimonials" on public.testimonials;
+create policy "Admins manage testimonials"
   on public.testimonials
   for all
   to authenticated
   using (public.is_admin())
   with check (public.is_admin());
 
-create policy if not exists "Public can read banners"
+drop policy if exists "Public can read banners" on public.banners;
+create policy "Public can read banners"
   on public.banners
   for select
   to anon, authenticated
   using (is_active = true);
 
-create policy if not exists "Admins manage banners"
+drop policy if exists "Admins manage banners" on public.banners;
+create policy "Admins manage banners"
   on public.banners
   for all
   to authenticated
   using (public.is_admin())
   with check (public.is_admin());
 
-create policy if not exists "Public can read gallery images"
+drop policy if exists "Public can read gallery images" on public.gallery_images;
+create policy "Public can read gallery images"
   on public.gallery_images
   for select
   to anon, authenticated
   using (is_active = true);
 
-create policy if not exists "Admins manage gallery images"
+drop policy if exists "Admins manage gallery images" on public.gallery_images;
+create policy "Admins manage gallery images"
   on public.gallery_images
   for all
   to authenticated

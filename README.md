@@ -63,12 +63,11 @@ Inside Supabase:
   - your Vercel preview URL
   - your production domain
 
-### 3. Promote the first admin
-After `beatdrops2022@gamil.com` logs in once with Google, run:
+### 3. First admin user
+The seed file already prepares this admin email:
+- `beatdrops2022@gamil.com`
 
-```sql
-update public.users set role = 'admin' where email = 'beatdrops2022@gamil.com';
-```
+After the first Google login, the trigger links the auth user automatically by email.
 
 ### 4. Storage buckets
 Create public buckets:
