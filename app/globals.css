@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 226 44% 7%;
+    --foreground: 220 33% 98%;
+    --card: 226 44% 10%;
+    --card-foreground: 220 33% 98%;
+    --popover: 226 44% 10%;
+    --popover-foreground: 220 33% 98%;
+    --primary: 318 92% 61%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 216 34% 17%;
+    --secondary-foreground: 220 33% 98%;
+    --muted: 221 29% 18%;
+    --muted-foreground: 216 18% 75%;
+    --accent: 191 95% 56%;
+    --accent-foreground: 226 44% 7%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 221 28% 23%;
+    --input: 221 28% 23%;
+    --ring: 318 92% 61%;
+    --chart-1: 318 92% 61%;
+    --chart-2: 191 95% 56%;
+    --chart-3: 35 95% 60%;
+    --chart-4: 145 70% 50%;
+    --chart-5: 262 83% 65%;
+    --radius: 1rem;
+    --sidebar-background: 226 44% 10%;
+    --sidebar-foreground: 220 33% 98%;
+    --sidebar-primary: 318 92% 61%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 221 29% 18%;
+    --sidebar-accent-foreground: 220 33% 98%;
+    --sidebar-border: 221 28% 23%;
+    --sidebar-ring: 191 95% 56%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    background-image:
+      radial-gradient(circle at top, rgba(236, 72, 153, 0.18), transparent 28%),
+      radial-gradient(circle at right, rgba(34, 211, 238, 0.12), transparent 22%),
+      linear-gradient(180deg, rgba(15, 23, 42, 1) 0%, rgba(6, 10, 26, 1) 100%);
+  }
+
+  a {
+    @apply transition-colors duration-200;
+  }
+}
