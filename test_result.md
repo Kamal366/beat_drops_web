@@ -212,11 +212,11 @@
 ##         comment: "Admission form testing completed successfully. Form renders correctly with all required fields (student name, parent name, age, phone, email, course selection, branch selection, class timing, experience, message). Form validation works properly - shows errors for empty fields. Form submission with valid data works perfectly against live backend, returns success message 'Your inquiry has been submitted successfully. Beat Drops will contact you soon.' and resets form after submission. Live Supabase integration confirmed working."
 ##   - task: "Google OAuth login page functionality"
 ##     implemented: true
-##     working: false
+##     working: true
 ##     file: "/app/components/site/login-panel.js"
 ##     stuck_count: 1
 ##     priority: "high"
-##     needs_retesting: true
+##     needs_retesting: false
 ##     status_history:
 ##       - working: true
 ##         agent: "testing"
@@ -227,10 +227,13 @@
 ##       - working: "NA"
 ##         agent: "main"
 ##         comment: "Updated login redirectTo generation to use NEXT_PUBLIC_BASE_URL (preview URL) instead of window.location.origin, which avoids 0.0.0.0/localhost callback redirects during Google OAuth."
+##       - working: true
+##         agent: "testing"
+##         comment: "OAuth redirect fix verified successfully! Both student and admin login buttons correctly redirect to Google OAuth with proper callback URLs. Network monitoring confirmed that the Supabase authorization requests now use redirect_to=https://drops-student-hub.preview.emergentagent.com/auth/callback?next=/student/dashboard (and /admin/dashboard respectively). No localhost or 0.0.0.0 references found in the OAuth flow. The getRedirectUrl function correctly uses NEXT_PUBLIC_BASE_URL. User-reported bug is fixed."
 ## metadata:
 ##   created_by: "main_agent"
 ##   version: "1.0"
-##   test_sequence: 4
+##   test_sequence: 5
 ##   run_ui: true
 ## test_plan:
 ##   current_focus:
@@ -262,3 +265,8 @@
 ##     message: "Backend testing completed successfully in live-ready state! All 3 high-priority backend tasks are working perfectly: 1) GET /api/health returns 200 with publicSupabaseConfigured: true, serviceSupabaseConfigured: true, schemaReady: true, and success message. 2) GET /api/site-content returns 200 with all required data structures. 3) POST /api/admission validates input correctly (400 for invalid data) and successfully creates new leads with 200 + proper lead object for valid data. 4) Protected routes redirect correctly to /login. Updated backend_test.py with 4/4 tests passing. All backend APIs are production-ready and fully functional."
 ##   - agent: "testing"
 ##     message: "Frontend UI testing completed successfully! All requested functionality is working perfectly: 1) All 7 public routes (/, /about, /courses, /gallery, /admission, /contact, /login) load correctly with proper branding and navigation. 2) Protected routes (/student/dashboard, /admin/dashboard) correctly redirect anonymous users to /login with proper next parameters. 3) Admission form works perfectly - validates input, submits successfully to live backend with success message 'Your inquiry has been submitted successfully. Beat Drops will contact you soon.' and resets after submission. 4) Login page renders correctly with both student/admin login buttons and Google OAuth setup information. 5) Mobile responsiveness verified. All frontend functionality is production-ready."
+
+##   - agent: "main"
+##     message: "User reported Google OAuth redirect bug after clicking login: redirect target was resolving to 0.0.0.0:3000 instead of the preview domain. Fixed by updating signInWithOAuth redirectTo to use NEXT_PUBLIC_BASE_URL (https://drops-student-hub.preview.emergentagent.com) with /auth/callback?next=... . Please frontend-test the login flow specifically for callback/redirect target correctness, ensuring no localhost or 0.0.0.0 references are used. If full OAuth cannot complete in automation, inspect the outbound OAuth request/redirect target and verify it points to the preview URL."
+##   - agent: "testing"
+##     message: "Google OAuth redirect fix testing completed successfully! Verified that both student and admin login buttons correctly initiate OAuth flow with proper callback URLs. Network monitoring confirmed Supabase authorization requests now use redirect_to=https://drops-student-hub.preview.emergentagent.com/auth/callback?next=/student/dashboard and /admin/dashboard respectively. No localhost or 0.0.0.0 references found in OAuth flow. The getRedirectUrl function correctly uses NEXT_PUBLIC_BASE_URL from .env. User-reported redirect bug is completely fixed. Google OAuth login functionality is now working correctly."
