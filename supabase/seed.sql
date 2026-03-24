@@ -43,10 +43,10 @@ values
 on conflict (quote) do nothing;
 
 insert into public.users (email, full_name, role, is_active)
-values ('beatdrops2022@gamil.com', 'Beat Drops Admin', 'admin', true)
+values ('beatdrops2022@gmail.com', 'Beat Drops Admin', 'admin', true)
 on conflict (email) do update set role = 'admin', is_active = true;
 
 -- After the first Google login, auth_user_id will be linked automatically by the trigger because the email already exists.
 
 -- Run this after the first Google login by the owner email:
--- update public.users set role = 'admin' where email = 'beatdrops2022@gamil.com';
+-- update public.users set role = 'admin' where email = 'beatdrops2022@gmail.com';

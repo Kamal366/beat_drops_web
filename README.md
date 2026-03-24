@@ -65,7 +65,7 @@ Inside Supabase:
 
 ### 3. First admin user
 The seed file already prepares this admin email:
-- `beatdrops2022@gamil.com`
+- `beatdrops2022@gmail.com`
 
 After the first Google login, the trigger links the auth user automatically by email.
 
