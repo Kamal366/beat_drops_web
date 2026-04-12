@@ -50,9 +50,9 @@ async function App() {
 
   if (access.state === 'missing-public-config') {
     return (
-      <DashboardShell title="Admin Dashboard" subtitle="Supabase public environment variables are required for secure login.">
-        <InfoCard title="Missing configuration">
-          <p className="text-sm text-stone-300">Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY or NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY.</p>
+      <DashboardShell title="Admin Dashboard" subtitle="Secure access is temporarily unavailable.">
+        <InfoCard title="Please try again shortly">
+          <p className="text-sm text-stone-300">Admin sign-in is not available at the moment.</p>
         </InfoCard>
       </DashboardShell>
     )
@@ -73,8 +73,8 @@ async function App() {
     return (
       <DashboardShell title="Admin Dashboard" subtitle="This route is restricted to admin users only.">
         <InfoCard title="Access denied">
-          <p className="text-sm text-stone-300">The signed-in account does not yet have the admin role in the users table.</p>
-          <p className="mt-2 text-xs text-stone-400">Expected admin email: {academyProfile.adminEmail}</p>
+          <p className="text-sm text-stone-300">The signed-in account does not have permission to access the admin dashboard.</p>
+          <p className="mt-2 text-xs text-stone-400">Authorized account: {academyProfile.adminEmail}</p>
         </InfoCard>
       </DashboardShell>
     )
@@ -82,9 +82,9 @@ async function App() {
 
   if (access.state === 'schema-missing') {
     return (
-      <DashboardShell title="Admin Dashboard" subtitle="Supabase authentication is connected, but the required tables are still missing.">
-        <InfoCard title="Run the SQL setup first">
-          <p className="text-sm text-stone-300">Please run <code>supabase/schema.sql</code> and <code>supabase/seed.sql</code> in Supabase SQL Editor, then log in again with {academyProfile.adminEmail}.</p>
+      <DashboardShell title="Admin Dashboard" subtitle="Administrative records are temporarily unavailable.">
+        <InfoCard title="Please try again shortly">
+          <p className="text-sm text-stone-300">Dashboard data is not available at the moment. Please retry with {academyProfile.adminEmail} later.</p>
         </InfoCard>
       </DashboardShell>
     )

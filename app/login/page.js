@@ -8,7 +8,7 @@ function App() {
       <PageHero
         eyebrow="Secure Login"
         title="Google Sign-In for administrators."
-        description="Student login is temporarily disabled. Admins can manage leads, media, and testimonials once the remaining Supabase credentials are connected."
+        description="Student login is temporarily disabled. Administrators can sign in to manage admissions, media, and academy updates."
       />
       <section className="container py-6 md:py-10">
         <LoginPanel />

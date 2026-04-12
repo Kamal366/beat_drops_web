@@ -128,7 +128,7 @@ export default function AdmissionForm({ courseOptions = courses }) {
       </button>
 
       <p className="mt-4 text-xs leading-6 text-slate-400">
-        This form is wired to save submissions to Supabase when the remaining secure service key is added to the environment.
+        Share your details and the academy team will review your inquiry and get in touch.
       </p>
     </form>
   )

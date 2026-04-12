@@ -11,7 +11,7 @@ export default function LoginPanel() {
 
   const signInWithGoogle = async (nextPath) => {
     if (!supabase) {
-      setError('Supabase public credentials are missing. Please add the Supabase URL and publishable/anon key first.')
+      setError('Login is temporarily unavailable. Please try again shortly.')
       return
     }
 
@@ -22,7 +22,7 @@ export default function LoginPanel() {
       const redirectBase = process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, '')
 
       if (!redirectBase) {
-        throw new Error('NEXT_PUBLIC_BASE_URL is missing. Please set it to the active preview or production URL.')
+        throw new Error('Login is temporarily unavailable. Please try again shortly.')
       }
 
       const { error: signInError } = await supabase.auth.signInWithOAuth({
@@ -54,8 +54,8 @@ export default function LoginPanel() {
       <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6 lg:col-span-2">
         <p className="text-sm text-slate-300">
           {studentLoginDisabled
-            ? 'Student login is temporarily disabled. Admin Google Sign-In will work after Google Auth is enabled inside Supabase and the callback URLs are configured for localhost, preview, and production.'
-            : 'Google Sign-In will fully work after Google Auth is enabled inside Supabase and the callback URLs are configured for localhost, preview, and production.'}
+            ? 'Student login is temporarily disabled. Administrator access is available through secure Google Sign-In.'
+            : 'Secure Google Sign-In is available for authorized users.'}
         </p>
         {error ? <p className="mt-3 text-sm text-rose-300">{error}</p> : null}
       </div>
