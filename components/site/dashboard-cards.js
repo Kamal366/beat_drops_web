@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import LogoutButton from '@/components/site/logout-button'
 
 export function DashboardShell({ title, subtitle, children }) {
   return (
@@ -14,9 +15,7 @@ export function DashboardShell({ title, subtitle, children }) {
             <Link href="/" className="rounded-full border border-white/10 px-4 py-2 text-sm text-slate-300 hover:bg-white/10 hover:text-white">
               Public site
             </Link>
-            <Link href="/login" className="rounded-full bg-amber-200 px-4 py-2 text-sm font-semibold text-stone-950 hover:bg-amber-100">
-              Login
-            </Link>
+            <LogoutButton />
           </div>
         </div>
       </header>

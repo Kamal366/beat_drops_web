@@ -558,7 +558,7 @@ async function handleRoute(request, { params }) {
     return json({
       academyProfile,
       branches,
-      courses,
+      courses: liveContent.courses || courses,
       banners: liveContent.banners || fallbackBanners,
       galleryHighlights: liveContent.galleryItems || galleryHighlights,
       testimonials: liveContent.testimonials || fallbackTestimonials,

@@ -4,10 +4,8 @@ import {
   BranchGrid,
   ContactPanel,
   CourseGrid,
-  GalleryPreview,
   HeroSection,
-  PromoBanners,
-  StudentLove,
+  TrustStrip,
 } from '@/components/site/section-blocks'
 import { getLiveSiteContent } from '@/lib/live-site-content'
 
@@ -17,12 +15,10 @@ export default async function HomePage() {
   return (
     <MarketingShell activePath="/">
       <HeroSection />
+      <TrustStrip />
       <AboutStory />
-      <CourseGrid />
+      <CourseGrid items={liveContent.courses} />
       <BranchGrid />
-      <GalleryPreview items={liveContent.galleryItems} />
-      <PromoBanners items={liveContent.banners} />
-      <StudentLove items={liveContent.testimonials} />
       <ContactPanel />
     </MarketingShell>
   )

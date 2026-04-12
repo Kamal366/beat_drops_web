@@ -9,8 +9,8 @@ async function App() {
     <MarketingShell activePath="/about">
       <PageHero
         eyebrow="About Beat Drops"
-        title="Where disciplined training meets a joyful performance culture."
-        description="Beat Drops Music Class helps kids, teens, college students, and adults build confidence through structured musical learning in Bhubaneswar."
+        title="Regular music classes with a friendly, structured learning environment."
+        description="Beat Drops Music Class helps students build confidence and consistency through guided practice and teacher support."
       />
       <AboutStory expanded />
       <StudentLove items={liveContent.testimonials} />

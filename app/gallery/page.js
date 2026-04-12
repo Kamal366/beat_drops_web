@@ -1,5 +1,5 @@
 import { MarketingShell } from '@/components/site/marketing-shell'
-import { GalleryPreview, PageHero, PromoBanners } from '@/components/site/section-blocks'
+import { GalleryPreview, PageHero } from '@/components/site/section-blocks'
 import { getLiveSiteContent } from '@/lib/live-site-content'
 
 async function App() {
@@ -7,13 +7,8 @@ async function App() {
 
   return (
     <MarketingShell activePath="/gallery">
-      <PageHero
-        eyebrow="Gallery"
-        title="A quiet, premium showcase for class moments, recitals, and studio culture."
-        description="The gallery module reads live media managed from the admin dashboard so Beat Drops can keep the website fresh and elegant."
-      />
+      <PageHero eyebrow="Gallery" title="Photos from classes, events, and student activities." description="This page can be updated regularly to reflect the day-to-day life of the academy." />
       <GalleryPreview expanded items={liveContent.galleryItems} />
-      <PromoBanners items={liveContent.banners} />
     </MarketingShell>
   )
 }

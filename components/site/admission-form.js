@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { admissionLeadSchema } from '@/lib/admission-schema'
 import { branches, courses } from '@/lib/site-data'
@@ -8,11 +9,12 @@ import { branches, courses } from '@/lib/site-data'
 const inputClassName =
   'w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-fuchsia-400 focus:ring-2 focus:ring-fuchsia-400/20'
 
-export default function AdmissionForm() {
+export default function AdmissionForm({ courseOptions = courses }) {
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(admissionLeadSchema),
@@ -22,13 +24,19 @@ export default function AdmissionForm() {
       age: '',
       phone_number: '',
       email: '',
-      interested_course: courses[0]?.title || '',
+      interested_course: courseOptions[0]?.title || '',
       preferred_branch: branches[0]?.name || '',
       preferred_class_timing: 'To be discussed after inquiry',
       prior_music_experience: 'None',
       message: 'Looking for admission details and batch availability.',
     },
   })
+
+  useEffect(() => {
+    if (courseOptions[0]?.title) {
+      setValue('interested_course', courseOptions[0].title)
+    }
+  }, [courseOptions, setValue])
 
   const onSubmit = async (values) => {
     const response = await fetch('/api/admission', {
@@ -83,7 +91,7 @@ export default function AdmissionForm() {
         </Field>
         <Field label="Interested course" error={errors.interested_course?.message}>
           <select className={inputClassName} {...register('interested_course')}>
-            {courses.map((course) => (
+            {courseOptions.map((course) => (
               <option key={course.slug} value={course.title}>
                 {course.title}
               </option>

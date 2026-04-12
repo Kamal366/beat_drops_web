@@ -6,8 +6,8 @@ function App() {
     <MarketingShell activePath="/contact">
       <PageHero
         eyebrow="Contact"
-        title="Visit either branch in Bhubaneswar or connect instantly on call, WhatsApp, or email."
-        description="Both branches are positioned to serve different parts of the city while keeping the same Beat Drops teaching experience."
+        title="Visit a branch or contact the academy directly."
+        description="Get in touch to ask about classes, timings, availability, and admission guidance."
       />
       <BranchGrid expanded />
       <ContactPanel />
