@@ -7,6 +7,7 @@ export default function LoginPanel() {
   const [error, setError] = useState('')
   const [loadingPath, setLoadingPath] = useState('')
   const supabase = useMemo(() => createBrowserSupabaseClient(), [])
+  const studentLoginDisabled = true
 
   const signInWithGoogle = async (nextPath) => {
     if (!supabase) {
@@ -44,13 +45,6 @@ export default function LoginPanel() {
   return (
     <div className="grid gap-4 lg:grid-cols-2">
       <RoleCard
-        title="Student access"
-        description="For admitted learners who want to view their branch, timing, course, and academy contact details."
-        actionLabel={loadingPath === '/student/dashboard' ? 'Redirecting...' : 'Continue as student'}
-        onClick={() => signInWithGoogle('/student/dashboard')}
-        disabled={Boolean(loadingPath)}
-      />
-      <RoleCard
         title="Admin access"
         description="For the academy admin who manages new leads, student records, gallery media, and banners."
         actionLabel={loadingPath === '/admin/dashboard' ? 'Redirecting...' : 'Continue as admin'}
@@ -58,7 +52,11 @@ export default function LoginPanel() {
         disabled={Boolean(loadingPath)}
       />
       <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6 lg:col-span-2">
-        <p className="text-sm text-slate-300">Google Sign-In will fully work after Google Auth is enabled inside Supabase and the callback URLs are configured for localhost, preview, and production.</p>
+        <p className="text-sm text-slate-300">
+          {studentLoginDisabled
+            ? 'Student login is temporarily disabled. Admin Google Sign-In will work after Google Auth is enabled inside Supabase and the callback URLs are configured for localhost, preview, and production.'
+            : 'Google Sign-In will fully work after Google Auth is enabled inside Supabase and the callback URLs are configured for localhost, preview, and production.'}
+        </p>
         {error ? <p className="mt-3 text-sm text-rose-300">{error}</p> : null}
       </div>
     </div>

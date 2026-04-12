@@ -7,8 +7,8 @@ function App() {
     <MarketingShell activePath="/login">
       <PageHero
         eyebrow="Secure Login"
-        title="Google Sign-In for students and administrators."
-        description="Students can view their course and class details after admission. Admins can manage leads, media, and testimonials once the remaining Supabase credentials are connected."
+        title="Google Sign-In for administrators."
+        description="Student login is temporarily disabled. Admins can manage leads, media, and testimonials once the remaining Supabase credentials are connected."
       />
       <section className="container py-6 md:py-10">
         <LoginPanel />
