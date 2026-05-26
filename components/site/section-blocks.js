@@ -30,7 +30,7 @@ export function HeroSection() {
     <section className="relative overflow-hidden py-14 md:py-20">
       <div className="container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
         <div>
-          <span className="eyebrow">Bhubaneswar · Two branches · Ages 5+</span>
+          <span className="eyebrow">Bhubaneswar · Two branches · Ages 4+</span>
           <h1 className="mt-4 max-w-5xl font-display text-5xl font-medium leading-[0.98] tracking-[-0.04em] text-ink-900 sm:text-6xl xl:text-[4.5rem]">
             Discover your <em className="font-normal italic text-maroon-700">Rhythm</em>.
           </h1>
@@ -56,7 +56,7 @@ export function HeroSection() {
                   </span>
                 ))}
               </div>
-              <span>Ages 5+ welcome · 1:1 & small group batches</span>
+              <span>Ages 4+ welcome · 1:1 & small group batches</span>
             </div>
             <div className="flex items-center gap-2 text-gold-700">
               <Star className="h-4 w-4 fill-current" />
@@ -133,7 +133,7 @@ export function AboutStory({ expanded = false }) {
               <AboutPoint number="3" title="Stage-ready" text="Recitals, exams and confidence building." />
               <AboutPoint number="4" title="Mock practicals" text="Exam-focused practice and guidance." />
               {expanded ? (
-                <AboutPoint number="4" title="Patient teaching" text="A serious but welcoming environment that helps students listen, repeat, and grow steadily." />
+                <AboutPoint number="5" title="Patient teaching" text="A serious but welcoming environment that helps students listen, repeat, and grow steadily." />
               ) : null}
             </div>
           </div>
@@ -184,7 +184,7 @@ export function CourseGrid({ expanded = false, items = courses }) {
           <div>
             <span className="eyebrow">Courses</span>
             <h2 className="section-title">
-              Choose your <em className="font-normal italic text-maroon-700">discipline</em>.
+              Choose your <em className="font-normal italic text-maroon-700">course</em>.
             </h2>
             <p className="course-section-sub">
               From Indian classical foundations to modern contemporary instruments - every course follows a structured 6-level curriculum, taught in small batches.
@@ -197,7 +197,7 @@ export function CourseGrid({ expanded = false, items = courses }) {
 
         <div className="course-proto-grid">
           {visibleCourses.map((course) => (
-            <article key={course.slug} className="course-proto-card">
+            <Link key={course.slug} href={`/admission?course=${encodeURIComponent(course.title)}`} className="course-proto-card block">
               <div className="course-proto-head">
                 <div className="course-proto-glyph">{getCourseGlyph(course.slug)}</div>
                 <span className="course-proto-mode">{course.mode}</span>
@@ -210,7 +210,7 @@ export function CourseGrid({ expanded = false, items = courses }) {
                 <span className="course-proto-age">{course.ages}</span>
                 <span>{course.duration}</span>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </div>

@@ -64,7 +64,7 @@ export function MarketingShell({ activePath, children }) {
 
       <div className="border-b border-line/70 bg-white/45">
         <div className="container flex flex-col gap-2 py-3 text-sm text-ink-500 sm:flex-row sm:items-center sm:justify-between">
-          <p>Bhubaneswar • Two branches • Ages 5+ • 1:1 and small-group batches</p>
+          <p>Bhubaneswar • Two branches • Ages 4+ • 1:1 and small-group batches</p>
           <div className="flex flex-wrap items-center gap-4">
             <a href={`tel:${academyProfile.phone.replace(/\s+/g, '')}`} className="inline-flex items-center gap-2 hover:text-maroon-700">
               <PhoneCall className="h-4 w-4" />

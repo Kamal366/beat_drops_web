@@ -79,6 +79,23 @@ function toBoolean(value, fallback = true) {
   return fallback
 }
 
+async function handleAdminAccessCode(request) {
+  const expectedCode = process.env.ADMIN_ACCESS_CODE
+
+  if (!expectedCode) {
+    return json({ error: 'Admin access code is not configured.' }, 503)
+  }
+
+  const body = await request.json()
+  const submittedCode = typeof body.code === 'string' ? body.code.trim() : ''
+
+  if (!submittedCode || submittedCode !== expectedCode) {
+    return json({ error: 'Invalid admin access code.' }, 403)
+  }
+
+  return json({ ok: true, message: 'Admin access code verified.' })
+}
+
 function getUploadExtension(file) {
   const extension = file.name?.split('.').pop()?.toLowerCase()
   if (extension && ['jpg', 'jpeg', 'png', 'webp'].includes(extension)) return extension
@@ -666,6 +683,10 @@ async function handleRoute(request, { params }) {
   }
 
   if (route.startsWith('/admin/')) {
+    if (route === '/admin/access-code' && request.method === 'POST') {
+      return handleAdminAccessCode(request)
+    }
+
     return handleAdminEntity(request, route)
   }
 

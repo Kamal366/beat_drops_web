@@ -26,12 +26,12 @@ set
 
 insert into public.courses (title, slug, description, mode, age_group, display_order)
 values
-  ('Hindustani Vocal', 'hindustani-vocal', 'Voice culture, swara control, raga learning and performance growth.', 'One-to-one / Group', 'Ages 8+', 1),
-  ('Light Vocal & Performance', 'light-vocal-performance', 'Melody, microphone confidence and expressive singing for stage-ready students.', 'One-to-one / Group', 'Ages 10+', 2),
-  ('Keyboard & Piano Foundations', 'keyboard-piano-foundations', 'Keyboard coordination, reading basics and accompaniment skills from scratch.', 'One-to-one', 'Ages 6+', 3),
-  ('Guitar Essentials 1', 'guitar-essentials', 'Chords, strumming, songs and live-performance readiness - acoustic & electric.', 'One-to-one / Group', 'Ages 9+', 4),
-  ('Tabla & Rhythm Training', 'tabla-rhythm-training', 'Taal clarity, rhythm control and accompaniment practice across gharanas.', 'One-to-one / Group', 'Ages 8+', 5),
-  ('Kids Music Foundation', 'kids-music-foundation', 'A playful entry path into rhythm, listening and confidence. Perfect first step.', 'Small group', 'Ages 4-8', 6)
+  ('Hindustani Vocal', 'hindustani-vocal', 'Voice culture, swara control, raga learning and performance growth.', 'One-to-one / Group', 'Ages 4+', 1),
+  ('Light Vocal & Performance', 'light-vocal-performance', 'Melody, microphone confidence and expressive singing for stage-ready students.', 'One-to-one / Group', 'Ages 4+', 2),
+  ('Keyboard & Piano Foundations', 'keyboard-piano-foundations', 'Keyboard coordination, reading basics and accompaniment skills from scratch.', 'One-to-one', 'Ages 4+', 3),
+  ('Guitar Essentials 1', 'guitar-essentials', 'Chords, strumming, songs and live-performance readiness - acoustic & electric.', 'One-to-one / Group', 'Ages 4+', 4),
+  ('Tabla & Rhythm Training', 'tabla-rhythm-training', 'Taal clarity, rhythm control and accompaniment practice across gharanas.', 'One-to-one / Group', 'Ages 4+', 5),
+  ('Kids Music Foundation', 'kids-music-foundation', 'A playful entry path into rhythm, listening and confidence. Perfect first step.', 'Small group', 'Ages 4+', 6)
 on conflict (slug) do update
 set
   title = excluded.title,
