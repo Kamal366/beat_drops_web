@@ -13,7 +13,7 @@ export default function SiteLogo({ compact = false, light = false }) {
       />
       <div className="min-w-0">
         <p className={`${compact ? 'text-2xl sm:text-[1.85rem]' : 'text-4xl'} truncate font-display font-semibold leading-none tracking-[-0.03em] ${light ? 'text-white' : 'text-ink-900'}`}>
-          Beat <span className="text-maroon-700">Drops</span>
+          Beat <span className={light ? 'text-gold-300' : 'text-maroon-700'}>Drops</span>
         </p>
         <p className={`${compact ? 'text-[11px] sm:text-xs' : 'text-sm'} mt-1 truncate font-semibold uppercase tracking-[0.12em] ${light ? 'text-gold-100' : 'text-ink-500'}`}>
           Music Academy · Bhubaneswar
