@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { admissionLeadSchema } from '@/lib/admission-schema'
@@ -10,7 +11,10 @@ const unsureOption = 'Not sure — recommend for me'
 
 export default function AdmissionForm({ courseOptions = courses }) {
   const selectOptions = [...courseOptions.map((course) => course.title), unsureOption]
+  const searchParams = useSearchParams()
   const [submitMessage, setSubmitMessage] = useState(null)
+  const selectedCourse = searchParams.get('course') || ''
+  const initialCourse = selectOptions.includes(selectedCourse) ? selectedCourse : ''
 
   const {
     register,
@@ -23,7 +27,7 @@ export default function AdmissionForm({ courseOptions = courses }) {
       full_name: '',
       age: '',
       phone_number: '',
-      interested_course: '',
+      interested_course: initialCourse,
       message: '',
     },
   })
@@ -33,10 +37,10 @@ export default function AdmissionForm({ courseOptions = courses }) {
       full_name: '',
       age: '',
       phone_number: '',
-      interested_course: '',
+      interested_course: initialCourse,
       message: '',
     })
-  }, [courseOptions, reset])
+  }, [initialCourse, reset])
 
   const onSubmit = async (values) => {
     setSubmitMessage(null)

@@ -44,6 +44,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key_here
 # or use publishable key if your Supabase project uses it
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_publishable_key_here
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
+ADMIN_ACCESS_CODE=your_admin_access_code_here
 ```
 
 ## Supabase setup
