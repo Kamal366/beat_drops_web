@@ -4,7 +4,7 @@ values
     'Sailashree Vihar Branch',
     'sailashree-vihar',
     'Saswat Vihar, Plot 30, Sailashree Vihar, Patia, Bhubaneswar, Odisha 751021, India',
-    'https://share.google/2X03rDa9ajdUiapKK',
+    'https://share.google/LcP3OTrMPt39hqVHx',
     '+91 9439395040',
     'https://wa.me/919439395040'
   ),
@@ -12,28 +12,45 @@ values
     'Gothapatna Branch',
     'gothapatna',
     'Acropolis Apartment, B-202, Gothapatna, Bhubaneswar, Odisha 751003, India',
-    'https://share.google/FVkgH5VhdrbfTsKcv',
+    'https://share.google/zD7h4vyygHiHiPxEn',
     '+91 9439395040',
     'https://wa.me/919439395040'
   )
-on conflict (slug) do nothing;
+on conflict (slug) do update
+set
+  name = excluded.name,
+  address = excluded.address,
+  map_url = excluded.map_url,
+  phone = excluded.phone,
+  whatsapp = excluded.whatsapp;
 
 insert into public.courses (title, slug, description, mode, age_group, display_order)
 values
-  ('Hindustani Vocal', 'hindustani-vocal', 'Voice culture, swara control, raga learning, and performance growth.', 'One-to-one / Group', '8 years to adult', 1),
-  ('Light Vocal & Performance', 'light-vocal-performance', 'Melody, microphone confidence, and expressive singing.', 'One-to-one / Group', '10 years to adult', 2),
-  ('Keyboard & Piano Foundations', 'keyboard-piano-foundations', 'Keyboard coordination, reading basics, and accompaniment skills.', 'One-to-one', '6 years to adult', 3),
-  ('Guitar Essentials', 'guitar-essentials', 'Chords, strumming, songs, and live readiness.', 'One-to-one / Group', '9 years to adult', 4),
-  ('Tabla & Rhythm Training', 'tabla-rhythm-training', 'Taal clarity, rhythm control, and accompaniment practice.', 'One-to-one / Group', '8 years to adult', 5),
-  ('Kids Music Foundation', 'kids-music-foundation', 'A playful entry path into rhythm, listening, and confidence.', 'Small group', '4 to 8 years', 6)
-on conflict (slug) do nothing;
+  ('Hindustani Vocal', 'hindustani-vocal', 'Voice culture, swara control, raga learning and performance growth.', 'One-to-one / Group', 'Ages 8+', 1),
+  ('Light Vocal & Performance', 'light-vocal-performance', 'Melody, microphone confidence and expressive singing for stage-ready students.', 'One-to-one / Group', 'Ages 10+', 2),
+  ('Keyboard & Piano Foundations', 'keyboard-piano-foundations', 'Keyboard coordination, reading basics and accompaniment skills from scratch.', 'One-to-one', 'Ages 6+', 3),
+  ('Guitar Essentials 1', 'guitar-essentials', 'Chords, strumming, songs and live-performance readiness - acoustic & electric.', 'One-to-one / Group', 'Ages 9+', 4),
+  ('Tabla & Rhythm Training', 'tabla-rhythm-training', 'Taal clarity, rhythm control and accompaniment practice across gharanas.', 'One-to-one / Group', 'Ages 8+', 5),
+  ('Kids Music Foundation', 'kids-music-foundation', 'A playful entry path into rhythm, listening and confidence. Perfect first step.', 'Small group', 'Ages 4-8', 6)
+on conflict (slug) do update
+set
+  title = excluded.title,
+  description = excluded.description,
+  mode = excluded.mode,
+  age_group = excluded.age_group,
+  display_order = excluded.display_order;
 
 insert into public.banners (title, subtitle, cta_label, cta_link, sort_order)
 values
-  ('Admissions Open', 'New weekday and weekend batches available in both branches.', 'Apply now', '/admission', 1),
-  ('Student Login Ready', 'Google Sign-In dashboard for admitted learners.', 'Student login', '/login', 2),
-  ('Admin Media Management', 'Gallery and promotional banner slots are prepared for Supabase storage.', 'Admin dashboard', '/admin/dashboard', 3)
-on conflict (title) do nothing;
+  ('Beginner Tabla - May 2026', 'Weekday evenings • 12 seats • Saheed Nagar Centre', 'Reserve a seat', '/admission', 1),
+  ('Open Demo Saturday', 'Try any course free this Saturday • 4 PM onwards • Patia Studio', 'Book your slot', '/admission', 2),
+  ('Annual Recital - Swaranjali', 'Student showcase • 14 June 2026 • Rabindra Mandap', 'Get invite', '/admission', 3)
+on conflict (title) do update
+set
+  subtitle = excluded.subtitle,
+  cta_label = excluded.cta_label,
+  cta_link = excluded.cta_link,
+  sort_order = excluded.sort_order;
 
 insert into public.testimonials (name, role, quote, rating)
 values

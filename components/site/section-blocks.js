@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { CalendarClock, GraduationCap, MapPin, Mic2, Music2, Phone, ShieldCheck, Users2 } from 'lucide-react'
+import { CalendarClock, MapPin, Mic2, Music2, Phone, ShieldCheck, Star, Users2 } from 'lucide-react'
 import {
   academyProfile,
   banners,
@@ -12,11 +12,13 @@ import {
 
 export function PageHero({ eyebrow, title, description }) {
   return (
-    <section className="container pt-10 md:pt-16">
-      <div className="rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.1),rgba(255,255,255,0.04))] p-6 shadow-2xl shadow-black/15 backdrop-blur-xl md:p-10">
-        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-amber-100">{eyebrow}</p>
-        <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-tight text-white md:text-5xl">{title}</h1>
-        <p className="mt-4 max-w-3xl text-base text-stone-300 md:text-lg">{description}</p>
+    <section className="section-shell">
+      <div className="container">
+        <div className="surface-card px-6 py-10 md:px-10 md:py-14">
+          <span className="eyebrow">{eyebrow}</span>
+          <h1 className="section-title max-w-4xl">{title}</h1>
+          <p className="section-copy max-w-3xl">{description}</p>
+        </div>
       </div>
     </section>
   )
@@ -24,84 +26,87 @@ export function PageHero({ eyebrow, title, description }) {
 
 export function HeroSection() {
   return (
-    <section className="container pb-6 pt-10 md:pb-10 md:pt-16">
-      <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-        <div className="space-y-8 pt-2">
-          <div className="space-y-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-amber-100">Bhubaneswar Music Academy</p>
-            <h1 className="max-w-4xl text-4xl font-semibold leading-[1.02] text-white sm:text-5xl xl:text-[4.4rem]">
-              Learn music with structured classes, flexible batches, and patient guidance.
-            </h1>
-            <p className="max-w-2xl text-base leading-8 text-stone-300 sm:text-lg">
-              Beat Drops offers vocals, instruments, and rhythm classes for children, teens, and adults across two Bhubaneswar branches.
-            </p>
-          </div>
+    <section className="relative overflow-hidden py-14 md:py-20">
+      <div className="container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+        <div>
+          <span className="eyebrow">Bhubaneswar · Two branches · Ages 5+</span>
+          <h1 className="mt-4 max-w-5xl font-display text-5xl font-medium leading-[0.98] tracking-[-0.04em] text-ink-900 sm:text-6xl xl:text-[4.5rem]">
+            Discover your <em className="font-normal italic text-maroon-700">Rhythm</em>.
+          </h1>
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-ink-700">
+            A premium music academy in Bhubaneswar offering 1:1 and group classes in Hindustani Vocal, Tabla, Guitar, Keyboard, Light Vocal and Kids Music - taught by mentors who perform and teach for a living.
+          </p>
 
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <Link href="/admission" className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-amber-300 to-orange-300 px-6 py-3 text-sm font-semibold text-[#2b1812] shadow-lg shadow-orange-950/20 hover:from-amber-200 hover:to-orange-200">
-              Book an Enquiry
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link href="/admission" className="btn-brand">
+              Enroll Now
             </Link>
-            <Link href="/courses" className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10">
-              Explore Courses
+            <Link href="/admission" className="btn-ghost">
+              Book a Free Demo
             </Link>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-8 flex flex-wrap items-center gap-5 text-sm text-ink-500">
+            <div className="flex items-center gap-3">
+              <div className="flex -space-x-2">
+                {['BD', 'SV', 'GP'].map((item) => (
+                  <span key={item} className="grid h-8 w-8 place-items-center rounded-full border-2 border-ivory bg-[linear-gradient(135deg,#6e1423,#c8a96a)] text-[10px] font-semibold text-white">
+                    {item}
+                  </span>
+                ))}
+              </div>
+              <span>Ages 5+ welcome · 1:1 & small group batches</span>
+            </div>
+            <div className="flex items-center gap-2 text-gold-700">
+              <Star className="h-4 w-4 fill-current" />
+              <span className="text-ink-500">4.9 / 5</span>
+            </div>
+          </div>
+
+          <div className="mt-10 grid gap-4 rounded-[28px] border border-line bg-white/60 p-4 backdrop-blur-sm sm:grid-cols-2 xl:grid-cols-4">
             {summaryStats.map((stat) => (
-              <div key={stat.label} className="rounded-3xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
-                <p className="text-2xl font-semibold text-white">{stat.value}</p>
-                <p className="mt-1 text-sm text-stone-300">{stat.label}</p>
+              <div key={stat.label} className="rounded-3xl bg-white/80 px-4 py-5 shadow-soft">
+                <p className="font-display text-3xl font-semibold text-maroon-700">{stat.value}</p>
+                <p className="mt-1 text-sm text-ink-500">{stat.label}</p>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="rounded-[2.25rem] border border-white/10 bg-[linear-gradient(160deg,rgba(255,204,139,0.2),rgba(255,255,255,0.05))] p-6 shadow-2xl shadow-black/20 backdrop-blur-xl">
-          <div className="grid gap-5">
-            <div className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(255,211,149,0.35),transparent_30%),linear-gradient(180deg,rgba(69,39,30,0.55),rgba(28,18,16,0.75))] p-5">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.35em] text-amber-100">Live 1:1 + Group Classes</p>
-                  <h2 className="mt-3 max-w-sm text-3xl font-semibold leading-tight text-white">A calmer, more focused learning environment for every age group.</h2>
-                </div>
-                <div className="hidden rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs text-white sm:block">Beat Drops</div>
-              </div>
-              <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-[1.5rem] border border-white/10 bg-black/20 p-4">
-                  <p className="text-xs uppercase tracking-[0.28em] text-stone-400">Class Type</p>
-                  <p className="mt-3 text-xl font-semibold text-white">Vocals • Instruments • Rhythm</p>
-                </div>
-                <div className="rounded-[1.5rem] border border-white/10 bg-black/20 p-4">
-                  <p className="text-xs uppercase tracking-[0.28em] text-stone-400">Best For</p>
-                  <p className="mt-3 text-xl font-semibold text-white">Kids, hobby learners, and serious students</p>
-                </div>
-              </div>
+        <div className="relative h-[360px] sm:h-[420px] lg:h-[520px]">
+          <div className="absolute left-[6%] top-0 flex h-[220px] w-[200px] rotate-[-6deg] flex-col justify-between rounded-[28px] border border-white/70 bg-[linear-gradient(155deg,#fff,#fff7e5)] p-5 shadow-float sm:w-[220px] lg:h-[260px] lg:w-[240px]">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.18em] text-ink-500">Percussion</p>
+              <h3 className="mt-2 font-display text-2xl text-maroon-900">Tabla</h3>
             </div>
+            <img className="hero-tabla-image" src="/images/tabla-pair.png" alt="Tabla pair" />
+            <span className="inline-flex w-fit rounded-full bg-gold-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-maroon-800">Most loved</span>
+          </div>
 
-            <div className="grid gap-3 sm:grid-cols-2">
-              <FeatureCard icon={Music2} title="Performance-focused" text="Voice, rhythm, and stage confidence in one learning journey." />
-              <FeatureCard icon={Users2} title="For kids to adults" text="Flexible learning formats for hobby learners and serious students." />
-              <FeatureCard icon={MapPin} title="2 Bhubaneswar branches" text="Choose the branch most convenient for you." />
-              <FeatureCard icon={ShieldCheck} title="Secure private area" text="Students and admins can access private dashboards after sign-in." />
+          <div className="absolute right-[4%] top-6 flex h-[240px] w-[220px] rotate-[5deg] flex-col justify-between rounded-[28px] border border-white/70 bg-[linear-gradient(155deg,#fff,#fbe8ec)] p-5 shadow-float sm:w-[240px] lg:h-[280px] lg:w-[260px]">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.18em] text-ink-500">Strings</p>
+              <h3 className="mt-2 font-display text-2xl text-maroon-900">Guitar</h3>
             </div>
+            <img className="hero-guitar-image" src="/images/acoustic-guitar.png" alt="Acoustic guitar" />
+            <span className="inline-flex w-fit rounded-full bg-maroon-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-maroon-800">New batch</span>
+          </div>
+
+          <div className="absolute bottom-0 left-[28%] flex h-[170px] w-[240px] rotate-[-2deg] flex-col justify-between rounded-[28px] border border-white/70 bg-[linear-gradient(155deg,#fff,#f4ecda)] p-5 shadow-float sm:left-[32%] sm:w-[260px] lg:h-[200px] lg:w-[280px]">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.18em] text-ink-500">Vocal</p>
+              <h3 className="mt-2 font-display text-2xl text-maroon-900">Hindustani</h3>
+            </div>
+            <div className="text-5xl">🎤</div>
+            <span className="inline-flex w-fit rounded-full bg-gold-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-maroon-800">Heritage</span>
+          </div>
+
+          <div className="pointer-events-none absolute inset-0 hidden motion-safe:block">
+            <span className="absolute left-1 top-24 font-display text-3xl text-gold-500/60 animate-drift">♪</span>
+            <span className="absolute right-24 top-2 font-display text-4xl text-gold-500/60 animate-drift [animation-delay:1.2s]">♫</span>
+            <span className="absolute bottom-24 right-3 font-display text-2xl text-maroon-500/50 animate-drift [animation-delay:2.2s]">♩</span>
           </div>
         </div>
-      </div>
-    </section>
-  )
-}
-
-export function TrustStrip() {
-  const trustItems = ['Focused teacher guidance', 'Flexible weekday and weekend batches', 'Student dashboard after admission', 'Simple enquiry and follow-up']
-
-  return (
-    <section className="container py-4 md:py-6">
-      <div className="grid gap-3 rounded-[1.75rem] border border-white/10 bg-white/5 p-4 backdrop-blur-sm md:grid-cols-4">
-        {trustItems.map((item) => (
-          <div key={item} className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4 text-sm font-medium text-stone-200">
-            {item}
-          </div>
-        ))}
       </div>
     </section>
   )
@@ -109,138 +114,227 @@ export function TrustStrip() {
 
 export function AboutStory({ expanded = false }) {
   return (
-    <section className="container py-6 md:py-10">
-      <SectionHeading
-        eyebrow="About"
-        title="A simple and supportive place to learn music regularly."
-        description="Beat Drops focuses on steady practice, personal attention, and practical class scheduling for students and families."
-      />
-      <div className="grid gap-4 lg:grid-cols-[1fr_0.95fr]">
-        <div className="rounded-[2rem] border border-white/10 bg-white/5 p-7 text-stone-300 backdrop-blur-sm">
-          <p className="max-w-2xl text-xl leading-9">
-            Students learn through regular classes, guided practice, and teacher feedback that matches their age, level, and goals.
-          </p>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            <InsightCard title="Structured learning" text="Clear progression paths for vocals, rhythm, and instruments." />
-            <InsightCard title="Flexible batches" text="Designed for school students, college learners, and working adults." />
-            <InsightCard title="Teacher-led attention" text="Focused feedback for technique, expression, and confidence." />
-            <InsightCard title="Community energy" text="An environment that feels serious, warm, and performance-ready." />
-          </div>
-        </div>
+    <section id="about" className="section-shell">
+      <div className="container">
+        <div className="about-compact-grid">
+          <div>
+            <span className="eyebrow">About Beat Drops</span>
+            <h2 className="section-title">
+              A space for sound, <em className="font-normal italic text-maroon-700">shaped slowly.</em>
+            </h2>
+            <p className="about-compact-copy">
+              Beat Drops Music Academy was founded in Bhubaneswar with one belief - that great music is taught with patience, not pressure. Our mentors come from gharana lineages, conservatory training and active performing careers, and we keep batches small so every student is heard.
+            </p>
 
-        <div className="grid gap-4">
-          <HighlightPanel icon={GraduationCap} title="Built for admissions and retention" text="The website is designed to attract new families, collect inquiries, and organize lead follow-up clearly." />
-          <HighlightPanel icon={CalendarClock} title="Flexible scheduling" text="Branch selection is captured instantly, while timing can be assigned personally after the inquiry comes in." />
-          {expanded ? <HighlightPanel icon={Mic2} title="Performance culture" text="From voice development to public confidence, the academy identity is crafted around expressive growth." /> : null}
+            <div className="about-compact-points">
+              <AboutPoint number="1" title="Mentor-led, not lecture-led" text="Personal feedback every session." />
+              <AboutPoint number="2" title="Structured curriculum" text="6 graded levels per discipline, with annual recitals and graded certifications." />
+              <AboutPoint number="3" title="Performance-first culture" text="Quarterly stages,Exams, recordings, and inter-academy events to build real confidence." />
+              <AboutPoint number="4" title="Examination and Mock Practicals" text="Exam Led teaching facility available and Personal guidance" />
+              {expanded ? (
+                <AboutPoint number="4" title="Patient teaching" text="A serious but welcoming environment that helps students listen, repeat, and grow steadily." />
+              ) : null}
+            </div>
+          </div>
+
+          <div className="about-mentor-card">
+            <span className="about-mentor-eyebrow">Mentor&apos;s note</span>
+            <p className="about-mentor-quote">
+              &quot;You don&apos;t learn music by chasing perfection - you learn it by listening longer than you speak.&quot;
+            </p>
+            <div className="about-mentor-meta">
+              <p className="about-mentor-name">Shri Nikunja Bihari Samal</p>
+              <p className="about-mentor-role">Founder &amp; Head of Tabla · 10+ years teaching</p>
+            </div>
+            <div className="about-eq" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
+          </div>
         </div>
       </div>
     </section>
+  )
+}
+
+function AboutPoint({ number, title, text }) {
+  return (
+    <div className="about-point-row">
+      <div className="about-point-number">{number}</div>
+      <div>
+        <h4>{title}</h4>
+        <p>{text}</p>
+      </div>
+    </div>
   )
 }
 
 export function CourseGrid({ expanded = false, items = courses }) {
-  const visibleCourses = expanded ? items : items.slice(0, 4)
+  const visibleCourses = expanded ? items : items.slice(0, 6)
+
   return (
-    <section className="container py-6 md:py-10">
-      <SectionHeading
-        eyebrow="Courses"
-        title="Courses for beginners and continuing learners."
-        description="Choose from vocals, instruments, and rhythm classes with one-to-one and group options."
-      />
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {visibleCourses.map((course) => (
-          <div key={course.slug} className="rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
-            <div className="flex items-center justify-between gap-3">
-              <h3 className="text-xl font-semibold text-white">{course.title}</h3>
-              <span className="rounded-full border border-amber-200/20 px-3 py-1 text-xs uppercase tracking-[0.2em] text-amber-100">{course.mode}</span>
-            </div>
-            <p className="mt-3 text-sm text-stone-300">{course.description}</p>
-            <div className="mt-5 grid gap-2 text-sm text-stone-300">
-              <div className="rounded-2xl bg-black/20 p-3">Age group: <span className="text-white">{course.ages}</span></div>
-              <div className="rounded-2xl bg-black/20 p-3">Schedule: <span className="text-white">{course.duration}</span></div>
-            </div>
-            <div className="mt-5 flex flex-wrap gap-2">
-              {course.highlights.map((item) => (
-                <span key={item} className="rounded-full border border-white/10 px-3 py-1 text-xs text-stone-300">{item}</span>
-              ))}
-            </div>
+    <section id="courses" className="section-shell">
+      <div className="container">
+        <div className="course-section-head">
+          <div>
+            <span className="eyebrow">Courses</span>
+            <h2 className="section-title">
+              Choose your <em className="font-normal italic text-maroon-700">discipline</em>.
+            </h2>
+            <p className="course-section-sub">
+              From Indian classical foundations to modern contemporary instruments - every course follows a structured 6-level curriculum, taught in small batches.
+            </p>
           </div>
-        ))}
-      </div>
-      {!expanded ? (
-        <div className="mt-6">
-          <Link href="/courses" className="inline-flex rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10">
-            View all programs
-          </Link>
+          <div className="course-section-link hidden sm:block">
+            <Link href="/admission">View curriculum &rarr;</Link>
+          </div>
         </div>
-      ) : null}
+
+        <div className="course-proto-grid">
+          {visibleCourses.map((course) => (
+            <article key={course.slug} className="course-proto-card">
+              <div className="course-proto-head">
+                <div className="course-proto-glyph">{getCourseGlyph(course.slug)}</div>
+                <span className="course-proto-mode">{course.mode}</span>
+              </div>
+
+              <h3>{course.title}</h3>
+              <p>{course.description}</p>
+
+              <div className="course-proto-meta">
+                <span className="course-proto-age">{course.ages}</span>
+                <span>{course.duration}</span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
     </section>
   )
 }
 
+function getCourseGlyph(slug) {
+  switch (slug) {
+    case 'hindustani-vocal':
+      return '🎤'
+    case 'light-vocal-performance':
+      return '🎙️'
+    case 'keyboard-piano-foundations':
+      return '🎹'
+    case 'guitar-essentials':
+      return <GuitarGlyph />
+    case 'tabla-rhythm-training':
+      return <TablaGlyph />
+    case 'kids-music-foundation':
+      return '🎶'
+    default:
+      return '♪'
+  }
+}
+
+function TablaGlyph() {
+  return <img className="tabla-ic" src="/images/tabla-pair.png" alt="" aria-hidden="true" />
+}
+
+function GuitarGlyph() {
+  return <img className="guitar-ic" src="/images/acoustic-guitar.png" alt="" aria-hidden="true" />
+}
+
 export function BranchGrid({ expanded = false }) {
   return (
-    <section className="container py-6 md:py-10">
-      <SectionHeading
-        eyebrow="Branches"
-        title="Choose the branch that works best for your location."
-        description="Both branches follow the same class approach and can help with admissions and batch guidance."
-      />
-      <div className="grid gap-4 lg:grid-cols-2">
-        {branches.map((branch) => (
-          <div key={branch.id} className="rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <h3 className="text-2xl font-semibold text-white">{branch.name}</h3>
-                <p className="mt-1 text-sm text-amber-100">{branch.vibe}</p>
+    <section id="locations" className="section-shell">
+      <div className="container">
+        <SectionHeading
+          eyebrow="Branches"
+          title="Choose the branch that works best for you."
+          description="Both branches follow the same class approach and mentors. Either team can help you with admissions and batch guidance."
+        />
+
+        <div className="grid gap-4 lg:grid-cols-2">
+          {branches.map((branch) => (
+            <article key={branch.id} className="surface-card p-6 md:p-7">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <h3 className="font-display text-3xl font-medium text-ink-900">{branch.shortName}</h3>
+                  <p className="mt-2 text-sm text-maroon-700">{branch.vibe}</p>
+                </div>
+                <span className="rounded-full border border-line bg-sand px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-ink-500">
+                  {branch.id === 'sailashree-vihar' ? 'Branch 1 · North Bhubaneswar' : 'Branch 2 · West Bhubaneswar'}
+                </span>
               </div>
-              <span className="rounded-full border border-white/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-stone-300">{branch.hours}</span>
-            </div>
-            <div className="mt-5 space-y-3 text-sm text-stone-300">
-              <p>{branch.address}</p>
-              <p>{branch.phone}</p>
-            </div>
-            <div className="mt-5 flex flex-wrap gap-3">
-              <a href={branch.mapUrl} target="_blank" rel="noreferrer" className="inline-flex rounded-full bg-gradient-to-r from-amber-300 to-orange-300 px-4 py-2 text-sm font-semibold text-[#2b1812] hover:from-amber-200 hover:to-orange-200">
-                Open map
-              </a>
-              {expanded ? (
-                <a href={academyProfile.whatsapp} target="_blank" rel="noreferrer" className="inline-flex rounded-full border border-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10">
-                  Enquire on WhatsApp
+
+              <div className="mt-5 space-y-3 text-sm leading-7 text-ink-500">
+                <p>{branch.address}</p>
+                <p>Open every day • till 10 PM</p>
+              </div>
+
+              <div className="mt-6 flex flex-wrap gap-3">
+                <a href={branch.mapUrl} target="_blank" rel="noreferrer" className="btn-brand">
+                  Open map
                 </a>
-              ) : null}
-            </div>
-          </div>
-        ))}
+                {expanded ? (
+                  <a href={`tel:${branch.phone.replace(/\s+/g, '')}`} className="btn-ghost">
+                    Call branch
+                  </a>
+                ) : null}
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   )
 }
 
 export function GalleryPreview({ expanded = false, items = galleryHighlights }) {
-  const displayItems = expanded ? items : items.slice(0, 3)
+  const displayItems = expanded ? items : items.slice(0, 4)
+
   return (
-    <section className="container py-6 md:py-10">
-      <SectionHeading
-        eyebrow="Gallery"
-        title="Classroom moments, events, and student activities."
-        description="This gallery can be updated by the admin team as new class photos and event images are added."
-      />
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {displayItems.map((item, index) => (
-          <div key={item.title} className="group overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-sm">
-            <div className={`h-56 p-6 ${index % 2 === 0 ? 'bg-[linear-gradient(135deg,rgba(255,194,120,0.18),rgba(255,255,255,0.05))]' : 'bg-[linear-gradient(135deg,rgba(255,143,90,0.18),rgba(255,255,255,0.05))]'}`}>
-              <div className="flex h-full items-end rounded-[1.5rem] border border-white/10 bg-black/10 p-4">
-                <div className="w-full">
-                  <p className="text-xs uppercase tracking-[0.32em] text-amber-100">Beat Drops</p>
-                  <p className="mt-3 text-lg font-semibold text-white">{item.title}</p>
-                  <div className="mt-4 h-16 rounded-2xl border border-white/10 bg-[linear-gradient(90deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02))]" />
+    <section id="gallery" className="section-shell">
+      <div className="container">
+        <SectionHeading
+          eyebrow="Gallery"
+          title="Inside the academy."
+          description="Moments from class, recitals and festival performances."
+        />
+
+        <div className="grid auto-rows-[180px] gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {displayItems.map((item, index) => {
+            const spanClass = expanded
+              ? index % 5 === 0
+                ? 'sm:col-span-2'
+                : index % 4 === 0
+                  ? 'xl:row-span-2'
+                  : ''
+              : index === 0
+                ? 'sm:col-span-2'
+                : ''
+
+            return (
+              <article
+                key={`${item.title}-${index}`}
+                className={`surface-card group relative overflow-hidden p-6 ${spanClass}`}
+              >
+                <div
+                  className={`absolute inset-0 ${
+                    index % 2 === 0
+                      ? 'bg-[linear-gradient(135deg,rgba(200,169,106,0.22),rgba(255,255,255,0.12))]'
+                      : 'bg-[linear-gradient(135deg,rgba(110,20,35,0.16),rgba(255,255,255,0.08))]'
+                  }`}
+                />
+                <div className="relative flex h-full flex-col justify-end rounded-[24px] border border-white/50 bg-white/20 p-5 backdrop-blur-[2px]">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-maroon-700">Beat Drops</p>
+                  <h3 className="mt-3 font-display text-2xl font-medium text-ink-900">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-7 text-ink-500">{item.caption}</p>
                 </div>
-              </div>
-            </div>
-            <div className="p-5 text-sm leading-7 text-stone-300">{item.caption}</div>
-          </div>
-        ))}
+              </article>
+            )
+          })}
+        </div>
       </div>
     </section>
   )
@@ -248,20 +342,23 @@ export function GalleryPreview({ expanded = false, items = galleryHighlights }) 
 
 export function PromoBanners({ items = banners }) {
   return (
-    <section className="container py-6 md:py-10">
-      <SectionHeading
-        eyebrow="Promotions"
-        title="Announcements and updates."
-        description="Use this section for batch updates, seasonal notices, and class information."
-      />
-      <div className="grid gap-4 lg:grid-cols-3">
-        {items.map((banner, index) => (
-          <div key={banner.title} className={`rounded-[2rem] border border-white/10 p-6 backdrop-blur-sm ${index === 1 ? 'bg-[linear-gradient(135deg,rgba(255,191,117,0.18),rgba(255,255,255,0.04))]' : 'bg-[linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0.04))]'}`}>
-            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-amber-100">Notice</p>
-            <h3 className="mt-3 text-2xl font-semibold text-white">{banner.title}</h3>
-            <p className="mt-2 text-sm leading-7 text-stone-300">{banner.subtitle}</p>
-          </div>
-        ))}
+    <section className="section-shell">
+      <div className="container">
+        <SectionHeading
+          eyebrow="What's on"
+          title="Upcoming at the academy."
+          description="New batches, free demo days, and student showcases - book early, seats are limited."
+        />
+
+        <div className="grid gap-4 lg:grid-cols-3">
+          {items.map((banner, index) => (
+            <article key={banner.title} className={index === 1 ? 'surface-deep p-6 md:p-7' : 'surface-card p-6 md:p-7'}>
+              <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${index === 1 ? 'text-gold-300' : 'text-maroon-700'}`}>Notice</p>
+              <h3 className={`mt-3 font-display text-3xl font-medium ${index === 1 ? 'text-white' : 'text-ink-900'}`}>{banner.title}</h3>
+              <p className={`mt-3 text-sm leading-7 ${index === 1 ? 'text-gold-100/85' : 'text-ink-500'}`}>{banner.subtitle}</p>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   )
@@ -269,22 +366,30 @@ export function PromoBanners({ items = banners }) {
 
 export function StudentLove({ items = testimonials }) {
   return (
-    <section className="container py-6 md:py-10">
-      <SectionHeading
-        eyebrow="Testimonials"
-        title="What students and parents like about the classes."
-        description="A simple way to share trust-building feedback from the academy community."
-      />
-      <div className="grid gap-4 lg:grid-cols-3">
-        {items.map((item) => (
-          <div key={item.name + item.role} className="rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
-            <p className="text-lg leading-8 text-stone-200">“{item.quote}”</p>
-            <div className="mt-6 border-t border-white/10 pt-4">
-              <p className="font-semibold text-white">{item.name}</p>
-              <p className="text-sm text-stone-400">{item.role}</p>
-            </div>
-          </div>
-        ))}
+    <section className="section-shell">
+      <div className="container">
+        <SectionHeading
+          eyebrow="Testimonials"
+          title="Trust-first proof points for parents, learners, and working adults."
+          description="Premium education sells on credibility, not hype. These cards stay restrained and readable."
+        />
+
+        <div className="grid gap-4 lg:grid-cols-3">
+          {items.map((item) => (
+            <article key={`${item.name}-${item.role}`} className="surface-card p-6 md:p-7">
+              <div className="flex gap-1 text-gold-700">
+                {Array.from({ length: Number(item.rating) || 5 }).map((_, index) => (
+                  <Star key={index} className="h-4 w-4 fill-current" />
+                ))}
+              </div>
+              <p className="mt-5 text-lg leading-8 text-ink-700">“{item.quote}”</p>
+              <div className="mt-6 border-t border-line pt-4">
+                <p className="font-semibold text-ink-900">{item.name}</p>
+                <p className="text-sm text-ink-500">{item.role}</p>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   )
@@ -292,24 +397,33 @@ export function StudentLove({ items = testimonials }) {
 
 export function ContactPanel() {
   return (
-    <section className="container py-6 md:py-10">
-      <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
-        <div className="rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.1),rgba(255,255,255,0.04))] p-6 shadow-2xl shadow-black/15 backdrop-blur-xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-amber-100">Contact</p>
-          <h2 className="mt-3 text-3xl font-semibold text-white">Need help with courses or admissions?</h2>
-          <p className="mt-3 text-sm text-stone-300">Call, email, or message the academy to ask about batches, branches, timings, and admission steps.</p>
-          <div className="mt-6 grid gap-3 text-sm text-stone-200">
-            <a href={`tel:${academyProfile.phone.replace(/\s+/g, '')}`} className="rounded-2xl border border-white/10 bg-black/20 p-4 hover:bg-white/10">{academyProfile.phone}</a>
-            <a href={`mailto:${academyProfile.email}`} className="rounded-2xl border border-white/10 bg-black/20 p-4 hover:bg-white/10">{academyProfile.email}</a>
-            <a href={academyProfile.whatsapp} target="_blank" rel="noreferrer" className="rounded-2xl border border-amber-200/20 bg-gradient-to-r from-amber-300 to-orange-300 p-4 font-medium text-[#2b1812] hover:from-amber-200 hover:to-orange-200">Chat on WhatsApp</a>
+    <section className="section-shell pt-2">
+      <div className="container grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="surface-deep p-6 md:p-8">
+          <span className="eyebrow before:bg-gold-300 text-gold-300">Contact</span>
+          <h2 className="mt-4 font-display text-4xl font-medium tracking-[-0.03em] text-white">Need help choosing a course or branch?</h2>
+          <p className="mt-4 text-sm leading-7 text-gold-100/85">
+            Call, email, or message the academy to ask about batches, free demos, timing flexibility, and admissions.
+          </p>
+
+          <div className="mt-6 grid gap-3 text-sm">
+            <a href={`tel:${academyProfile.phone.replace(/\s+/g, '')}`} className="rounded-2xl border border-white/10 bg-white/10 px-4 py-4 hover:bg-white/15">
+              {academyProfile.phone}
+            </a>
+            <a href={`mailto:${academyProfile.email}`} className="rounded-2xl border border-white/10 bg-white/10 px-4 py-4 hover:bg-white/15">
+              {academyProfile.email}
+            </a>
+            <a href={academyProfile.whatsapp} target="_blank" rel="noreferrer" className="btn-gold w-full">
+              Chat on WhatsApp
+            </a>
           </div>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
-          <MiniContactCard icon={MapPin} title="Branches" text="Both Bhubaneswar branches are listed with direct Google Maps links." />
-          <MiniContactCard icon={CalendarClock} title="Timings" text="Timings are assigned by the academy after inquiry so each learner can be matched to the right batch." />
-          <MiniContactCard icon={Users2} title="Student support" text="Private dashboard architecture is ready for admitted students after Google login." />
-          <MiniContactCard icon={Phone} title="Admin operations" text="Lead management, gallery uploads, and testimonials will be controlled from the admin panel." />
+          <MiniContactCard icon={MapPin} title="Locations" text="Each branch card includes a direct map link for quick navigation." />
+          <MiniContactCard icon={CalendarClock} title="Timings" text="Batch timing is handled after enquiry so learners can be matched more personally." />
+          <MiniContactCard icon={Users2} title="Support" text="The public funnel stays simple while admins manage follow-up from the private dashboard." />
+          <MiniContactCard icon={Phone} title="Fast contact" text="Phone and WhatsApp remain visible because those are still the academy’s highest-conversion paths." />
         </div>
       </div>
     </section>
@@ -318,20 +432,26 @@ export function ContactPanel() {
 
 export function AdmissionProcess() {
   const steps = [
-    'Submit learner and parent details through the public inquiry form.',
-    'Admin reviews the lead and updates status from new_lead to contacted or trial_scheduled.',
-    'Once admitted, the learner can sign in with Google to access the student dashboard.',
+    'Free 30-minute demo class with a senior mentor',
+    'Personalised course path based on your goals',
+    "No commitment until you've experienced the academy",
+    'WhatsApp and call-back support, in English, Hindi and Odia',
   ]
 
   return (
-    <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
-      <p className="text-xs font-semibold uppercase tracking-[0.35em] text-amber-100">Admission flow</p>
-      <h2 className="mt-3 text-3xl font-semibold text-white">Simple steps to get started.</h2>
+    <div className="surface-card p-6 md:p-8">
+      <span className="eyebrow">Enrol with us</span>
+      <h2 className="mt-4 font-display text-4xl font-medium tracking-[-0.03em] text-ink-900">Tell us a little, we'll take it from there.</h2>
+      <p className="mt-4 text-sm leading-7 text-ink-500">
+        Submit the form and our admissions team will reach out within 24 hours to schedule your free demo class.
+      </p>
       <div className="mt-6 space-y-4">
         {steps.map((step, index) => (
-          <div key={step} className="flex gap-4 rounded-2xl border border-white/10 bg-black/10 p-4">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-amber-300 to-orange-300 text-sm font-semibold text-[#2b1812]">{index + 1}</div>
-            <p className="text-sm leading-7 text-stone-300">{step}</p>
+          <div key={step} className="flex gap-4 rounded-[24px] bg-sand p-4">
+            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-maroon-700 text-sm font-semibold text-white">
+              {index + 1}
+            </div>
+            <p className="text-sm leading-7 text-ink-700">{step}</p>
           </div>
         ))}
       </div>
@@ -341,50 +461,41 @@ export function AdmissionProcess() {
 
 export function SectionHeading({ eyebrow, title, description }) {
   return (
-    <div className="mb-6 max-w-3xl">
-      <p className="text-xs font-semibold uppercase tracking-[0.35em] text-amber-100">{eyebrow}</p>
-      <h2 className="mt-3 text-3xl font-semibold text-white md:text-4xl">{title}</h2>
-      <p className="mt-3 text-sm leading-7 text-stone-300 md:text-base">{description}</p>
-    </div>
-  )
-}
-
-function FeatureCard({ icon: Icon, title, text }) {
-  return (
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
-      <Icon className="h-5 w-5 text-amber-100" />
-      <p className="mt-4 font-semibold text-white">{title}</p>
-      <p className="mt-2 text-sm text-stone-200">{text}</p>
-    </div>
-  )
-}
-
-
-function InsightCard({ title, text }) {
-  return (
-    <div className="rounded-3xl border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.14),rgba(255,255,255,0.08))] p-4 backdrop-blur-sm">
-      <p className="font-semibold text-white">{title}</p>
-      <p className="mt-2 text-sm text-stone-300">{text}</p>
-    </div>
-  )
-}
-
-function HighlightPanel({ icon: Icon, title, text }) {
-  return (
-    <div className="rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.12),rgba(255,255,255,0.05))] p-6 shadow-xl shadow-black/10 backdrop-blur-xl">
-      <Icon className="h-6 w-6 text-amber-100" />
-      <h3 className="mt-4 text-xl font-semibold text-white">{title}</h3>
-      <p className="mt-2 text-sm leading-7 text-stone-300">{text}</p>
+    <div className="mb-7 max-w-4xl">
+      <span className="eyebrow">{eyebrow}</span>
+      <h2 className="section-title">{title}</h2>
+      <p className="section-copy">{description}</p>
     </div>
   )
 }
 
 function MiniContactCard({ icon: Icon, title, text }) {
   return (
-    <div className="rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.1),rgba(255,255,255,0.04))] p-6 shadow-xl shadow-black/10 backdrop-blur-xl">
-      <Icon className="h-5 w-5 text-amber-100" />
-      <h3 className="mt-4 text-lg font-semibold text-white">{title}</h3>
-      <p className="mt-2 text-sm text-stone-300">{text}</p>
+    <div className="surface-card p-6">
+      <Icon className="h-5 w-5 text-maroon-700" />
+      <h3 className="mt-4 font-display text-2xl font-medium text-ink-900">{title}</h3>
+      <p className="mt-2 text-sm leading-7 text-ink-500">{text}</p>
+    </div>
+  )
+}
+
+export function FeatureCard({ icon: Icon = Music2, title, text }) {
+  return (
+    <div className="surface-card p-5">
+      <Icon className="h-5 w-5 text-maroon-700" />
+      <p className="mt-4 font-semibold text-ink-900">{title}</p>
+      <p className="mt-2 text-sm leading-7 text-ink-500">{text}</p>
+    </div>
+  )
+}
+
+export function PrivateFeatureGrid() {
+  return (
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <FeatureCard icon={Music2} title="Premium public funnel" text="The new design carries the prototype’s trust-led layout into production routes." />
+      <FeatureCard icon={Users2} title="Qualified enquiries" text="The same form flow is preserved while the UX now prioritizes mobile discovery." />
+      <FeatureCard icon={ShieldCheck} title="Admin protected" text="Private operations stay gated while inheriting the new visual system." />
+      <FeatureCard icon={Mic2} title="Brand coherence" text="Public pages, private pages, and contact surfaces now share one language." />
     </div>
   )
 }

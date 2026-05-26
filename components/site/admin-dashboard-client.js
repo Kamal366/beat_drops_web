@@ -241,8 +241,8 @@ export default function AdminDashboardClient({ adminName }) {
   if (loading) {
     return (
       <DashboardShell title={`Welcome back, ${adminName || 'Admin'}`} subtitle="Loading live academy operations…">
-        <div className="flex min-h-[320px] items-center justify-center rounded-[2rem] border border-white/10 bg-white/5">
-          <Loader2 className="h-6 w-6 animate-spin text-amber-200" />
+        <div className="admin-panel flex min-h-[320px] items-center justify-center">
+          <Loader2 className="h-6 w-6 animate-spin text-maroon-700" />
         </div>
       </DashboardShell>
     )
@@ -268,7 +268,7 @@ export default function AdminDashboardClient({ adminName }) {
                 type="button"
                 onClick={() => setActiveTab(tab.key)}
                 className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition ${
-                  active ? 'bg-amber-200 text-stone-950' : 'border border-white/10 bg-white/5 text-stone-200 hover:bg-white/10'
+                  active ? 'bg-maroon-700 text-white' : 'border border-line bg-sand text-ink-700 hover:bg-white'
                 }`}
               >
                 <Icon className="h-4 w-4" />
@@ -276,12 +276,12 @@ export default function AdminDashboardClient({ adminName }) {
               </button>
             )
           })}
-          <button type="button" onClick={loadDashboard} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-stone-200 hover:bg-white/10">
+          <button type="button" onClick={loadDashboard} className="inline-flex items-center gap-2 rounded-full border border-line bg-sand px-4 py-2 text-sm text-ink-700 hover:bg-white">
             <RefreshCcw className="h-4 w-4" /> Refresh
           </button>
         </div>
-        {feedback.error ? <p className="mt-4 text-sm text-rose-300">{feedback.error}</p> : null}
-        {feedback.success ? <p className="mt-4 text-sm text-emerald-300">{feedback.success}</p> : null}
+        {feedback.error ? <p className="mt-4 rounded-2xl bg-maroon-100 px-4 py-3 text-sm text-maroon-800">{feedback.error}</p> : null}
+        {feedback.success ? <p className="mt-4 rounded-2xl bg-gold-100 px-4 py-3 text-sm text-maroon-800">{feedback.success}</p> : null}
       </InfoCard>
 
       {activeTab === 'leads' ? (
@@ -294,17 +294,17 @@ export default function AdminDashboardClient({ adminName }) {
 
           <div className="space-y-3">
             {filteredLeads.map((lead) => (
-              <div key={lead.id} className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4">
+              <div key={lead.id} className="rounded-[24px] border border-line bg-sand/70 p-4">
                 <div className="flex flex-wrap items-start justify-between gap-4">
                   <div>
-                    <p className="text-lg font-semibold text-white">{lead.full_name}</p>
-                    <p className="text-sm text-stone-300">{lead.interested_course} • {lead.preferred_branch}</p>
-                    <p className="mt-1 text-sm text-stone-400">{lead.phone_number} • {lead.email}</p>
-                    <p className="mt-2 text-sm text-stone-400">{lead.message || 'No message added.'}</p>
+                    <p className="text-lg font-semibold text-ink-900">{lead.full_name}</p>
+                    <p className="text-sm text-ink-700">{lead.interested_course} • {lead.preferred_branch}</p>
+                    <p className="mt-1 text-sm text-ink-500">{lead.phone_number} • {lead.email}</p>
+                    <p className="mt-2 text-sm text-ink-500">{lead.message || 'No message added.'}</p>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     <select
-                      className="rounded-full border border-white/10 bg-stone-950/60 px-3 py-2 text-sm text-white"
+                      className="rounded-full border border-line bg-white px-3 py-2 text-sm text-ink-900"
                       value={lead.status}
                       onChange={(event) => handleLeadStatusUpdate(lead.id, event.target.value)}
                     >
@@ -312,17 +312,17 @@ export default function AdminDashboardClient({ adminName }) {
                         <option key={status} value={status}>{status}</option>
                       ))}
                     </select>
-                    <button type="button" onClick={() => startConvertLead(lead)} className="rounded-full bg-amber-200 px-4 py-2 text-sm font-semibold text-stone-950">
+                    <button type="button" onClick={() => startConvertLead(lead)} className="btn-brand px-4 py-2">
                       Convert to student
                     </button>
-                    <button type="button" onClick={() => handleLeadDelete(lead.id)} className="rounded-full border border-rose-400/30 px-4 py-2 text-sm text-rose-200">
+                    <button type="button" onClick={() => handleLeadDelete(lead.id)} className="rounded-full border border-maroon-500/20 bg-white px-4 py-2 text-sm text-maroon-700">
                       Delete
                     </button>
                   </div>
                 </div>
               </div>
             ))}
-            {!filteredLeads.length ? <p className="text-sm text-stone-400">No leads match the current filters.</p> : null}
+            {!filteredLeads.length ? <p className="text-sm text-ink-500">No leads match the current filters.</p> : null}
           </div>
         </InfoCard>
       ) : null}
@@ -345,10 +345,10 @@ export default function AdminDashboardClient({ adminName }) {
               </div>
               <TextAreaField label="Notes" value={studentForm.notes} onChange={(value) => setStudentForm((prev) => ({ ...prev, notes: value }))} />
               <div className="flex flex-wrap gap-3">
-                <button type="submit" disabled={saving} className="rounded-full bg-amber-200 px-5 py-3 text-sm font-semibold text-stone-950">
+                <button type="submit" disabled={saving} className="btn-brand disabled:cursor-not-allowed disabled:opacity-70">
                   {saving ? 'Saving…' : studentForm.id ? 'Update student' : 'Create student'}
                 </button>
-                <button type="button" onClick={() => setStudentForm(emptyStudentForm)} className="rounded-full border border-white/10 px-5 py-3 text-sm text-stone-200">
+                <button type="button" onClick={() => setStudentForm(emptyStudentForm)} className="btn-ghost">
                   Reset form
                 </button>
               </div>
@@ -358,21 +358,21 @@ export default function AdminDashboardClient({ adminName }) {
           <InfoCard title="Active student records">
             <div className="space-y-3">
               {(data?.students || []).map((student) => (
-                <div key={student.id} className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4">
+                <div key={student.id} className="rounded-[24px] border border-line bg-sand/70 p-4">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                      <p className="text-lg font-semibold text-white">{student.full_name}</p>
-                      <p className="text-sm text-stone-300">{student.course_title || 'Course pending'} • {student.branch_name || 'Branch pending'}</p>
-                      <p className="mt-1 text-sm text-stone-400">{student.email || 'No email'} • {student.phone_number || 'No phone'}</p>
+                      <p className="text-lg font-semibold text-ink-900">{student.full_name}</p>
+                      <p className="text-sm text-ink-700">{student.course_title || 'Course pending'} • {student.branch_name || 'Branch pending'}</p>
+                      <p className="mt-1 text-sm text-ink-500">{student.email || 'No email'} • {student.phone_number || 'No phone'}</p>
                     </div>
                     <div className="flex gap-2">
-                      <button type="button" onClick={() => editStudent(student)} className="rounded-full bg-white/10 px-4 py-2 text-sm text-white">Edit</button>
-                      <button type="button" onClick={() => removeStudent(student.id)} className="rounded-full border border-rose-400/30 px-4 py-2 text-sm text-rose-200">Delete</button>
+                      <button type="button" onClick={() => editStudent(student)} className="btn-ghost px-4 py-2">Edit</button>
+                      <button type="button" onClick={() => removeStudent(student.id)} className="rounded-full border border-maroon-500/20 bg-white px-4 py-2 text-sm text-maroon-700">Delete</button>
                     </div>
                   </div>
                 </div>
               ))}
-              {!data?.students?.length ? <p className="text-sm text-stone-400">No students created yet.</p> : null}
+              {!data?.students?.length ? <p className="text-sm text-ink-500">No students created yet.</p> : null}
             </div>
           </InfoCard>
         </div>
@@ -389,29 +389,29 @@ export default function AdminDashboardClient({ adminName }) {
               </div>
               <TextAreaField label="Notes" value={attendanceForm.notes} onChange={(value) => setAttendanceForm((prev) => ({ ...prev, notes: value }))} />
               <div className="flex flex-wrap gap-3">
-                <button type="submit" disabled={saving} className="rounded-full bg-amber-200 px-5 py-3 text-sm font-semibold text-stone-950">{attendanceForm.id ? 'Update attendance' : 'Save attendance'}</button>
-                <button type="button" onClick={() => setAttendanceForm({ ...emptyAttendanceForm, attendance_date: new Date().toISOString().slice(0, 10) })} className="rounded-full border border-white/10 px-5 py-3 text-sm text-stone-200">Reset</button>
+                <button type="submit" disabled={saving} className="btn-brand disabled:cursor-not-allowed disabled:opacity-70">{attendanceForm.id ? 'Update attendance' : 'Save attendance'}</button>
+                <button type="button" onClick={() => setAttendanceForm({ ...emptyAttendanceForm, attendance_date: new Date().toISOString().slice(0, 10) })} className="btn-ghost">Reset</button>
               </div>
             </form>
           </InfoCard>
           <InfoCard title="Recent attendance">
             <div className="space-y-3">
               {(data?.attendance || []).map((item) => (
-                <div key={item.id} className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4">
+                <div key={item.id} className="rounded-[24px] border border-line bg-sand/70 p-4">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                      <p className="font-semibold text-white">{item.student_name || 'Student'}</p>
-                      <p className="text-sm text-stone-300">{item.attendance_date} • {item.status}</p>
-                      <p className="mt-1 text-sm text-stone-400">{item.notes || 'No note'}</p>
+                      <p className="font-semibold text-ink-900">{item.student_name || 'Student'}</p>
+                      <p className="text-sm text-ink-700">{item.attendance_date} • {item.status}</p>
+                      <p className="mt-1 text-sm text-ink-500">{item.notes || 'No note'}</p>
                     </div>
                     <div className="flex gap-2">
-                      <button type="button" onClick={() => setAttendanceForm({ id: item.id, student_id: item.student_id, attendance_date: item.attendance_date, status: item.status, notes: item.notes || '' })} className="rounded-full bg-white/10 px-4 py-2 text-sm text-white">Edit</button>
-                      <button type="button" onClick={() => removeEntity('attendance', item.id)} className="rounded-full border border-rose-400/30 px-4 py-2 text-sm text-rose-200">Delete</button>
+                      <button type="button" onClick={() => setAttendanceForm({ id: item.id, student_id: item.student_id, attendance_date: item.attendance_date, status: item.status, notes: item.notes || '' })} className="btn-ghost px-4 py-2">Edit</button>
+                      <button type="button" onClick={() => removeEntity('attendance', item.id)} className="rounded-full border border-maroon-500/20 bg-white px-4 py-2 text-sm text-maroon-700">Delete</button>
                     </div>
                   </div>
                 </div>
               ))}
-              {!data?.attendance?.length ? <p className="text-sm text-stone-400">No attendance records yet.</p> : null}
+              {!data?.attendance?.length ? <p className="text-sm text-ink-500">No attendance records yet.</p> : null}
             </div>
           </InfoCard>
         </div>
@@ -495,7 +495,7 @@ function CrudSplitSection({ title, form, list, emptyMessage }) {
     <div className="grid gap-4 xl:grid-cols-[0.95fr_1.05fr]">
       <InfoCard title={title}>{form}</InfoCard>
       <InfoCard title="Existing items">
-        <div className="space-y-3">{list.length ? list : <p className="text-sm text-stone-400">{emptyMessage}</p>}</div>
+        <div className="space-y-3">{list.length ? list : <p className="text-sm text-ink-500">{emptyMessage}</p>}</div>
       </InfoCard>
     </div>
   )
@@ -503,15 +503,15 @@ function CrudSplitSection({ title, form, list, emptyMessage }) {
 
 function CrudCard({ title, subtitle, onEdit, onDelete }) {
   return (
-    <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4">
+    <div className="rounded-[24px] border border-line bg-sand/70 p-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="font-semibold text-white">{title}</p>
-          <p className="mt-1 text-sm text-stone-400">{subtitle}</p>
+          <p className="font-semibold text-ink-900">{title}</p>
+          <p className="mt-1 text-sm text-ink-500">{subtitle}</p>
         </div>
         <div className="flex gap-2">
-          <button type="button" onClick={onEdit} className="rounded-full bg-white/10 px-4 py-2 text-sm text-white">Edit</button>
-          <button type="button" onClick={onDelete} className="rounded-full border border-rose-400/30 px-4 py-2 text-sm text-rose-200">Delete</button>
+          <button type="button" onClick={onEdit} className="btn-ghost px-4 py-2">Edit</button>
+          <button type="button" onClick={onDelete} className="rounded-full border border-maroon-500/20 bg-white px-4 py-2 text-sm text-maroon-700">Delete</button>
         </div>
       </div>
     </div>
@@ -521,10 +521,10 @@ function CrudCard({ title, subtitle, onEdit, onDelete }) {
 function ActionRow({ saving, primaryLabel, onReset }) {
   return (
     <div className="flex flex-wrap gap-3">
-      <button type="submit" disabled={saving} className="rounded-full bg-amber-200 px-5 py-3 text-sm font-semibold text-stone-950">
+      <button type="submit" disabled={saving} className="btn-brand disabled:cursor-not-allowed disabled:opacity-70">
         {saving ? 'Saving…' : primaryLabel}
       </button>
-      <button type="button" onClick={onReset} className="rounded-full border border-white/10 px-5 py-3 text-sm text-stone-200">
+      <button type="button" onClick={onReset} className="btn-ghost">
         Reset
       </button>
     </div>
@@ -533,27 +533,27 @@ function ActionRow({ saving, primaryLabel, onReset }) {
 
 function InputField({ label, value, onChange, type = 'text' }) {
   return (
-    <label className="block text-sm text-stone-300">
-      <span className="mb-2 block text-white">{label}</span>
-      <input type={type} value={value} onChange={(event) => onChange(event.target.value)} className="w-full rounded-2xl border border-white/10 bg-stone-950/60 px-4 py-3 text-white outline-none focus:border-amber-200" />
+    <label className="block text-sm text-ink-500">
+      <span className="field-label">{label}</span>
+      <input type={type} value={value} onChange={(event) => onChange(event.target.value)} className="field-input" />
     </label>
   )
 }
 
 function TextAreaField({ label, value, onChange }) {
   return (
-    <label className="block text-sm text-stone-300">
-      <span className="mb-2 block text-white">{label}</span>
-      <textarea value={value} onChange={(event) => onChange(event.target.value)} className="min-h-[120px] w-full rounded-2xl border border-white/10 bg-stone-950/60 px-4 py-3 text-white outline-none focus:border-amber-200" />
+    <label className="block text-sm text-ink-500">
+      <span className="field-label">{label}</span>
+      <textarea value={value} onChange={(event) => onChange(event.target.value)} className="field-input min-h-[120px]" />
     </label>
   )
 }
 
 function SelectField({ label, value, onChange, options, valueMap = false }) {
   return (
-    <label className="block text-sm text-stone-300">
-      <span className="mb-2 block text-white">{label}</span>
-      <select value={value} onChange={(event) => onChange(event.target.value)} className="w-full rounded-2xl border border-white/10 bg-stone-950/60 px-4 py-3 text-white outline-none focus:border-amber-200">
+    <label className="block text-sm text-ink-500">
+      <span className="field-label">{label}</span>
+      <select value={value} onChange={(event) => onChange(event.target.value)} className="field-input">
         {options.map((option) => {
           const [optionValue, optionLabel] = valueMap ? String(option).split('|') : [option, option]
           return (

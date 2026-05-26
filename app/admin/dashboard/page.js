@@ -52,7 +52,7 @@ async function App() {
     return (
       <DashboardShell title="Admin Dashboard" subtitle="Secure access is temporarily unavailable.">
         <InfoCard title="Please try again shortly">
-          <p className="text-sm text-stone-300">Admin sign-in is not available at the moment.</p>
+          <p className="text-sm leading-7 text-ink-500">Admin sign-in is not available at the moment.</p>
         </InfoCard>
       </DashboardShell>
     )
@@ -62,8 +62,10 @@ async function App() {
     return (
       <DashboardShell title="Admin Dashboard" subtitle="Admins can review leads, activate students, manage attendance, and control media here.">
         <InfoCard title="Login required">
-          <p className="text-sm text-stone-300">Please sign in with the admin Google account first.</p>
-          <Link href="/login" className="mt-4 inline-flex rounded-full bg-amber-200 px-4 py-2 text-sm font-semibold text-stone-950">Go to login</Link>
+          <p className="text-sm leading-7 text-ink-500">Please sign in with the admin Google account first.</p>
+          <Link href="/login" className="btn-brand mt-4">
+            Go to login
+          </Link>
         </InfoCard>
       </DashboardShell>
     )
@@ -73,8 +75,8 @@ async function App() {
     return (
       <DashboardShell title="Admin Dashboard" subtitle="This route is restricted to admin users only.">
         <InfoCard title="Access denied">
-          <p className="text-sm text-stone-300">The signed-in account does not have permission to access the admin dashboard.</p>
-          <p className="mt-2 text-xs text-stone-400">Authorized account: {academyProfile.adminEmail}</p>
+          <p className="text-sm leading-7 text-ink-500">The signed-in account does not have permission to access the admin dashboard.</p>
+          <p className="mt-2 text-xs text-ink-500">Authorized account: {academyProfile.adminEmail}</p>
         </InfoCard>
       </DashboardShell>
     )
@@ -84,7 +86,7 @@ async function App() {
     return (
       <DashboardShell title="Admin Dashboard" subtitle="Administrative records are temporarily unavailable.">
         <InfoCard title="Please try again shortly">
-          <p className="text-sm text-stone-300">Dashboard data is not available at the moment. Please retry with {academyProfile.adminEmail} later.</p>
+          <p className="text-sm leading-7 text-ink-500">Dashboard data is not available at the moment. Please retry with {academyProfile.adminEmail} later.</p>
         </InfoCard>
       </DashboardShell>
     )
