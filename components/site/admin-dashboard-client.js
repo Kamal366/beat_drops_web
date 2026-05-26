@@ -492,7 +492,7 @@ export default function AdminDashboardClient({ adminName }) {
             </form>
           }
           list={(data?.galleryImages || []).map((item) => (
-            <CrudCard key={item.id} title={item.title || 'Gallery item'} subtitle={item.image_url || 'No image URL'} onEdit={() => setGalleryForm({ id: item.id, title: item.title || '', image_url: item.image_url || '', branch_id: item.branch_id || '', sort_order: item.sort_order || 0, is_active: Boolean(item.is_active) })} onDelete={() => removeEntity('gallery', item.id)} />
+            <GalleryCrudCard key={item.id} item={item} onEdit={() => setGalleryForm({ id: item.id, title: item.title || '', image_url: item.image_url || '', branch_id: item.branch_id || '', sort_order: item.sort_order || 0, is_active: Boolean(item.is_active) })} onDelete={() => removeEntity('gallery', item.id)} />
           ))}
           emptyMessage="No gallery images yet."
         />
@@ -577,6 +577,34 @@ function CrudCard({ title, subtitle, onEdit, onDelete }) {
   )
 }
 
+function GalleryCrudCard({ item, onEdit, onDelete }) {
+  return (
+    <div className="rounded-[24px] border border-line bg-sand/70 p-3">
+      <div className="grid gap-4 md:grid-cols-[170px_1fr] md:items-center">
+        <div className="relative h-32 overflow-hidden rounded-[18px] border border-line bg-white">
+          {item.image_url ? (
+            <img src={item.image_url} alt={item.title || 'Gallery item'} className="h-full w-full object-cover" />
+          ) : (
+            <div className="grid h-full place-items-center px-4 text-center text-xs text-ink-400">No image URL</div>
+          )}
+        </div>
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div className="min-w-0">
+              <p className="font-semibold text-ink-900">{item.title || 'Gallery item'}</p>
+              <p className="mt-1 break-all text-sm leading-6 text-ink-500">{item.image_url || 'No image URL'}</p>
+            </div>
+            <div className="flex shrink-0 gap-2">
+              <button type="button" onClick={onEdit} className="btn-ghost px-4 py-2">Edit</button>
+              <button type="button" onClick={onDelete} className="rounded-full border border-maroon-500/20 bg-white px-4 py-2 text-sm text-maroon-700">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function ActionRow({ saving, primaryLabel, onReset }) {
   return (
     <div className="flex flex-wrap gap-3">
@@ -604,12 +632,16 @@ function ImageUploadField({ file, uploading, onFileChange, onUpload }) {
     <div className="rounded-[22px] border border-line bg-sand/60 p-4">
       <span className="field-label">Upload image</span>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <input
-          type="file"
-          accept="image/jpeg,image/png,image/webp"
-          onChange={(event) => onFileChange(event.target.files?.[0] || null)}
-          className="field-input file:mr-4 file:rounded-full file:border-0 file:bg-maroon-700 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white"
-        />
+        <label className="flex min-h-[48px] min-w-0 flex-1 cursor-pointer items-center gap-3 rounded-2xl border border-line bg-white px-4 py-2 text-sm text-ink-500">
+          <span className="shrink-0 rounded-full bg-maroon-700 px-4 py-2 font-semibold text-white">Choose file</span>
+          <span className="min-w-0 truncate">{file ? file.name : 'No file chosen'}</span>
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            onChange={(event) => onFileChange(event.target.files?.[0] || null)}
+            className="sr-only"
+          />
+        </label>
         <button
           type="button"
           onClick={onUpload}
@@ -622,7 +654,6 @@ function ImageUploadField({ file, uploading, onFileChange, onUpload }) {
       <p className="mt-2 text-xs leading-5 text-ink-500">
         JPG, PNG or WebP. Max 1 MB. Upload fills the Image URL automatically.
       </p>
-      {file ? <p className="mt-2 text-xs font-medium text-maroon-700">Selected: {file.name}</p> : null}
     </div>
   )
 }
