@@ -7,7 +7,7 @@ async function App() {
 
   return (
     <MarketingShell activePath="/gallery">
-      <PageHero eyebrow="Gallery" title="Photos from classes, events, and student activities." description="This page can be updated regularly to reflect the day-to-day life of the academy." />
+      <PageHero eyebrow="Gallery" title="Inside the academy." description="Moments from class, recitals and festival performances." />
       <GalleryPreview expanded items={liveContent.galleryItems} />
     </MarketingShell>
   )

@@ -1,49 +1,49 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { admissionLeadSchema } from '@/lib/admission-schema'
-import { branches, courses } from '@/lib/site-data'
+import { courses } from '@/lib/site-data'
 
-const inputClassName =
-  'w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-fuchsia-400 focus:ring-2 focus:ring-fuchsia-400/20'
+const unsureOption = 'Not sure — recommend for me'
 
 export default function AdmissionForm({ courseOptions = courses }) {
+  const selectOptions = [...courseOptions.map((course) => course.title), unsureOption]
+  const [submitMessage, setSubmitMessage] = useState(null)
+
   const {
     register,
     handleSubmit,
     reset,
-    setValue,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(admissionLeadSchema),
     defaultValues: {
       full_name: '',
-      parent_name: '',
       age: '',
       phone_number: '',
-      email: '',
-      interested_course: courseOptions[0]?.title || '',
-      preferred_branch: branches[0]?.name || '',
-      preferred_class_timing: 'To be discussed after inquiry',
-      prior_music_experience: 'None',
-      message: 'Looking for admission details and batch availability.',
+      interested_course: '',
+      message: '',
     },
   })
 
   useEffect(() => {
-    if (courseOptions[0]?.title) {
-      setValue('interested_course', courseOptions[0].title)
-    }
-  }, [courseOptions, setValue])
+    reset({
+      full_name: '',
+      age: '',
+      phone_number: '',
+      interested_course: '',
+      message: '',
+    })
+  }, [courseOptions, reset])
 
   const onSubmit = async (values) => {
+    setSubmitMessage(null)
+
     const response = await fetch('/api/admission', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(values),
     })
 
@@ -53,93 +53,108 @@ export default function AdmissionForm({ courseOptions = courses }) {
       throw new Error(data.error || 'Something went wrong while sending your inquiry.')
     }
 
-    alert(data.message)
     reset()
+    setSubmitMessage({
+      type: 'success',
+      title: 'Enquiry submitted successfully',
+      description: data.message || 'Thank you. Our admissions team will contact you soon.',
+    })
   }
 
   return (
     <form
-      className="rounded-[2rem] border border-white/10 bg-white/5 p-6"
+      className="surface-card p-6 md:p-8"
       onSubmit={handleSubmit(async (values) => {
         try {
           await onSubmit(values)
         } catch (error) {
-          alert(error.message)
+          setSubmitMessage({
+            type: 'error',
+            title: 'Unable to submit enquiry',
+            description: error.message || 'Please try again in a few minutes.',
+          })
         }
       })}
+      noValidate
     >
-      <div className="mb-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-cyan-200">Admission inquiry</p>
-        <h2 className="mt-3 text-3xl font-semibold text-white">Tell Beat Drops about the learner.</h2>
+      <h3 className="font-display text-3xl font-medium tracking-[-0.03em] text-ink-900">Student Enquiry</h3>
+      <p className="mt-3 text-sm leading-7 text-ink-500">Takes less than 30 seconds.</p>
+
+      <div className="mt-6 grid gap-4 sm:grid-cols-2">
+        <Field label="Full name *" error={errors.full_name?.message}>
+          <input className="field-input" placeholder="e.g. Riya Sahoo" autoComplete="name" {...register('full_name')} />
+        </Field>
+        <Field label="Phone *" error={errors.phone_number?.message}>
+          <input className="field-input" placeholder="+91 98 765 43210" autoComplete="tel" {...register('phone_number')} />
+        </Field>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Student full name" error={errors.full_name?.message}>
-          <input className={inputClassName} placeholder="Enter student name" {...register('full_name')} />
-        </Field>
-        <Field label="Parent name" error={errors.parent_name?.message}>
-          <input className={inputClassName} placeholder="Enter parent name" {...register('parent_name')} />
-        </Field>
-        <Field label="Age" error={errors.age?.message}>
-          <input className={inputClassName} placeholder="Age" type="number" {...register('age')} />
-        </Field>
-        <Field label="Phone number" error={errors.phone_number?.message}>
-          <input className={inputClassName} placeholder="Primary contact number" {...register('phone_number')} />
-        </Field>
-        <Field label="Email" error={errors.email?.message}>
-          <input className={inputClassName} placeholder="Email address" type="email" {...register('email')} />
-        </Field>
-        <Field label="Interested course" error={errors.interested_course?.message}>
-          <select className={inputClassName} {...register('interested_course')}>
-            {courseOptions.map((course) => (
-              <option key={course.slug} value={course.title}>
-                {course.title}
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <Field label="Course interested in *" error={errors.interested_course?.message}>
+          <select className="field-input" {...register('interested_course')}>
+            <option value="">Choose a course...</option>
+            {selectOptions.map((title) => (
+              <option key={title} value={title}>
+                {title}
               </option>
             ))}
           </select>
         </Field>
-        <Field label="Preferred branch" error={errors.preferred_branch?.message}>
-          <select className={inputClassName} {...register('preferred_branch')}>
-            {branches.map((branch) => (
-              <option key={branch.id} value={branch.name}>
-                {branch.name}
-              </option>
-            ))}
-          </select>
-        </Field>
-        <input type="hidden" {...register('preferred_class_timing')} />
-      </div>
-
-      <div className="mt-4 grid gap-4">
-        <Field label="Prior music experience" error={errors.prior_music_experience?.message}>
-          <textarea className={`${inputClassName} min-h-[110px]`} placeholder="Mention prior training or write none" {...register('prior_music_experience')} />
-        </Field>
-        <Field label="Message" error={errors.message?.message}>
-          <textarea className={`${inputClassName} min-h-[140px]`} placeholder="Share any schedule, goal, or learning preference" {...register('message')} />
+        <Field
+          label={
+            <>
+              Student age <span className="field-hint">(optional)</span>
+            </>
+          }
+          error={errors.age?.message}
+        >
+          <input className="field-input" placeholder="e.g. 12" type="number" min="4" max="80" {...register('age')} />
         </Field>
       </div>
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-amber-200 px-5 py-3 text-sm font-semibold text-stone-950 shadow-lg shadow-amber-200/20 transition hover:bg-amber-100 disabled:cursor-not-allowed disabled:opacity-70"
-      >
-        {isSubmitting ? 'Submitting inquiry...' : 'Submit admission inquiry'}
-      </button>
+      <div className="mt-4">
+        <Field
+          label={
+            <>
+              Message <span className="field-hint">(optional)</span>
+            </>
+          }
+          error={errors.message?.message}
+        >
+          <textarea className="field-input min-h-[140px]" placeholder="Anything you'd like us to know - preferred timings, prior experience, etc." {...register('message')} />
+        </Field>
+      </div>
 
-      <p className="mt-4 text-xs leading-6 text-slate-400">
-        Share your details and the academy team will review your inquiry and get in touch.
-      </p>
+      {submitMessage ? (
+        <div
+          className={`mt-5 rounded-lg border px-4 py-3 text-sm ${
+            submitMessage.type === 'success'
+              ? 'border-emerald-200 bg-emerald-50 text-emerald-900'
+              : 'border-red-200 bg-red-50 text-red-900'
+          }`}
+          role={submitMessage.type === 'success' ? 'status' : 'alert'}
+        >
+          <p className="font-semibold">{submitMessage.title}</p>
+          <p className="mt-1 leading-6">{submitMessage.description}</p>
+        </div>
+      ) : null}
+
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <span className="text-xs leading-6 text-ink-500">By submitting, you agree to be contacted by Beat Drops Academy.</span>
+        <button type="submit" disabled={isSubmitting} className="btn-brand disabled:cursor-not-allowed disabled:opacity-70">
+          {isSubmitting ? 'Submitting enquiry...' : 'Submit Enquiry'}
+        </button>
+      </div>
     </form>
   )
 }
 
 function Field({ label, error, children }) {
   return (
-    <label className="block text-sm text-slate-300">
-      <span className="mb-2 block font-medium text-white">{label}</span>
+    <label className="block">
+      <span className="field-label">{label}</span>
       {children}
-      {error ? <span className="mt-2 block text-xs text-rose-300">{error}</span> : null}
+      {error ? <span className="mt-2 block text-xs text-red-700">{error}</span> : null}
     </label>
   )
 }

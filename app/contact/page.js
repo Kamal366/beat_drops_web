@@ -5,9 +5,9 @@ function App() {
   return (
     <MarketingShell activePath="/contact">
       <PageHero
-        eyebrow="Contact"
-        title="Visit a branch or contact the academy directly."
-        description="Get in touch to ask about classes, timings, availability, and admission guidance."
+        eyebrow="Branches"
+        title="Choose the branch that works best for you."
+        description="Both branches follow the same class approach and mentors. Either team can help you with admissions and batch guidance."
       />
       <BranchGrid expanded />
       <ContactPanel />

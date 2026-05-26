@@ -9,8 +9,8 @@ async function App() {
     <MarketingShell activePath="/courses">
       <PageHero
         eyebrow="Courses"
-        title="Courses in vocals, instruments, and rhythm training."
-        description="Explore practical class options for beginners, continuing learners, and students preparing for performances."
+        title="Choose your discipline."
+        description="From Indian classical foundations to modern contemporary instruments - every course follows a structured 6-level curriculum, taught in small batches."
       />
       <CourseGrid expanded items={liveContent.courses} />
       <PromoBanners items={liveContent.banners} />

@@ -38,6 +38,14 @@ function isSchemaMissingError(error) {
   )
 }
 
+function isAdmissionLegacyNotNullError(error) {
+  return Boolean(
+    error &&
+      error.code === '23502' &&
+      /null value in column "(parent_name|age|email|preferred_branch|preferred_class_timing)"/i.test(error.message || ''),
+  )
+}
+
 function cleanPayload(payload) {
   return Object.fromEntries(Object.entries(payload).filter(([, value]) => value !== undefined))
 }
@@ -157,10 +165,7 @@ async function resolveUserIdByEmail(service, email) {
 
 async function handleAdmissionSubmission(request) {
   const body = await request.json()
-  const result = admissionLeadSchema.safeParse({
-    ...body,
-    preferred_class_timing: body.preferred_class_timing || 'To be discussed after inquiry',
-  })
+  const result = admissionLeadSchema.safeParse(body)
 
   if (!result.success) {
     return json(
@@ -183,22 +188,32 @@ async function handleAdmissionSubmission(request) {
   }
 
   const supabase = createServiceSupabaseClient()
-  const payload = {
+  const payload = cleanPayload({
     full_name: result.data.full_name,
-    parent_name: result.data.parent_name,
     age: result.data.age,
     phone_number: result.data.phone_number,
-    email: result.data.email,
     interested_course: result.data.interested_course,
-    preferred_branch: result.data.preferred_branch,
-    preferred_class_timing: result.data.preferred_class_timing || 'To be discussed after inquiry',
-    prior_music_experience: result.data.prior_music_experience,
     message: result.data.message,
     status: 'new_lead',
     source: 'website',
-  }
+  })
 
-  const { data, error } = await supabase.from('admission_leads').insert(payload).select('id, status').single()
+  let { data, error } = await supabase.from('admission_leads').insert(payload).select('id, status').single()
+
+  if (isAdmissionLegacyNotNullError(error)) {
+    const legacyPayload = {
+      ...payload,
+      parent_name: payload.parent_name || 'Not provided',
+      age: payload.age ?? 0,
+      email: payload.email || 'not-provided@beatdrops.local',
+      preferred_branch: payload.preferred_branch || 'To be discussed',
+      preferred_class_timing: payload.preferred_class_timing || 'To be discussed after inquiry',
+    }
+
+    const retry = await supabase.from('admission_leads').insert(legacyPayload).select('id, status').single()
+    data = retry.data
+    error = retry.error
+  }
 
   if (error) {
     if (isSchemaMissingError(error)) {

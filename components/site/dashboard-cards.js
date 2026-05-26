@@ -1,18 +1,22 @@
 import Link from 'next/link'
+import { LayoutDashboard } from 'lucide-react'
 import LogoutButton from '@/components/site/logout-button'
 
 export function DashboardShell({ title, subtitle, children }) {
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,rgba(10,15,35,1)_0%,rgba(4,7,18,1)_100%)] text-white">
-      <header className="border-b border-white/10 bg-white/5 backdrop-blur-xl">
-        <div className="container flex flex-wrap items-center justify-between gap-4 py-4">
+    <div className="min-h-screen bg-[linear-gradient(180deg,#faf6ee_0%,#f4ecda_100%)] text-ink-900">
+      <header className="border-b border-line bg-ivory/85 backdrop-blur-xl">
+        <div className="container flex flex-wrap items-center justify-between gap-4 py-5">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-cyan-200">Beat Drops Private Area</p>
-            <h1 className="mt-2 text-2xl font-semibold text-white md:text-3xl">{title}</h1>
-            <p className="mt-2 max-w-2xl text-sm text-slate-300">{subtitle}</p>
+            <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-maroon-700">
+              <LayoutDashboard className="h-4 w-4" />
+              Beat Drops Private Area
+            </p>
+            <h1 className="mt-3 font-display text-4xl font-medium tracking-[-0.03em] text-ink-900">{title}</h1>
+            <p className="mt-2 max-w-2xl text-sm leading-7 text-ink-500">{subtitle}</p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link href="/" className="rounded-full border border-white/10 px-4 py-2 text-sm text-slate-300 hover:bg-white/10 hover:text-white">
+            <Link href="/" className="btn-ghost">
               Public site
             </Link>
             <LogoutButton />
@@ -26,18 +30,18 @@ export function DashboardShell({ title, subtitle, children }) {
 
 export function MetricTile({ label, value }) {
   return (
-    <div className="rounded-[2rem] border border-white/10 bg-white/5 p-5">
-      <p className="text-sm text-slate-400">{label}</p>
-      <p className="mt-3 text-3xl font-semibold capitalize text-white">{value}</p>
+    <div className="admin-panel p-5">
+      <p className="text-sm text-ink-500">{label}</p>
+      <p className="mt-3 font-display text-4xl font-medium capitalize text-maroon-700">{value}</p>
     </div>
   )
 }
 
 export function InfoCard({ title, children }) {
   return (
-    <section className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
-      <h2 className="text-xl font-semibold text-white">{title}</h2>
-      <div className="mt-4">{children}</div>
+    <section className="admin-panel p-6">
+      <h2 className="font-display text-3xl font-medium text-ink-900">{title}</h2>
+      <div className="mt-5">{children}</div>
     </section>
   )
 }

@@ -1,0 +1,1732 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#6E1423" />
+<title>Beat Drops Music Academy — Discover Your Rhythm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ======================================================================
+   BEAT DROPS — Design Tokens
+   Palette: Warm Indian Heritage — Deep Maroon, Gold, Ivory
+   ====================================================================== */
+:root{
+  /* Brand */
+  --maroon-900:#4A0E1A;
+  --maroon-800:#5C1320;
+  --maroon-700:#6E1423;     /* primary */
+  --maroon-500:#8C2233;
+  --maroon-100:#F4E4E6;
+
+  --gold-700:#A08144;
+  --gold-500:#C8A96A;       /* accent */
+  --gold-300:#E2C893;
+  --gold-100:#F6ECD6;
+
+  --ivory:#FAF6EE;          /* page bg */
+  --paper:#FFFFFF;
+  --sand:#F2EADC;
+  --line:#E8DFCD;
+
+  --ink-900:#1F1B16;        /* primary text */
+  --ink-700:#3A332A;
+  --ink-500:#6B5F50;
+  --ink-300:#A89C8A;
+
+  --success:#2F7D4F;
+  --warn:#B8862A;
+  --danger:#A02938;
+
+  /* Type */
+  --serif:'Fraunces','Playfair Display',Georgia,serif;
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+
+  /* Shape */
+  --r-sm:8px; --r-md:14px; --r-lg:22px; --r-xl:32px;
+
+  /* Shadow */
+  --sh-1:0 1px 2px rgba(31,27,22,.04), 0 2px 8px rgba(31,27,22,.05);
+  --sh-2:0 6px 18px rgba(74,14,26,.08), 0 2px 6px rgba(31,27,22,.06);
+  --sh-3:0 18px 40px rgba(74,14,26,.14), 0 4px 12px rgba(31,27,22,.08);
+
+  /* Motion */
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--sans);
+  color:var(--ink-900);
+  background:var(--ivory);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  line-height:1.55;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,textarea,select{font-family:inherit;font-size:16px;color:inherit}
+
+/* ======================================================================
+   Layout helpers
+   ====================================================================== */
+.container{width:100%;max-width:1200px;margin:0 auto;padding:0 20px}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--maroon-700);font-weight:600;
+}
+.eyebrow::before{
+  content:"";width:22px;height:1px;background:var(--gold-500);
+}
+.section-title{
+  font-family:var(--serif);font-weight:500;
+  font-size:clamp(28px,5vw,44px);
+  line-height:1.08;letter-spacing:-.02em;color:var(--ink-900);
+  margin:.5rem 0 1rem;
+}
+.section-title em{font-style:italic;color:var(--maroon-700);font-weight:400}
+.section-sub{color:var(--ink-500);max-width:60ch;margin:0 0 2.25rem;font-size:16px}
+
+/* ======================================================================
+   Top Nav
+   ====================================================================== */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(250,246,238,.78);
+  backdrop-filter:saturate(140%) blur(14px);
+  -webkit-backdrop-filter:saturate(140%) blur(14px);
+  border-bottom:1px solid rgba(232,223,205,.7);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{
+  width:34px;height:34px;border-radius:10px;
+  background:linear-gradient(135deg,var(--maroon-700),var(--maroon-900));
+  display:grid;place-items:center;color:var(--gold-300);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08), var(--sh-1);
+}
+.brand-name{font-family:var(--serif);font-weight:600;font-size:18px;letter-spacing:-.01em}
+.brand-name b{color:var(--maroon-700);font-weight:600}
+.nav-links{display:none;gap:28px;font-size:14px;color:var(--ink-700)}
+.nav-links a{position:relative;padding:6px 0}
+.nav-links a:hover{color:var(--maroon-700)}
+.nav-cta{display:flex;align-items:center;gap:10px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px 18px;border-radius:999px;font-weight:600;font-size:14px;
+  transition:transform .25s var(--ease), box-shadow .25s var(--ease), background .2s;
+  white-space:nowrap;
+}
+.btn-primary{background:var(--maroon-700);color:#fff;box-shadow:var(--sh-1)}
+.btn-primary:hover{background:var(--maroon-800);transform:translateY(-1px);box-shadow:var(--sh-2)}
+.btn-ghost{background:transparent;color:var(--maroon-700);border:1px solid var(--line)}
+.btn-ghost:hover{background:var(--paper);border-color:var(--gold-500)}
+.btn-gold{background:var(--gold-500);color:var(--maroon-900)}
+.btn-gold:hover{background:var(--gold-300)}
+.btn-lg{padding:14px 22px;font-size:15px}
+.icon{width:16px;height:16px;flex:none}
+
+/* View toggle pill (top right) */
+.view-toggle{
+  display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:4px;background:var(--paper);
+}
+.view-toggle button{
+  padding:6px 12px;border-radius:999px;font-size:12px;font-weight:600;color:var(--ink-500);
+}
+.view-toggle button.is-active{background:var(--maroon-700);color:#fff}
+
+@media (min-width:900px){
+  .nav-links{display:flex}
+}
+
+/* ======================================================================
+   HERO
+   ====================================================================== */
+.hero{
+  position:relative;overflow:hidden;
+  padding:56px 0 72px;
+  background:
+    radial-gradient(900px 480px at 90% -10%, rgba(200,169,106,.22), transparent 60%),
+    radial-gradient(700px 420px at -10% 30%, rgba(110,20,35,.10), transparent 60%),
+    linear-gradient(180deg, var(--ivory), #F7EFDD);
+}
+.hero-grid{display:grid;gap:36px;align-items:center;grid-template-columns:1fr}
+.hero h1{
+  font-family:var(--serif);font-weight:500;
+  font-size:clamp(40px,8vw,72px);line-height:1.02;letter-spacing:-.025em;
+  margin:14px 0 18px;color:var(--ink-900);
+}
+.hero h1 em{font-style:italic;font-weight:400;color:var(--maroon-700);position:relative}
+.hero h1 em::after{
+  content:"";position:absolute;left:2%;right:2%;bottom:.05em;height:.18em;
+  background:linear-gradient(90deg, transparent, var(--gold-300), transparent);
+  z-index:-1;border-radius:6px;
+}
+.hero p.lead{
+  font-size:17px;color:var(--ink-700);max-width:52ch;margin:0 0 28px;
+}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:28px}
+.hero-meta{
+  display:flex;align-items:center;gap:18px;color:var(--ink-500);font-size:13px;flex-wrap:wrap;
+}
+.avatars{display:flex}
+.avatars span{
+  width:30px;height:30px;border-radius:50%;display:inline-block;
+  border:2px solid var(--ivory);margin-left:-8px;
+  background:linear-gradient(135deg,var(--maroon-700),var(--gold-500));
+  color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;
+}
+.avatars span:first-child{margin-left:0}
+.stars{color:var(--gold-700)}
+
+/* Hero visual — collage of instrument cards */
+.hero-visual{
+  position:relative;height:420px;
+  perspective:1200px;
+}
+.instrument-card{
+  position:absolute;border-radius:var(--r-lg);
+  background:var(--paper);box-shadow:var(--sh-3);
+  padding:18px;display:flex;flex-direction:column;justify-content:space-between;
+  border:1px solid rgba(255,255,255,.6);
+  transition:transform .6s var(--ease);
+}
+.instrument-card .ic-label{font-size:12px;color:var(--ink-500);letter-spacing:.1em;text-transform:uppercase}
+.instrument-card .ic-name{font-family:var(--serif);font-size:20px;color:var(--maroon-900);margin-top:4px}
+.ic-icon{font-size:46px;line-height:1}
+.ic-1{top:0;left:8%;width:200px;height:220px;transform:rotate(-6deg);
+  background:linear-gradient(155deg,#fff, #FFF7E5);
+}
+.ic-2{top:30px;right:6%;width:230px;height:240px;transform:rotate(5deg);
+  background:linear-gradient(155deg,#fff,#FBE8EC);
+}
+.ic-3{bottom:0;left:34%;width:240px;height:170px;transform:rotate(-2deg);
+  background:linear-gradient(155deg,#fff,#F4ECDA);
+}
+.ic-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--gold-100);color:var(--maroon-800);
+  font-size:11px;font-weight:700;padding:4px 8px;border-radius:999px;align-self:flex-start;
+}
+.note-floats{position:absolute;inset:0;pointer-events:none;font-family:var(--serif);color:var(--gold-500);opacity:.55}
+.note-floats span{position:absolute;font-size:36px;animation:float 6s var(--ease) infinite}
+.note-floats span:nth-child(1){top:8%;right:34%;animation-delay:.2s}
+.note-floats span:nth-child(2){top:62%;right:8%;font-size:24px;animation-delay:1.2s;color:var(--maroon-500)}
+.note-floats span:nth-child(3){top:30%;left:2%;font-size:28px;animation-delay:2.2s}
+@keyframes float{
+  0%,100%{transform:translateY(0) rotate(-4deg);opacity:.5}
+  50%{transform:translateY(-14px) rotate(4deg);opacity:.85}
+}
+
+@media (min-width:960px){
+  .hero{padding:80px 0 110px}
+  .hero-grid{grid-template-columns:1.05fr .95fr;gap:56px}
+  .hero-visual{height:520px}
+  .ic-1{width:240px;height:260px}
+  .ic-2{width:260px;height:280px}
+  .ic-3{width:280px;height:200px}
+}
+
+/* Trust strip */
+.trust{
+  margin-top:48px;display:grid;grid-template-columns:repeat(2,1fr);gap:18px;
+  padding:18px;background:rgba(255,255,255,.6);border:1px solid var(--line);
+  border-radius:var(--r-lg);backdrop-filter:blur(8px);
+}
+.trust .stat{display:flex;flex-direction:column}
+.trust .stat .n{font-family:var(--serif);font-size:24px;color:var(--maroon-700);font-weight:600}
+.trust .stat .l{font-size:12px;color:var(--ink-500)}
+@media (min-width:760px){ .trust{grid-template-columns:repeat(4,1fr)} }
+
+/* ======================================================================
+   MARQUEE TICKER
+   ====================================================================== */
+.ticker{
+  background:linear-gradient(90deg,var(--maroon-900),var(--maroon-700),var(--maroon-900));
+  color:var(--gold-100);overflow:hidden;padding:14px 0;border-top:1px solid rgba(200,169,106,.25);border-bottom:1px solid rgba(200,169,106,.25);
+  position:relative;
+}
+.ticker::before,.ticker::after{
+  content:"";position:absolute;top:0;bottom:0;width:80px;pointer-events:none;z-index:2;
+}
+.ticker::before{left:0;background:linear-gradient(90deg,var(--maroon-900),transparent)}
+.ticker::after{right:0;background:linear-gradient(-90deg,var(--maroon-900),transparent)}
+.ticker-track{
+  display:flex;gap:28px;white-space:nowrap;width:max-content;
+  animation:tick 42s linear infinite;font-size:13px;font-weight:600;letter-spacing:.04em;
+}
+.ticker-track span{color:var(--gold-300)}
+.ticker-track span:first-child,.ticker-track span:nth-child(2n+1){color:#fff}
+@keyframes tick{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
+}
+
+/* ======================================================================
+   LOCATION extras
+   ====================================================================== */
+.loc-card{transition:box-shadow .35s, transform .35s var(--ease), border-color .3s}
+.loc-card:hover{border-color:var(--gold-500)}
+.loc-open-chip{
+  position:absolute;top:14px;right:14px;
+  font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;
+  color:var(--maroon-900);background:rgba(255,255,255,.9);padding:6px 10px;border-radius:999px;
+  border:1px solid rgba(110,20,35,.15);box-shadow:var(--sh-1);
+  backdrop-filter:blur(6px);
+}
+.loc-map{position:relative}
+.loc-body .tag-line{color:var(--gold-700);font-size:13px;margin:2px 0 10px;font-weight:600}
+
+/* ======================================================================
+   REVEAL ON SCROLL
+   ====================================================================== */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease), transform .7s var(--ease)}
+.reveal.is-in{opacity:1;transform:none}
+.reveal-stagger > *{opacity:0;transform:translateY(20px);transition:opacity .65s var(--ease), transform .65s var(--ease)}
+.reveal-stagger.is-in > *{opacity:1;transform:none}
+.reveal-stagger.is-in > *:nth-child(1){transition-delay:.04s}
+.reveal-stagger.is-in > *:nth-child(2){transition-delay:.12s}
+.reveal-stagger.is-in > *:nth-child(3){transition-delay:.2s}
+.reveal-stagger.is-in > *:nth-child(4){transition-delay:.28s}
+.reveal-stagger.is-in > *:nth-child(5){transition-delay:.36s}
+.reveal-stagger.is-in > *:nth-child(6){transition-delay:.44s}
+
+/* 3D tilt for course cards (JS adds .is-tilting) */
+.tilt{transform-style:preserve-3d;will-change:transform;transition:transform .4s var(--ease), box-shadow .4s var(--ease), border-color .25s}
+
+/* Hero ambient aurora */
+.hero::before{
+  content:"";position:absolute;inset:-10%;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(300px 200px at 20% 40%, rgba(200,169,106,.35), transparent 60%),
+    radial-gradient(400px 240px at 80% 70%, rgba(110,20,35,.20), transparent 60%);
+  filter:blur(30px);
+  animation:aurora 18s ease-in-out infinite alternate;
+}
+.hero > *{position:relative;z-index:1}
+@keyframes aurora{
+  from{transform:translate3d(0,0,0) rotate(0)}
+  to{transform:translate3d(30px,-20px,0) rotate(6deg)}
+}
+
+/* Floating WhatsApp button */
+.wa-fab{
+  position:fixed;bottom:22px;right:22px;z-index:60;
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 16px;border-radius:999px;background:#25D366;color:#fff;
+  font-weight:700;font-size:14px;box-shadow:0 10px 30px rgba(37,211,102,.35), var(--sh-2);
+  transition:transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.wa-fab:hover{transform:translateY(-2px);box-shadow:0 14px 38px rgba(37,211,102,.45)}
+.wa-fab .wa-ring{
+  position:absolute;inset:0;border-radius:999px;box-shadow:0 0 0 0 rgba(37,211,102,.6);
+  animation:wapulse 2.2s ease-out infinite;
+  pointer-events:none;
+}
+@keyframes wapulse{
+  0%{box-shadow:0 0 0 0 rgba(37,211,102,.55)}
+  80%{box-shadow:0 0 0 18px rgba(37,211,102,0)}
+  100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}
+}
+.wa-fab-text{display:none}
+@media (min-width:560px){ .wa-fab-text{display:inline} }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;scroll-behavior:auto !important;
+  }
+  .reveal,.reveal-stagger > *{opacity:1;transform:none}
+}
+
+/* ======================================================================
+   COURSES
+   ====================================================================== */
+.section{padding:80px 0}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:8px;flex-wrap:wrap}
+.section-head .right a{font-size:14px;color:var(--maroon-700);font-weight:600;display:inline-flex;align-items:center;gap:6px}
+
+.course-grid{
+  display:grid;gap:18px;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+}
+.course-card{
+  position:relative;background:var(--paper);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:22px;overflow:hidden;
+  transition:transform .35s var(--ease), box-shadow .35s var(--ease), border-color .25s;
+  isolation:isolate;
+}
+.course-card:hover{transform:translateY(-4px);box-shadow:var(--sh-2);border-color:var(--gold-500)}
+.course-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:18px}
+.course-card .glyph{
+  width:54px;height:54px;border-radius:14px;display:grid;place-items:center;
+  background:var(--gold-100);color:var(--maroon-700);font-size:26px;
+  transition:background .3s var(--ease), color .3s var(--ease), transform .5s var(--ease);
+}
+.course-card:hover .glyph{background:var(--maroon-700);color:var(--gold-300);transform:rotate(-6deg) scale(1.05)}
+.mode-pill{
+  display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--maroon-700);
+  background:transparent;border:1px solid var(--gold-500);padding:5px 10px;border-radius:999px;
+  white-space:nowrap;
+}
+
+/* Tabla SVG icon — drops into any .glyph slot */
+.tabla-ic{width:44px;height:32px;display:block}
+.tabla-ic .skin{fill:#F5E6C8;stroke:#A08144;stroke-width:.4}
+.tabla-ic .body{fill:#6E1423}       /* bayan — maroon metal */
+.tabla-ic .body2{fill:#8B5A2B}      /* dayan — wooden brown */
+.tabla-ic .syahi{fill:#1F1B16}
+.tabla-ic .rim{fill:#A08144}
+.tabla-ic .strap{stroke:#E2C893;stroke-width:.7;fill:none;stroke-linecap:round}
+.tabla-ic .gatta{fill:#A08144}
+.tabla-ic .shade{fill:#000;opacity:.22}
+.tabla-ic .hl{stroke:#4A0E1A;stroke-width:.7;fill:none;opacity:.5;stroke-linecap:round}
+.tabla-ic .hl2{stroke:#5A3A1E;stroke-width:.6;fill:none;opacity:.5;stroke-linecap:round}
+
+.course-card:hover .tabla-ic .body{fill:#C8A96A}
+.course-card:hover .tabla-ic .body2{fill:#E2C893}
+.course-card:hover .tabla-ic .skin{fill:#FFF8E7;stroke:#6E1423}
+.course-card:hover .tabla-ic .strap{stroke:#6E1423}
+.course-card:hover .tabla-ic .rim{fill:#6E1423}
+.course-card:hover .tabla-ic .hl,.course-card:hover .tabla-ic .hl2{stroke:#FFF8E7}
+.instrument-card .tabla-ic{width:70px;height:50px}
+.course-card h3{font-family:var(--serif);font-size:22px;font-weight:600;margin:0 0 6px;color:var(--ink-900)}
+.course-card p{margin:0 0 18px;color:var(--ink-500);font-size:14px}
+.course-meta{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--ink-500)}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;background:var(--sand);border-radius:999px;font-weight:600;font-size:11px;color:var(--maroon-800)}
+.course-card::after{
+  content:"";position:absolute;inset:auto -40% -40% auto;width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle, rgba(200,169,106,.18), transparent 60%);z-index:-1;
+}
+
+/* ======================================================================
+   ABOUT
+   ====================================================================== */
+.about{
+  background:linear-gradient(180deg,var(--ivory), var(--sand));
+}
+.about-grid{display:grid;gap:40px;grid-template-columns:1fr;align-items:center}
+@media (min-width:900px){ .about-grid{grid-template-columns:1.1fr .9fr;gap:64px} }
+.about p.body{font-size:16px;color:var(--ink-700);max-width:58ch}
+.about-points{display:grid;gap:14px;margin-top:28px}
+.about-point{display:flex;gap:14px;padding:14px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r-md)}
+.about-point .num{
+  width:40px;height:40px;border-radius:10px;background:var(--maroon-700);color:var(--gold-300);
+  font-family:var(--serif);font-weight:600;display:grid;place-items:center;flex:none;
+}
+.about-point h4{margin:0 0 2px;font-size:15px;color:var(--ink-900)}
+.about-point p{margin:0;font-size:13px;color:var(--ink-500)}
+.about-visual{
+  background:var(--maroon-900);border-radius:var(--r-xl);padding:28px;color:var(--gold-100);
+  position:relative;overflow:hidden;min-height:340px;
+  background-image:
+    radial-gradient(600px 200px at 100% 0%, rgba(200,169,106,.25), transparent 60%),
+    radial-gradient(500px 300px at 0% 100%, rgba(140,34,51,.6), transparent 60%),
+    linear-gradient(160deg, #4A0E1A, #2B0810);
+}
+.about-visual blockquote{
+  font-family:var(--serif);font-style:italic;font-weight:400;font-size:24px;line-height:1.35;
+  margin:0 0 24px;color:#fff;
+}
+.about-visual cite{font-style:normal;font-size:13px;color:var(--gold-300)}
+.about-visual cite b{color:#fff;font-weight:600;display:block;font-size:14px;margin-bottom:2px}
+.equalizer{display:flex;align-items:end;gap:6px;margin-top:24px}
+.equalizer span{
+  display:block;width:6px;background:linear-gradient(to top,var(--gold-500),var(--gold-300));
+  border-radius:6px;animation:eq 1.4s ease-in-out infinite;
+}
+.equalizer span:nth-child(1){height:24px;animation-delay:0s}
+.equalizer span:nth-child(2){height:38px;animation-delay:.15s}
+.equalizer span:nth-child(3){height:18px;animation-delay:.3s}
+.equalizer span:nth-child(4){height:48px;animation-delay:.45s}
+.equalizer span:nth-child(5){height:30px;animation-delay:.6s}
+.equalizer span:nth-child(6){height:22px;animation-delay:.75s}
+.equalizer span:nth-child(7){height:42px;animation-delay:.9s}
+@keyframes eq{ 0%,100%{transform:scaleY(.4)} 50%{transform:scaleY(1)} }
+
+/* ======================================================================
+   LOCATIONS
+   ====================================================================== */
+.loc-grid{display:grid;gap:20px;grid-template-columns:1fr}
+@media (min-width:760px){ .loc-grid{grid-template-columns:1fr 1fr} }
+.loc-card{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);
+  overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .25s, transform .25s var(--ease);
+}
+.loc-card:hover{box-shadow:var(--sh-2);transform:translateY(-2px)}
+.loc-map{
+  height:180px;position:relative;overflow:hidden;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.4), rgba(255,255,255,0)),
+    repeating-linear-gradient(0deg, rgba(110,20,35,.06) 0 1px, transparent 1px 30px),
+    repeating-linear-gradient(90deg, rgba(110,20,35,.06) 0 1px, transparent 1px 30px),
+    linear-gradient(135deg,#F4ECDA, #F8E6D6);
+}
+.loc-map::before{
+  /* fake roads */
+  content:"";position:absolute;inset:0;
+  background:
+    linear-gradient(115deg, transparent 40%, rgba(160,129,68,.35) 40% 41.6%, transparent 41.6%),
+    linear-gradient(60deg, transparent 30%, rgba(160,129,68,.35) 30% 31.4%, transparent 31.4%),
+    linear-gradient(0deg, transparent 60%, rgba(160,129,68,.25) 60% 61%, transparent 61%);
+}
+.loc-pin{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-100%);
+  width:30px;height:30px;border-radius:50% 50% 50% 0;
+  background:var(--maroon-700);transform-origin:center bottom;
+  box-shadow:0 8px 18px rgba(110,20,35,.4);
+  animation:pinpulse 2.4s ease-out infinite;
+}
+.loc-pin::after{
+  content:"";position:absolute;top:9px;left:9px;width:12px;height:12px;border-radius:50%;background:var(--gold-300);
+}
+@keyframes pinpulse{
+  0%{box-shadow:0 0 0 0 rgba(110,20,35,.5)}
+  70%{box-shadow:0 0 0 22px rgba(110,20,35,0)}
+  100%{box-shadow:0 0 0 0 rgba(110,20,35,0)}
+}
+.loc-body{padding:22px}
+.loc-body .badge{
+  display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;
+  background:var(--gold-100);color:var(--maroon-800);padding:4px 10px;border-radius:999px;
+  letter-spacing:.06em;text-transform:uppercase;
+}
+.loc-body h3{font-family:var(--serif);font-size:22px;margin:10px 0 4px;color:var(--ink-900)}
+.loc-body .addr{color:var(--ink-500);font-size:14px;margin:0 0 14px}
+.loc-actions{display:flex;gap:8px;flex-wrap:wrap}
+.loc-actions .btn{padding:8px 14px;font-size:13px}
+
+/* ======================================================================
+   HIGHLIGHTS
+   ====================================================================== */
+.highlights{background:linear-gradient(180deg,var(--paper), var(--ivory))}
+.highlight-grid{display:grid;gap:16px;grid-template-columns:1fr}
+@media (min-width:760px){ .highlight-grid{grid-template-columns:repeat(3,1fr)} }
+.highlight-card{
+  position:relative;border-radius:var(--r-lg);padding:24px;color:#fff;overflow:hidden;
+  min-height:200px;display:flex;flex-direction:column;justify-content:flex-end;
+  transition:transform .35s var(--ease);
+}
+.highlight-card:hover{transform:translateY(-3px)}
+.highlight-card .tag{
+  position:absolute;top:18px;left:18px;font-size:11px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.15);
+  padding:5px 10px;border-radius:999px;backdrop-filter:blur(8px);
+}
+.highlight-card h3{font-family:var(--serif);font-size:22px;margin:0 0 6px;font-weight:600}
+.highlight-card p{margin:0 0 14px;color:rgba(255,255,255,.85);font-size:14px}
+.highlight-card a{font-size:13px;font-weight:700;color:var(--gold-300);display:inline-flex;align-items:center;gap:6px}
+.h1c{background:radial-gradient(400px 200px at 100% 0%, rgba(200,169,106,.5), transparent 60%), linear-gradient(160deg,#6E1423,#3E0813)}
+.h2c{background:radial-gradient(400px 200px at 0% 100%, rgba(200,169,106,.45), transparent 60%), linear-gradient(160deg,#8C2233,#4A0E1A)}
+.h3c{background:linear-gradient(160deg,#A08144,#6E5024);color:#FFF8E7}
+.h3c h3,.h3c .tag{color:#fff}
+.h3c a{color:#FFF}
+
+/* ======================================================================
+   GALLERY
+   ====================================================================== */
+.gallery-grid{
+  display:grid;gap:12px;
+  grid-template-columns:repeat(2, 1fr);
+  grid-auto-rows:140px;
+}
+@media (min-width:760px){
+  .gallery-grid{grid-template-columns:repeat(4,1fr);grid-auto-rows:180px}
+}
+.gallery-tile{
+  position:relative;border-radius:var(--r-md);overflow:hidden;
+  transition:transform .35s var(--ease);
+  background:linear-gradient(135deg, #f0e2c8, #e8d4b0);
+}
+.gallery-tile:hover{transform:scale(1.02)}
+.gallery-tile::after{
+  content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%, rgba(31,27,22,.55));
+}
+.gallery-tile .cap{
+  position:absolute;left:14px;bottom:12px;color:#fff;font-size:13px;font-weight:600;z-index:2;
+}
+.gallery-tile.tall{grid-row:span 2}
+.gallery-tile.wide{grid-column:span 2}
+.gallery-tile .ph{
+  position:absolute;inset:0;display:grid;place-items:center;
+  font-size:64px;color:rgba(110,20,35,.35);font-family:var(--serif);
+}
+.t1{background:linear-gradient(135deg,#F4D9B5,#E0A974)}
+.t2{background:linear-gradient(135deg,#E8C9CD,#B86A78)}
+.t3{background:linear-gradient(135deg,#F1E4C2,#C7A865)}
+.t4{background:linear-gradient(135deg,#D4B9C0,#8C2233)}
+.t5{background:linear-gradient(135deg,#EFD9B0,#A08144)}
+.t6{background:linear-gradient(135deg,#E5C8B4,#6E1423)}
+
+/* ======================================================================
+   ENQUIRY FORM
+   ====================================================================== */
+.enquiry{
+  background:
+    radial-gradient(700px 300px at 100% 100%, rgba(200,169,106,.18), transparent 60%),
+    linear-gradient(180deg, var(--sand), var(--ivory));
+}
+.enquiry-grid{display:grid;gap:32px;grid-template-columns:1fr;align-items:center}
+@media (min-width:900px){ .enquiry-grid{grid-template-columns:.9fr 1.1fr;gap:60px} }
+
+.enq-side .check-list{margin-top:24px;display:grid;gap:12px}
+.enq-side .check-list li{
+  list-style:none;display:flex;align-items:center;gap:12px;color:var(--ink-700);font-size:14px;
+}
+.enq-side .check-list li::before{
+  content:"";width:22px;height:22px;border-radius:50%;flex:none;
+  background:var(--maroon-700) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E2C893' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>") center/12px no-repeat;
+}
+
+.enq-card{
+  background:var(--paper);border-radius:var(--r-xl);padding:28px;
+  border:1px solid var(--line);box-shadow:var(--sh-2);
+}
+.enq-card h3{font-family:var(--serif);margin:0 0 4px;font-size:24px}
+.enq-card .sub{color:var(--ink-500);font-size:14px;margin:0 0 22px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label{font-size:12px;font-weight:600;color:var(--ink-700);letter-spacing:.04em}
+.field input, .field select, .field textarea{
+  width:100%;padding:13px 14px;border-radius:12px;border:1.5px solid var(--line);
+  background:var(--ivory);color:var(--ink-900);transition:border-color .2s, background .2s, box-shadow .2s;
+  font-size:15px;
+}
+.field input:focus, .field select:focus, .field textarea:focus{
+  outline:none;border-color:var(--maroon-700);background:#fff;
+  box-shadow:0 0 0 4px rgba(110,20,35,.08);
+}
+.field textarea{resize:vertical;min-height:96px}
+.field-row{display:grid;gap:14px;grid-template-columns:1fr}
+@media (min-width:560px){ .field-row{grid-template-columns:1fr 1fr} }
+.enq-card .submit-row{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:8px;flex-wrap:wrap}
+.enq-card .privacy{font-size:12px;color:var(--ink-500)}
+
+/* Toast */
+.toast{
+  position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(20px);
+  background:var(--maroon-900);color:#fff;padding:14px 22px;border-radius:14px;
+  font-size:14px;display:flex;align-items:center;gap:10px;
+  box-shadow:var(--sh-3);opacity:0;transition:.35s var(--ease);z-index:80;
+}
+.toast.is-on{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast .check{
+  width:22px;height:22px;border-radius:50%;background:var(--gold-500);color:var(--maroon-900);
+  display:grid;place-items:center;font-weight:800;font-size:12px;flex:none;
+}
+
+/* ======================================================================
+   FOOTER
+   ====================================================================== */
+footer{background:#1A0509;color:var(--gold-100);padding:64px 0 32px;margin-top:0}
+.foot-grid{display:grid;gap:32px;grid-template-columns:1fr}
+@media (min-width:760px){ .foot-grid{grid-template-columns:1.4fr 1fr 1fr 1fr} }
+footer h5{font-family:var(--serif);font-weight:500;color:#fff;margin:0 0 14px;font-size:18px}
+footer ul{list-style:none;padding:0;margin:0;display:grid;gap:8px;font-size:14px;color:var(--gold-300)}
+footer ul a:hover{color:#fff}
+.foot-brand p{font-size:14px;color:var(--gold-300);max-width:36ch;margin:14px 0 18px}
+.foot-bottom{margin-top:48px;padding-top:24px;border-top:1px solid rgba(255,255,255,.08);
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--gold-300)}
+
+/* ======================================================================
+   ADMIN VIEW
+   ====================================================================== */
+.admin{display:none}
+body.admin-mode .public{display:none}
+body.admin-mode .admin{display:block}
+body.admin-mode .wa-fab.public{display:none}
+
+.admin-shell{display:grid;grid-template-columns:1fr;min-height:100vh;background:var(--ivory)}
+@media (min-width:960px){
+  .admin-shell{grid-template-columns:240px 1fr}
+}
+.side{
+  background:var(--maroon-900);color:var(--gold-100);
+  padding:24px 18px;display:flex;flex-direction:column;gap:6px;
+  position:sticky;top:0;height:auto;
+}
+@media (min-width:960px){ .side{height:100vh} }
+.side .brand-name{color:#fff}
+.side-section{
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-300);margin:18px 6px 6px;
+}
+.side a.nav-item{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;
+  font-size:14px;color:var(--gold-300);transition:background .2s, color .2s;
+}
+.side a.nav-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.side a.nav-item.active{background:rgba(200,169,106,.15);color:#fff}
+.side a.nav-item svg{width:18px;height:18px;opacity:.8}
+.side .me{
+  margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;
+  background:rgba(255,255,255,.06);
+}
+.side .me .av{width:34px;height:34px;border-radius:50%;background:var(--gold-500);color:var(--maroon-900);display:grid;place-items:center;font-weight:700}
+.side .me .name{font-size:13px;color:#fff;line-height:1.2}
+.side .me .name small{display:block;color:var(--gold-300);font-size:11px;font-weight:500}
+
+.main{padding:24px;min-width:0}
+@media (min-width:760px){ .main{padding:32px 40px} }
+.admin-top{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:24px;flex-wrap:wrap;
+}
+.admin-top h1{font-family:var(--serif);font-weight:500;font-size:28px;margin:0;letter-spacing:-.01em}
+.admin-top .sub{color:var(--ink-500);font-size:14px;margin:2px 0 0}
+.search{position:relative}
+.search input{
+  width:240px;padding:9px 12px 9px 34px;border-radius:10px;border:1px solid var(--line);background:#fff;font-size:14px;
+}
+.search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--ink-300);width:16px;height:16px}
+
+.metric-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:28px}
+.metric{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:18px;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden}
+.metric .lab{font-size:12px;color:var(--ink-500);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.metric .val{font-family:var(--serif);font-size:36px;color:var(--ink-900);line-height:1}
+.metric .delta{font-size:12px;display:inline-flex;align-items:center;gap:4px;font-weight:600}
+.delta.up{color:var(--success)}
+.delta.dn{color:var(--danger)}
+.metric .ico{position:absolute;right:14px;top:14px;width:38px;height:38px;border-radius:12px;background:var(--gold-100);color:var(--maroon-700);display:grid;place-items:center}
+.metric .ico svg{width:18px;height:18px}
+.spark{height:36px;margin-top:6px}
+
+.dash-grid{display:grid;gap:20px;grid-template-columns:1fr}
+@media (min-width:1100px){ .dash-grid{grid-template-columns:2fr 1fr} }
+
+.panel{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:0;overflow:hidden}
+.panel-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--line);gap:12px;flex-wrap:wrap}
+.panel-head h3{font-family:var(--serif);margin:0;font-size:18px;font-weight:600}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filters select, .filters .chip{
+  padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;color:var(--ink-700);font-weight:600;
+}
+.chip.active{background:var(--maroon-700);color:#fff;border-color:var(--maroon-700)}
+
+.tbl{width:100%;border-collapse:collapse;font-size:14px;min-width:680px}
+.tbl thead th{
+  text-align:left;background:var(--ivory);color:var(--ink-500);font-size:11px;
+  letter-spacing:.08em;text-transform:uppercase;padding:12px 16px;font-weight:700;
+}
+.tbl tbody td{padding:14px 16px;border-top:1px solid var(--line);vertical-align:middle}
+.tbl tbody tr:hover{background:#FBF6EA}
+.tbl .who{display:flex;align-items:center;gap:10px}
+.tbl .who .av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--maroon-700),var(--gold-500));color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700}
+.tbl .who .nm{font-weight:600;color:var(--ink-900)}
+.tbl .who .ph{font-size:12px;color:var(--ink-500)}
+.tbl .course{display:inline-flex;align-items:center;gap:6px;background:var(--gold-100);color:var(--maroon-800);padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600}
+.tbl .course svg{flex:none}
+.status{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px}
+.status .dot{width:6px;height:6px;border-radius:50%}
+.status.new{background:#FCE9EC;color:var(--maroon-700)} .status.new .dot{background:var(--maroon-700)}
+.status.contacted{background:#E5F1EA;color:var(--success)} .status.contacted .dot{background:var(--success)}
+.status.enrolled{background:#FFF1D7;color:var(--gold-700)} .status.enrolled .dot{background:var(--gold-500)}
+
+.row-actions{display:flex;gap:6px;justify-content:flex-end}
+.icon-btn{
+  width:30px;height:30px;border-radius:8px;display:grid;place-items:center;
+  border:1px solid var(--line);background:#fff;color:var(--ink-500);transition:.2s;
+}
+.icon-btn:hover{color:var(--maroon-700);border-color:var(--maroon-700);background:var(--maroon-100)}
+.icon-btn.danger:hover{color:var(--danger);border-color:var(--danger);background:#FCE9EC}
+
+.tbl-wrap{overflow-x:auto}
+
+/* Right column panels */
+.popular-list{padding:8px 0}
+.pop-row{display:grid;grid-template-columns:1fr auto;gap:10px;padding:10px 20px;align-items:center}
+.pop-row .name{font-size:14px;font-weight:600;color:var(--ink-900)}
+.pop-row .bar{grid-column:1/-1;height:6px;border-radius:999px;background:var(--sand);overflow:hidden;margin-top:6px}
+.pop-row .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--maroon-700),var(--gold-500));border-radius:999px}
+.pop-row .pct{font-size:12px;color:var(--ink-500);font-weight:600}
+
+/* Auth modal */
+.modal-back{
+  position:fixed;inset:0;background:rgba(31,27,22,.4);backdrop-filter:blur(6px);
+  display:none;align-items:center;justify-content:center;z-index:90;padding:18px;
+}
+.modal-back.is-on{display:flex}
+.modal{
+  background:#fff;border-radius:var(--r-xl);max-width:420px;width:100%;
+  padding:32px;text-align:center;box-shadow:var(--sh-3);
+}
+.modal .logo{margin:0 auto 16px;width:54px;height:54px;border-radius:14px}
+.modal h3{font-family:var(--serif);font-size:24px;margin:0 0 8px}
+.modal p{color:var(--ink-500);font-size:14px;margin:0 0 22px}
+.gbtn{
+  display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
+  padding:13px;border-radius:12px;border:1.5px solid var(--line);background:#fff;font-weight:600;
+  transition:.2s;
+}
+.gbtn:hover{border-color:var(--maroon-700);background:#FBF6EA}
+.modal .small{font-size:11px;color:var(--ink-500);margin-top:14px}
+.close-x{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;background:var(--ivory);color:var(--ink-500)}
+.modal{position:relative}
+
+/* Helper visibility */
+@media (max-width:559px){ .hide-sm{display:none} }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     PUBLIC SITE
+     ============================================================ -->
+<div class="public">
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="#top">
+      <div class="logo" aria-hidden="true">
+        <!-- Music note glyph -->
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+      </div>
+      <div class="brand-name"><b>Beat Drops</b> · Music Academy</div>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#courses">Courses</a>
+      <a href="#about">About</a>
+      <a href="#locations">Locations</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#enquiry">Enquire</a>
+    </nav>
+    <div class="nav-cta">
+      <span class="view-toggle hide-sm" role="tablist" aria-label="View">
+        <button class="is-active" data-view="public">Visitor</button>
+        <button data-view="admin">Admin</button>
+      </span>
+      <a href="#enquiry" class="btn btn-primary">Book a Demo</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="top" class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy reveal">
+      <span class="eyebrow">Bhubaneswar · Two branches · Ages 5+</span>
+      <h1>Discover<br/>Your <em>Rhythm</em>.</h1>
+      <p class="lead">A premium music academy in Bhubaneswar offering 1:1 and group classes in Hindustani Vocal, Tabla, Guitar, Keyboard, Light Vocal and Kids Music — taught by mentors who perform and teach for a living.</p>
+      <div class="hero-ctas">
+        <a href="#enquiry" class="btn btn-primary btn-lg">
+          Enroll Now
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#enquiry" class="btn btn-ghost btn-lg">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Book a Free Demo
+        </a>
+      </div>
+      <div class="hero-meta">
+        <div class="avatars" aria-hidden="true">
+          <span>R</span><span>A</span><span>S</span><span>P</span>
+        </div>
+        <div><b style="color:var(--ink-900)">Ages 5+ welcome</b> · 1:1 & small group batches</div>
+        <div class="stars">★★★★★ <span style="color:var(--ink-500)">4.9 / 5</span></div>
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <div class="note-floats"><span>♪</span><span>♫</span><span>♩</span></div>
+
+      <div class="instrument-card ic-1">
+        <div>
+          <span class="ic-tag">Most loved</span>
+          <div class="ic-icon" style="margin-top:14px">
+            <svg class="tabla-ic" viewBox="0 0 48 36" aria-hidden="true">
+              <!-- Floor shadows -->
+              <ellipse class="shade" cx="12" cy="31" rx="7" ry="1.2"/>
+              <ellipse class="shade" cx="35" cy="33" rx="5" ry="1"/>
+              <!-- Bayan (bass, left): bulging bowl, maroon metal -->
+              <path class="body" d="M5 9 Q3 17 5 25 Q8 30.5 12 30.5 Q16 30.5 19 25 Q21 17 19 9 Z"/>
+              <path class="hl" d="M6.5 12 Q5 18 6.8 24"/>
+              <!-- Bayan straps (tasma) -->
+              <path class="strap" d="M6.2 10 L6.2 28"/>
+              <path class="strap" d="M9 10 L9 30"/>
+              <path class="strap" d="M12 10 L12 30.5"/>
+              <path class="strap" d="M15 10 L15 30"/>
+              <path class="strap" d="M17.8 10 L17.8 28"/>
+              <!-- Bayan rim (gajra) + skin + syahi -->
+              <ellipse class="rim" cx="12" cy="9.6" rx="7.4" ry="1.3"/>
+              <ellipse class="skin" cx="12" cy="8.8" rx="7" ry="2.3"/>
+              <circle class="syahi" cx="12" cy="8.8" r="1.9"/>
+              <!-- Dayan (treble, right): tapered wooden drum -->
+              <path class="body2" d="M30 9 L31 32 Q35 34 39 32 L40 9 Z"/>
+              <path class="hl2" d="M32 11 L32.6 30"/>
+              <path class="hl2" d="M37.4 11 L37.1 30"/>
+              <!-- Dayan straps -->
+              <path class="strap" d="M31 10 L31.5 31"/>
+              <path class="strap" d="M33 10 L33.3 32"/>
+              <path class="strap" d="M35 10 L35 32.5"/>
+              <path class="strap" d="M37 10 L36.7 32"/>
+              <path class="strap" d="M39 10 L38.5 31"/>
+              <!-- Gatta (tuning blocks wedged in straps) -->
+              <rect class="gatta" x="30.2" y="18" width="1" height="3.5"/>
+              <rect class="gatta" x="39.6" y="18" width="1" height="3.5"/>
+              <!-- Dayan rim + skin + syahi -->
+              <ellipse class="rim" cx="35" cy="9.6" rx="5.2" ry="1.1"/>
+              <ellipse class="skin" cx="35" cy="8.8" rx="5" ry="1.8"/>
+              <circle class="syahi" cx="35" cy="8.8" r="1.4"/>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="ic-label">Percussion</div>
+          <div class="ic-name">Tabla</div>
+        </div>
+      </div>
+
+      <div class="instrument-card ic-2">
+        <div>
+          <span class="ic-tag" style="background:#FBE3E7;color:var(--maroon-800)">New batch</span>
+          <div class="ic-icon" style="margin-top:14px">🎸</div>
+        </div>
+        <div>
+          <div class="ic-label">Strings</div>
+          <div class="ic-name">Guitar</div>
+        </div>
+      </div>
+
+      <div class="instrument-card ic-3">
+        <div>
+          <span class="ic-tag">Heritage</span>
+          <div class="ic-icon" style="margin-top:14px">🎤</div>
+        </div>
+        <div>
+          <div class="ic-label">Vocal</div>
+          <div class="ic-name">Hindustani</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="trust reveal" role="list">
+      <div class="stat" role="listitem"><span class="n" data-count="6">0</span><span class="l">Disciplines taught</span></div>
+      <div class="stat" role="listitem"><span class="n" data-count="2">0</span><span class="l">Branches in Bhubaneswar</span></div>
+      <div class="stat" role="listitem"><span class="n" data-count="5">0</span><span class="l">Minimum age · all welcome</span></div>
+      <div class="stat" role="listitem"><span class="n" data-count="10" data-suffix=" PM">0</span><span class="l">Open till · every day</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Marquee ticker -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>♪ Now enrolling ages 5+</span><span>·</span>
+    <span>Free demo class available</span><span>·</span>
+    <span>1:1 & small-group batches</span><span>·</span>
+    <span>Two branches — Sailashree Vihar & Gothapatna</span><span>·</span>
+    <span>WhatsApp +91 9439395040</span><span>·</span>
+    <span>♪ Now enrolling ages 5+</span><span>·</span>
+    <span>Free demo class available</span><span>·</span>
+    <span>1:1 & small-group batches</span><span>·</span>
+    <span>Two branches — Sailashree Vihar & Gothapatna</span><span>·</span>
+    <span>WhatsApp +91 9439395040</span><span>·</span>
+  </div>
+</div>
+
+<!-- COURSES -->
+<section id="courses" class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <span class="eyebrow">Courses</span>
+        <h2 class="section-title">Choose your <em>discipline</em>.</h2>
+        <p class="section-sub">From Indian classical foundations to modern contemporary instruments — every course follows a structured 6-level curriculum, taught in small batches.</p>
+      </div>
+      <div class="right hide-sm"><a href="#enquiry">View curriculum →</a></div>
+    </div>
+
+    <div class="course-grid reveal-stagger">
+      <article class="course-card tilt">
+        <div class="course-head">
+          <div class="glyph">🎤</div>
+          <span class="mode-pill">One-to-one / Group</span>
+        </div>
+        <h3>Hindustani Vocal</h3>
+        <p>Voice culture, swara control, raga learning and performance growth.</p>
+        <div class="course-meta">
+          <span class="pill">Ages 8+</span>
+          <span>Batch schedule shared during enquiry</span>
+        </div>
+      </article>
+
+      <article class="course-card tilt">
+        <div class="course-head">
+          <div class="glyph">🎙️</div>
+          <span class="mode-pill">One-to-one / Group</span>
+        </div>
+        <h3>Light Vocal &amp; Performance</h3>
+        <p>Melody, microphone confidence and expressive singing for stage-ready students.</p>
+        <div class="course-meta">
+          <span class="pill">Ages 10+</span>
+          <span>Batch schedule shared during enquiry</span>
+        </div>
+      </article>
+
+      <article class="course-card tilt">
+        <div class="course-head">
+          <div class="glyph">🎹</div>
+          <span class="mode-pill">One-to-one</span>
+        </div>
+        <h3>Keyboard &amp; Piano Foundations</h3>
+        <p>Keyboard coordination, reading basics and accompaniment skills from scratch.</p>
+        <div class="course-meta">
+          <span class="pill">Ages 6+</span>
+          <span>Batch schedule shared during enquiry</span>
+        </div>
+      </article>
+
+      <article class="course-card tilt">
+        <div class="course-head">
+          <div class="glyph">🎸</div>
+          <span class="mode-pill">One-to-one / Group</span>
+        </div>
+        <h3>Guitar Essentials 1</h3>
+        <p>Chords, strumming, songs and live-performance readiness — acoustic &amp; electric.</p>
+        <div class="course-meta">
+          <span class="pill">Ages 9+</span>
+          <span>Batch schedule shared during enquiry</span>
+        </div>
+      </article>
+
+      <article class="course-card tilt">
+        <div class="course-head">
+          <div class="glyph">
+            <svg class="tabla-ic" viewBox="0 0 48 36" aria-hidden="true">
+              <ellipse class="shade" cx="12" cy="31" rx="7" ry="1.2"/>
+              <ellipse class="shade" cx="35" cy="33" rx="5" ry="1"/>
+              <path class="body" d="M5 9 Q3 17 5 25 Q8 30.5 12 30.5 Q16 30.5 19 25 Q21 17 19 9 Z"/>
+              <path class="hl" d="M6.5 12 Q5 18 6.8 24"/>
+              <path class="strap" d="M6.2 10 L6.2 28"/>
+              <path class="strap" d="M9 10 L9 30"/>
+              <path class="strap" d="M12 10 L12 30.5"/>
+              <path class="strap" d="M15 10 L15 30"/>
+              <path class="strap" d="M17.8 10 L17.8 28"/>
+              <ellipse class="rim" cx="12" cy="9.6" rx="7.4" ry="1.3"/>
+              <ellipse class="skin" cx="12" cy="8.8" rx="7" ry="2.3"/>
+              <circle class="syahi" cx="12" cy="8.8" r="1.9"/>
+              <path class="body2" d="M30 9 L31 32 Q35 34 39 32 L40 9 Z"/>
+              <path class="hl2" d="M32 11 L32.6 30"/>
+              <path class="hl2" d="M37.4 11 L37.1 30"/>
+              <path class="strap" d="M31 10 L31.5 31"/>
+              <path class="strap" d="M33 10 L33.3 32"/>
+              <path class="strap" d="M35 10 L35 32.5"/>
+              <path class="strap" d="M37 10 L36.7 32"/>
+              <path class="strap" d="M39 10 L38.5 31"/>
+              <rect class="gatta" x="30.2" y="18" width="1" height="3.5"/>
+              <rect class="gatta" x="39.6" y="18" width="1" height="3.5"/>
+              <ellipse class="rim" cx="35" cy="9.6" rx="5.2" ry="1.1"/>
+              <ellipse class="skin" cx="35" cy="8.8" rx="5" ry="1.8"/>
+              <circle class="syahi" cx="35" cy="8.8" r="1.4"/>
+            </svg>
+          </div>
+          <span class="mode-pill">One-to-one / Group</span>
+        </div>
+        <h3>Tabla &amp; Rhythm Training</h3>
+        <p>Taal clarity, rhythm control and accompaniment practice across gharanas.</p>
+        <div class="course-meta">
+          <span class="pill">Ages 8+</span>
+          <span>Batch schedule shared during enquiry</span>
+        </div>
+      </article>
+
+      <article class="course-card tilt">
+        <div class="course-head">
+          <div class="glyph">🎶</div>
+          <span class="mode-pill">Small Group</span>
+        </div>
+        <h3>Kids Music Foundation</h3>
+        <p>A playful entry path into rhythm, listening and confidence. Perfect first step.</p>
+        <div class="course-meta">
+          <span class="pill">Ages 4–8</span>
+          <span>Batch schedule shared during enquiry</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section about">
+  <div class="container about-grid">
+    <div class="reveal">
+      <span class="eyebrow">About Beat Drops</span>
+      <h2 class="section-title">A space for sound, <em>shaped slowly.</em></h2>
+      <p class="body">Beat Drops Music Academy was founded in Bhubaneswar with one belief — that great music is taught with patience, not pressure. Our mentors come from gharana lineages, conservatory training and active performing careers, and we keep batches small so every student is heard.</p>
+
+      <div class="about-points">
+        <div class="about-point">
+          <div class="num">1</div>
+          <div><h4>Mentor-led, not lecture-led</h4><p>Maximum 6 students per batch. Personal feedback every session.</p></div>
+        </div>
+        <div class="about-point">
+          <div class="num">2</div>
+          <div><h4>Structured curriculum</h4><p>6 graded levels per discipline, with annual recitals & graded certifications.</p></div>
+        </div>
+        <div class="about-point">
+          <div class="num">3</div>
+          <div><h4>Performance-first culture</h4><p>Quarterly stages, recordings, and inter-academy events to build real confidence.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="about-visual reveal">
+      <span class="eyebrow" style="color:var(--gold-300)"><span style="background:var(--gold-300)"></span>Mentor's note</span>
+      <blockquote>"You don't learn music by chasing perfection — you learn it by listening longer than you speak."</blockquote>
+      <cite><b>Guru Aniruddha Mishra</b>Founder & Head of Tabla · 22 yrs teaching</cite>
+      <div class="equalizer" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- LOCATIONS -->
+<section id="locations" class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <span class="eyebrow">Branches</span>
+        <h2 class="section-title">Choose the branch that works <em>best for you.</em></h2>
+        <p class="section-sub">Both branches follow the same class approach and mentors. Either team can help you with admissions and batch guidance.</p>
+      </div>
+    </div>
+
+    <div class="loc-grid reveal-stagger">
+      <article class="loc-card">
+        <div class="loc-map" aria-hidden="true">
+          <div class="loc-pin"></div>
+          <span class="loc-open-chip">Open till 10 PM</span>
+        </div>
+        <div class="loc-body">
+          <span class="badge">Branch 1 · North Bhubaneswar</span>
+          <h3>Sailashree Vihar Branch</h3>
+          <p class="tag-line">Perfect for Patia &amp; north-side learners</p>
+          <p class="addr">Saswat Vihar, Plot 30, Sailashree Vihar, Patia, Bhubaneswar — 751021<br/>Open every day · till 10 PM</p>
+          <div class="loc-actions">
+            <a class="btn btn-primary" href="https://share.google/LcP3OTrMPt39hqVHx" target="_blank" rel="noopener">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Open map
+            </a>
+            <a class="btn btn-ghost" href="tel:+919439395040">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.95.36 1.88.7 2.77a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.31-1.31a2 2 0 0 1 2.11-.45c.89.34 1.82.57 2.77.7A2 2 0 0 1 22 16.92z"/></svg>
+              Call branch
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="loc-card">
+        <div class="loc-map" aria-hidden="true">
+          <div class="loc-pin" style="background:var(--gold-700)"></div>
+          <span class="loc-open-chip">Open till 10 PM</span>
+        </div>
+        <div class="loc-body">
+          <span class="badge" style="background:#FBE3E7;color:var(--maroon-800)">Branch 2 · West Bhubaneswar</span>
+          <h3>Gothapatna Branch</h3>
+          <p class="tag-line">Great for west-side &amp; student-community batches</p>
+          <p class="addr">Acropolis Apartment, B-202, Gothapatna, Bhubaneswar — 751003<br/>Open every day · till 10 PM</p>
+          <div class="loc-actions">
+            <a class="btn btn-primary" href="https://share.google/zD7h4vyygHiHiPxEn" target="_blank" rel="noopener">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Open map
+            </a>
+            <a class="btn btn-ghost" href="tel:+919439395040">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.95.36 1.88.7 2.77a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.31-1.31a2 2 0 0 1 2.11-.45c.89.34 1.82.57 2.77.7A2 2 0 0 1 22 16.92z"/></svg>
+              Call branch
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- HIGHLIGHTS -->
+<section class="section highlights">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <span class="eyebrow">What's on</span>
+        <h2 class="section-title">Upcoming <em>at the academy.</em></h2>
+        <p class="section-sub">New batches, free demo days, and student showcases — book early, seats are limited.</p>
+      </div>
+    </div>
+
+    <div class="highlight-grid reveal-stagger">
+      <article class="highlight-card h1c">
+        <span class="tag">New Batch</span>
+        <h3>Beginner Tabla — May 2026</h3>
+        <p>Weekday evenings · 12 seats · Saheed Nagar Centre</p>
+        <a href="#enquiry">Reserve a seat →</a>
+      </article>
+
+      <article class="highlight-card h2c">
+        <span class="tag">Free Demo</span>
+        <h3>Open Demo Saturday</h3>
+        <p>Try any course free this Saturday · 4 PM onwards · Patia Studio</p>
+        <a href="#enquiry">Book your slot →</a>
+      </article>
+
+      <article class="highlight-card h3c">
+        <span class="tag">Event</span>
+        <h3>Annual Recital — "Swaranjali"</h3>
+        <p>Student showcase · 14 June 2026 · Rabindra Mandap</p>
+        <a href="#enquiry">Get invite →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <span class="eyebrow">Gallery</span>
+        <h2 class="section-title">Inside <em>the academy.</em></h2>
+        <p class="section-sub">Moments from class, recitals and festival performances.</p>
+      </div>
+    </div>
+
+    <div class="gallery-grid reveal-stagger">
+      <div class="gallery-tile tall t1"><div class="ph">♪</div><div class="cap">Tabla riyaz · Saheed Nagar</div></div>
+      <div class="gallery-tile t2"><div class="ph">♫</div><div class="cap">Vocal class</div></div>
+      <div class="gallery-tile wide t3"><div class="ph">♩</div><div class="cap">Annual recital — Swaranjali 2025</div></div>
+      <div class="gallery-tile t4"><div class="ph">♬</div><div class="cap">Odissi rehearsal</div></div>
+      <div class="gallery-tile t5"><div class="ph">♪</div><div class="cap">Guitar studio</div></div>
+      <div class="gallery-tile wide t6"><div class="ph">♫</div><div class="cap">Festival performance · Konark Dance Festival</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ENQUIRY -->
+<section id="enquiry" class="section enquiry">
+  <div class="container enquiry-grid">
+    <div class="enq-side reveal">
+      <span class="eyebrow">Enrol with us</span>
+      <h2 class="section-title">Tell us a little, <em>we'll take it from there.</em></h2>
+      <p class="section-sub">Submit the form and our admissions team will reach out within 24 hours to schedule your free demo class.</p>
+      <ul class="check-list">
+        <li>Free 30-minute demo class with a senior mentor</li>
+        <li>Personalised course path based on your goals</li>
+        <li>No commitment until you've experienced the academy</li>
+        <li>WhatsApp & call-back support, in English & Odia</li>
+      </ul>
+    </div>
+
+    <form class="enq-card reveal" id="enquiryForm" novalidate>
+      <h3>Student Enquiry</h3>
+      <p class="sub">Takes less than 30 seconds.</p>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="f-name">Full name *</label>
+          <input id="f-name" type="text" required placeholder="e.g. Riya Sahoo" autocomplete="name"/>
+        </div>
+        <div class="field">
+          <label for="f-phone">Phone *</label>
+          <input id="f-phone" type="tel" required placeholder="+91 98 765 43210" autocomplete="tel"/>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="f-course">Course interested in *</label>
+          <select id="f-course" required>
+            <option value="">Choose a course…</option>
+            <option>Hindustani Vocal</option>
+            <option>Light Vocal &amp; Performance</option>
+            <option>Keyboard &amp; Piano Foundations</option>
+            <option>Guitar Essentials 1</option>
+            <option>Tabla &amp; Rhythm Training</option>
+            <option>Kids Music Foundation (4–8 yrs)</option>
+            <option>Not sure — recommend for me</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-age">Student age <span style="color:var(--ink-300);font-weight:500">(optional)</span></label>
+          <input id="f-age" type="number" min="4" max="80" placeholder="e.g. 12"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="f-msg">Message <span style="color:var(--ink-300);font-weight:500">(optional)</span></label>
+        <textarea id="f-msg" placeholder="Anything you'd like us to know — preferred timings, prior experience, etc."></textarea>
+      </div>
+
+      <div class="submit-row">
+        <span class="privacy">By submitting, you agree to be contacted by Beat Drops Academy.</span>
+        <button type="submit" class="btn btn-primary btn-lg">
+          Submit Enquiry
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top">
+          <div class="logo">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          </div>
+          <div class="brand-name" style="color:#fff"><b style="color:var(--gold-300)">Beat Drops</b> · Music Academy</div>
+        </a>
+        <p>Discover your rhythm. A premium music academy based in Bhubaneswar — teaching tradition, modern instruments and performance, since 2018.</p>
+        <div style="display:flex;gap:8px">
+          <a class="icon-btn" href="#" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:var(--gold-300)">IG</a>
+          <a class="icon-btn" href="#" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:var(--gold-300)">FB</a>
+          <a class="icon-btn" href="#" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:var(--gold-300)">YT</a>
+        </div>
+      </div>
+      <div>
+        <h5>Courses</h5>
+        <ul>
+          <li><a href="#courses">Hindustani Vocal</a></li>
+          <li><a href="#courses">Light Vocal &amp; Performance</a></li>
+          <li><a href="#courses">Keyboard &amp; Piano</a></li>
+          <li><a href="#courses">Guitar Essentials</a></li>
+          <li><a href="#courses">Tabla &amp; Rhythm</a></li>
+          <li><a href="#courses">Kids Music Foundation</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Branches</h5>
+        <ul>
+          <li><a href="https://share.google/LcP3OTrMPt39hqVHx" target="_blank" rel="noopener">Sailashree Vihar, Patia</a></li>
+          <li><a href="https://share.google/zD7h4vyygHiHiPxEn" target="_blank" rel="noopener">Gothapatna</a></li>
+          <li><a href="#about">About Beat Drops</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="tel:+919439395040">+91 9439395040</a></li>
+          <li><a href="https://wa.me/919439395040" target="_blank" rel="noopener">WhatsApp us</a></li>
+          <li><a href="mailto:beatdrops2022@gmail.com">beatdrops2022@gmail.com</a></li>
+          <li>Bhubaneswar, Odisha</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Beat Drops Music Academy. All rights reserved.</span>
+      <span>Made with ♪ in Bhubaneswar</span>
+    </div>
+  </div>
+</footer>
+
+</div><!-- /.public -->
+
+
+<!-- ============================================================
+     ADMIN VIEW
+     ============================================================ -->
+<div class="admin">
+  <div class="admin-shell">
+    <aside class="side">
+      <a class="brand" href="#" style="color:#fff">
+        <div class="logo">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        </div>
+        <div class="brand-name" style="color:#fff"><b style="color:var(--gold-300)">Beat Drops</b> Admin</div>
+      </a>
+
+      <div class="side-section">Workspace</div>
+      <a href="#" class="nav-item active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+      <a href="#" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Enquiries
+        <span style="margin-left:auto;background:var(--gold-500);color:var(--maroon-900);font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px">12</span>
+      </a>
+      <a href="#" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        Courses
+      </a>
+      <a href="#" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>
+        Locations
+      </a>
+
+      <div class="side-section">Settings</div>
+      <a href="#" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Preferences
+      </a>
+
+      <div class="me">
+        <div class="av">K</div>
+        <div class="name">Kamal<small>kamal@beatdrops.in</small></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="admin-top">
+        <div>
+          <h1>Welcome back, Kamal 👋</h1>
+          <p class="sub">Here's what's new at the academy this week.</p>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <span class="view-toggle" role="tablist">
+            <button data-view="public">Visitor</button>
+            <button class="is-active" data-view="admin">Admin</button>
+          </span>
+          <div class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input placeholder="Search enquiries…"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- METRICS -->
+      <div class="metric-grid">
+        <div class="metric">
+          <div class="ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <span class="lab">Total Enquiries</span>
+          <span class="val">182</span>
+          <span class="delta up">▲ 12.4% vs last month</span>
+          <svg class="spark" viewBox="0 0 100 36" preserveAspectRatio="none"><polyline fill="none" stroke="#6E1423" stroke-width="2" points="0,28 10,24 20,26 30,18 40,22 50,14 60,16 70,10 80,12 90,6 100,8"/></svg>
+        </div>
+        <div class="metric">
+          <div class="ico" style="background:#FCE9EC;color:var(--maroon-700)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h0"/></svg>
+          </div>
+          <span class="lab">New (this week)</span>
+          <span class="val">24</span>
+          <span class="delta up">▲ 5 since Monday</span>
+          <svg class="spark" viewBox="0 0 100 36" preserveAspectRatio="none"><polyline fill="none" stroke="#A02938" stroke-width="2" points="0,30 10,28 20,22 30,24 40,18 50,20 60,12 70,14 80,8 90,10 100,4"/></svg>
+        </div>
+        <div class="metric">
+          <div class="ico" style="background:#E5F1EA;color:var(--success)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="lab">Contacted</span>
+          <span class="val">141</span>
+          <span class="delta up">77% response rate</span>
+          <svg class="spark" viewBox="0 0 100 36" preserveAspectRatio="none"><polyline fill="none" stroke="#2F7D4F" stroke-width="2" points="0,20 10,22 20,18 30,16 40,14 50,12 60,14 70,10 80,8 90,6 100,4"/></svg>
+        </div>
+        <div class="metric">
+          <div class="ico" style="background:#FFF1D7;color:var(--gold-700)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <span class="lab">Top Course</span>
+          <span class="val" style="font-size:24px">Guitar</span>
+          <span class="delta up">38% of enquiries</span>
+          <svg class="spark" viewBox="0 0 100 36" preserveAspectRatio="none"><polyline fill="none" stroke="#C8A96A" stroke-width="2" points="0,18 10,16 20,20 30,14 40,16 50,10 60,12 70,8 80,10 90,6 100,8"/></svg>
+        </div>
+      </div>
+
+      <div class="dash-grid">
+        <!-- Enquiries Panel -->
+        <section class="panel">
+          <div class="panel-head">
+            <h3>Recent Enquiries</h3>
+            <div class="filters" role="toolbar" aria-label="Filters">
+              <button class="chip active">All</button>
+              <button class="chip">New</button>
+              <button class="chip">Contacted</button>
+              <select aria-label="Course">
+                <option>All courses</option><option>Tabla</option><option>Guitar</option><option>Vocal</option>
+              </select>
+              <select aria-label="Date">
+                <option>Last 7 days</option><option>This month</option><option>All time</option>
+              </select>
+            </div>
+          </div>
+          <div class="tbl-wrap">
+          <table class="tbl">
+            <thead>
+              <tr><th>Student</th><th>Course</th><th>Date</th><th>Status</th><th style="text-align:right">Actions</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="who"><div class="av">RS</div><div><div class="nm">Riya Sahoo</div><div class="ph">+91 98765 43210</div></div></div></td>
+                <td><span class="course">🎸 Guitar</span></td>
+                <td>22 Apr 2026</td>
+                <td><span class="status new"><span class="dot"></span>New</span></td>
+                <td><div class="row-actions">
+                  <button class="icon-btn" title="Mark contacted"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg></button>
+                  <button class="icon-btn" title="Call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.95.36 1.88.7 2.77a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.31-1.31a2 2 0 0 1 2.11-.45c.89.34 1.82.57 2.77.7A2 2 0 0 1 22 16.92z"/></svg></button>
+                  <button class="icon-btn danger" title="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><div class="who"><div class="av" style="background:linear-gradient(135deg,#A08144,#6E1423)">AP</div><div><div class="nm">Aditya Patnaik</div><div class="ph">+91 98212 55410</div></div></div></td>
+                <td><span class="course">
+                  <svg style="width:20px;height:15px" viewBox="0 0 48 36" aria-hidden="true">
+                    <path fill="#6E1423" d="M5 9 Q3 17 5 25 Q8 30.5 12 30.5 Q16 30.5 19 25 Q21 17 19 9 Z"/>
+                    <path stroke="#E2C893" stroke-width=".7" fill="none" stroke-linecap="round" d="M6.2 10 L6.2 28 M9 10 L9 30 M12 10 L12 30.5 M15 10 L15 30 M17.8 10 L17.8 28"/>
+                    <ellipse fill="#A08144" cx="12" cy="9.6" rx="7.4" ry="1.3"/>
+                    <ellipse fill="#F5E6C8" stroke="#A08144" stroke-width=".4" cx="12" cy="8.8" rx="7" ry="2.3"/>
+                    <circle fill="#1F1B16" cx="12" cy="8.8" r="1.9"/>
+                    <path fill="#8B5A2B" d="M30 9 L31 32 Q35 34 39 32 L40 9 Z"/>
+                    <path stroke="#E2C893" stroke-width=".7" fill="none" stroke-linecap="round" d="M31 10 L31.5 31 M33 10 L33.3 32 M35 10 L35 32.5 M37 10 L36.7 32 M39 10 L38.5 31"/>
+                    <ellipse fill="#A08144" cx="35" cy="9.6" rx="5.2" ry="1.1"/>
+                    <ellipse fill="#F5E6C8" stroke="#A08144" stroke-width=".4" cx="35" cy="8.8" rx="5" ry="1.8"/>
+                    <circle fill="#1F1B16" cx="35" cy="8.8" r="1.4"/>
+                  </svg>
+                  Tabla
+                </span></td>
+                <td>22 Apr 2026</td>
+                <td><span class="status new"><span class="dot"></span>New</span></td>
+                <td><div class="row-actions">
+                  <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg></button>
+                  <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.95.36 1.88.7 2.77a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.31-1.31a2 2 0 0 1 2.11-.45c.89.34 1.82.57 2.77.7A2 2 0 0 1 22 16.92z"/></svg></button>
+                  <button class="icon-btn danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><div class="who"><div class="av">SM</div><div><div class="nm">Sneha Mohanty</div><div class="ph">+91 70098 76543</div></div></div></td>
+                <td><span class="course">🎤 Vocal</span></td>
+                <td>21 Apr 2026</td>
+                <td><span class="status contacted"><span class="dot"></span>Contacted</span></td>
+                <td><div class="row-actions">
+                  <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg></button>
+                  <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.95.36 1.88.7 2.77a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.31-1.31a2 2 0 0 1 2.11-.45c.89.34 1.82.57 2.77.7A2 2 0 0 1 22 16.92z"/></svg></button>
+                  <button class="icon-btn danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><div class="who"><div class="av" style="background:linear-gradient(135deg,#C8A96A,#6E1423)">PD</div><div><div class="nm">Pratik Das</div><div class="ph">+91 99887 65432</div></div></div></td>
+                <td><span class="course">🎹 Keyboard</span></td>
+                <td>21 Apr 2026</td>
+                <td><span class="status enrolled"><span class="dot"></span>Enrolled</span></td>
+                <td><div class="row-actions">
+                  <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg></button>
+                  <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.95.36 1.88.7 2.77a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.31-1.31a2 2 0 0 1 2.11-.45c.89.34 1.82.57 2.77.7A2 2 0 0 1 22 16.92z"/></svg></button>
+                  <button class="icon-btn danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><div class="who"><div class="av">MK</div><div><div class="nm">Meera Kar</div><div class="ph">+91 91234 12349</div></div></div></td>
+                <td><span class="course">💃 Odissi</span></td>
+                <td>20 Apr 2026</td>
+                <td><span class="status contacted"><span class="dot"></span>Contacted</span></td>
+                <td><div class="row-actions">
+                  <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg></button>
+                  <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.95.36 1.88.7 2.77a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.31-1.31a2 2 0 0 1 2.11-.45c.89.34 1.82.57 2.77.7A2 2 0 0 1 22 16.92z"/></svg></button>
+                  <button class="icon-btn danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><div class="who"><div class="av" style="background:linear-gradient(135deg,#8C2233,#A08144)">RB</div><div><div class="nm">Raj Behera</div><div class="ph">+91 98765 11223</div></div></div></td>
+                <td><span class="course">🎸 Guitar</span></td>
+                <td>19 Apr 2026</td>
+                <td><span class="status new"><span class="dot"></span>New</span></td>
+                <td><div class="row-actions">
+                  <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg></button>
+                  <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.95.36 1.88.7 2.77a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.31-1.31a2 2 0 0 1 2.11-.45c.89.34 1.82.57 2.77.7A2 2 0 0 1 22 16.92z"/></svg></button>
+                  <button class="icon-btn danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+                </div></td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+        </section>
+
+        <!-- Right column -->
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <section class="panel">
+            <div class="panel-head"><h3>Course Popularity</h3><span style="font-size:12px;color:var(--ink-500)">Last 30 days</span></div>
+            <div class="popular-list" style="padding-bottom:14px">
+              <div class="pop-row"><span class="name">Guitar</span><span class="pct">38%</span><span class="bar"><i style="width:38%"></i></span></div>
+              <div class="pop-row"><span class="name">Tabla</span><span class="pct">22%</span><span class="bar"><i style="width:22%"></i></span></div>
+              <div class="pop-row"><span class="name">Hindustani Vocal</span><span class="pct">14%</span><span class="bar"><i style="width:14%"></i></span></div>
+              <div class="pop-row"><span class="name">Keyboard</span><span class="pct">11%</span><span class="bar"><i style="width:11%"></i></span></div>
+              <div class="pop-row"><span class="name">Odissi</span><span class="pct">8%</span><span class="bar"><i style="width:8%"></i></span></div>
+              <div class="pop-row"><span class="name">Light Music</span><span class="pct">7%</span><span class="bar"><i style="width:7%"></i></span></div>
+            </div>
+          </section>
+
+          <section class="panel" style="padding:20px;background:linear-gradient(160deg,#6E1423,#3E0813);color:#fff;border:none">
+            <div style="display:flex;align-items:center;gap:10px;color:var(--gold-300);font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700">
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--gold-500)"></span> Tip of the day
+            </div>
+            <h3 style="font-family:var(--serif);margin:10px 0 8px;font-size:20px;font-weight:600">Reply within 24 hrs</h3>
+            <p style="margin:0 0 14px;color:rgba(255,255,255,.78);font-size:14px">Enquiries you respond to within a day are 3× more likely to convert into demo bookings.</p>
+            <a href="#" class="btn btn-gold" style="font-size:13px">View pending enquiries →</a>
+          </section>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Floating WhatsApp CTA -->
+<a class="wa-fab public" href="https://wa.me/919439395040?text=Hi%20Beat%20Drops%2C%20I%27d%20like%20to%20know%20more%20about%20your%20classes." target="_blank" rel="noopener" aria-label="Chat with Beat Drops on WhatsApp">
+  <span class="wa-ring" aria-hidden="true"></span>
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 3.5A11 11 0 0 0 3.1 16.8L2 22l5.3-1.4a11 11 0 0 0 5.3 1.4h.1c6 0 11-4.9 11-11 0-2.9-1.1-5.7-3.2-7.5zM12.7 20a9 9 0 0 1-4.6-1.3l-.3-.2-3.1.8.8-3-.2-.3a9 9 0 1 1 16.5-5c0 5-4 9-9.1 9zm5.2-6.7c-.3-.1-1.7-.8-1.9-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-1 1.1-.2.2-.3.2-.6 0-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.2-.2.2-.3.3-.5 0-.2 0-.4-.1-.5s-.7-1.6-.9-2.2c-.2-.6-.5-.5-.7-.5H8.3c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.3s1 2.7 1.1 2.9c.1.2 1.9 3 4.6 4.2 1.7.7 2.3.8 3.1.7.5-.1 1.6-.6 1.8-1.3.2-.6.2-1.2.1-1.3-.1-.1-.2-.2-.5-.3z"/></svg>
+  <span class="wa-fab-text">WhatsApp us</span>
+</a>
+
+<!-- Toast & Modal -->
+<div class="toast" id="toast"><span class="check">✓</span><span>Thank you, we'll reach out within 24 hours.</span></div>
+
+<div class="modal-back" id="signinModal" role="dialog" aria-modal="true" aria-labelledby="signinTitle">
+  <div class="modal">
+    <button class="close-x" aria-label="Close" onclick="document.getElementById('signinModal').classList.remove('is-on')">×</button>
+    <div class="logo" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+    </div>
+    <h3 id="signinTitle">Admin sign-in</h3>
+    <p>Only authorised academy staff can access the dashboard.</p>
+    <button class="gbtn" onclick="enterAdmin()">
+      <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.99.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09A6.91 6.91 0 0 1 5.46 12c0-.73.13-1.43.36-2.09V7.07H2.18A11 11 0 0 0 1 12c0 1.78.43 3.46 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38z"/></svg>
+      Continue with Google
+    </button>
+    <p class="small">By continuing you agree to the academy's admin usage terms.</p>
+  </div>
+</div>
+
+<script>
+  // View toggle (Visitor / Admin)
+  document.querySelectorAll('[data-view]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const v = btn.dataset.view;
+      if(v==='admin'){
+        // Show sign-in modal first time
+        if(!sessionStorage){ /* no-op */ }
+        document.getElementById('signinModal').classList.add('is-on');
+      } else {
+        document.body.classList.remove('admin-mode');
+        // sync toggles
+        document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('is-active', b.dataset.view==='public'));
+        window.scrollTo({top:0,behavior:'smooth'});
+      }
+    });
+  });
+
+  function enterAdmin(){
+    document.getElementById('signinModal').classList.remove('is-on');
+    document.body.classList.add('admin-mode');
+    document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('is-active', b.dataset.view==='admin'));
+    window.scrollTo({top:0});
+  }
+  window.enterAdmin = enterAdmin;
+
+  // Enquiry submit
+  const form = document.getElementById('enquiryForm');
+  form?.addEventListener('submit', e=>{
+    e.preventDefault();
+    const name = document.getElementById('f-name').value.trim();
+    const phone = document.getElementById('f-phone').value.trim();
+    const course = document.getElementById('f-course').value;
+    if(!name || !phone || !course){
+      alert('Please fill name, phone and course.');
+      return;
+    }
+    const t = document.getElementById('toast');
+    t.classList.add('is-on');
+    setTimeout(()=>t.classList.remove('is-on'), 3200);
+    form.reset();
+  });
+
+  // Filter chips
+  document.querySelectorAll('.filters .chip').forEach(c=>{
+    c.addEventListener('click', ()=>{
+      c.parentElement.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+      c.classList.add('active');
+    });
+  });
+
+  // Subtle parallax for hero instrument cards
+  const visual = document.querySelector('.hero-visual');
+  if(visual){
+    visual.addEventListener('mousemove', e=>{
+      const r = visual.getBoundingClientRect();
+      const x = (e.clientX - r.left)/r.width - .5;
+      const y = (e.clientY - r.top)/r.height - .5;
+      visual.querySelectorAll('.instrument-card').forEach((el,i)=>{
+        const f = (i+1)*4;
+        el.style.transform = `${el.classList.contains('ic-1')?'rotate(-6deg)':el.classList.contains('ic-2')?'rotate(5deg)':'rotate(-2deg)'} translate3d(${x*f}px, ${y*f}px, 0)`;
+      });
+    });
+  }
+
+  // Respect reduced motion
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Scroll-reveal via IntersectionObserver
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add('is-in');
+          // count-up when trust strip enters
+          e.target.querySelectorAll?.('[data-count]').forEach(startCount);
+          io.unobserve(e.target);
+        }
+      });
+    },{ threshold:.15, rootMargin:'0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal, .reveal-stagger').forEach(el=>io.observe(el));
+  } else {
+    // Fallback
+    document.querySelectorAll('.reveal, .reveal-stagger').forEach(el=>el.classList.add('is-in'));
+    document.querySelectorAll('[data-count]').forEach(startCount);
+  }
+
+  // Count-up animation
+  function startCount(el){
+    if(el.dataset.counted) return;
+    el.dataset.counted = '1';
+    const target = parseFloat(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    if(reducedMotion){ el.textContent = target + suffix; return; }
+    const dur = 1200; const start = performance.now();
+    function tick(now){
+      const t = Math.min(1, (now - start)/dur);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const val = Math.round(target * eased);
+      el.textContent = val + suffix;
+      if(t < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  // 3D tilt on course cards (desktop pointer only)
+  if(!reducedMotion && matchMedia('(hover:hover) and (pointer:fine)').matches){
+    document.querySelectorAll('.tilt').forEach(card=>{
+      card.addEventListener('mousemove', e=>{
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left)/r.width - .5;
+        const y = (e.clientY - r.top)/r.height - .5;
+        card.style.transform = `translateY(-4px) rotateX(${(-y*5).toFixed(2)}deg) rotateY(${(x*6).toFixed(2)}deg)`;
+      });
+      card.addEventListener('mouseleave', ()=>{
+        card.style.transform = '';
+      });
+    });
+  }
+
+  // Gentle drifting music notes that follow the viewport (hero only)
+  (function(){
+    const notes = document.querySelector('.note-floats');
+    if(!notes || reducedMotion) return;
+    window.addEventListener('scroll', ()=>{
+      const y = window.scrollY;
+      notes.style.transform = `translateY(${y*0.15}px)`;
+    }, { passive:true });
+  })();
+</script>
+</body>
+</html>

@@ -10,8 +10,8 @@ async function App() {
     <MarketingShell activePath="/admission">
       <PageHero
         eyebrow="Admissions"
-        title="Share your details and the academy will get back to you."
-        description="Choose a course and branch, add learner details, and submit the enquiry form for follow-up."
+        title="Tell us a little, we'll take it from there."
+        description="Submit the enquiry form and the admissions team will reach out within 24 hours to schedule your free demo class."
       />
       <section className="container py-6 md:py-10">
         <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">

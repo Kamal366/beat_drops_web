@@ -40,13 +40,13 @@ create table if not exists public.users (
 create table if not exists public.admission_leads (
   id uuid primary key default gen_random_uuid(),
   full_name text not null,
-  parent_name text not null,
-  age int not null,
+  parent_name text,
+  age int,
   phone_number text not null,
-  email text not null,
+  email text,
   interested_course text not null,
-  preferred_branch text not null,
-  preferred_class_timing text not null,
+  preferred_branch text,
+  preferred_class_timing text,
   prior_music_experience text,
   message text,
   status text not null default 'new_lead' check (status in ('new_lead', 'contacted', 'trial_scheduled', 'admitted', 'inactive')),
@@ -54,6 +54,12 @@ create table if not exists public.admission_leads (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.admission_leads alter column parent_name drop not null;
+alter table public.admission_leads alter column age drop not null;
+alter table public.admission_leads alter column email drop not null;
+alter table public.admission_leads alter column preferred_branch drop not null;
+alter table public.admission_leads alter column preferred_class_timing drop not null;
 
 create table if not exists public.students (
   id uuid primary key default gen_random_uuid(),
