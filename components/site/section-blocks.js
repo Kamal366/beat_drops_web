@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { CalendarClock, MapPin, Mic2, Music2, Phone, ShieldCheck, Star, Users2 } from 'lucide-react'
+import GalleryGridClient from '@/components/site/gallery-grid-client'
 import {
   academyProfile,
   banners,
@@ -127,10 +128,10 @@ export function AboutStory({ expanded = false }) {
             </p>
 
             <div className="about-compact-points">
-              <AboutPoint number="1" title="Mentor-led, not lecture-led" text="Personal feedback every session." />
-              <AboutPoint number="2" title="Structured curriculum" text="6 graded levels per discipline, with annual recitals and graded certifications." />
-              <AboutPoint number="3" title="Performance-first culture" text="Quarterly stages,Exams, recordings, and inter-academy events to build real confidence." />
-              <AboutPoint number="4" title="Examination and Mock Practicals" text="Exam Led teaching facility available and Personal guidance" />
+              <AboutPoint number="1" title="Mentor-led" text="Personal feedback every class." />
+              <AboutPoint number="2" title="Clear levels" text="Six graded steps per course." />
+              <AboutPoint number="3" title="Stage-ready" text="Recitals, exams and confidence building." />
+              <AboutPoint number="4" title="Mock practicals" text="Exam-focused practice and guidance." />
               {expanded ? (
                 <AboutPoint number="4" title="Patient teaching" text="A serious but welcoming environment that helps students listen, repeat, and grow steadily." />
               ) : null}
@@ -302,39 +303,7 @@ export function GalleryPreview({ expanded = false, items = galleryHighlights }) 
           description="Moments from class, recitals and festival performances."
         />
 
-        <div className="grid auto-rows-[180px] gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {displayItems.map((item, index) => {
-            const spanClass = expanded
-              ? index % 5 === 0
-                ? 'sm:col-span-2'
-                : index % 4 === 0
-                  ? 'xl:row-span-2'
-                  : ''
-              : index === 0
-                ? 'sm:col-span-2'
-                : ''
-
-            return (
-              <article
-                key={`${item.title}-${index}`}
-                className={`surface-card group relative overflow-hidden p-6 ${spanClass}`}
-              >
-                <div
-                  className={`absolute inset-0 ${
-                    index % 2 === 0
-                      ? 'bg-[linear-gradient(135deg,rgba(200,169,106,0.22),rgba(255,255,255,0.12))]'
-                      : 'bg-[linear-gradient(135deg,rgba(110,20,35,0.16),rgba(255,255,255,0.08))]'
-                  }`}
-                />
-                <div className="relative flex h-full flex-col justify-end rounded-[24px] border border-white/50 bg-white/20 p-5 backdrop-blur-[2px]">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-maroon-700">Beat Drops</p>
-                  <h3 className="mt-3 font-display text-2xl font-medium text-ink-900">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-7 text-ink-500">{item.caption}</p>
-                </div>
-              </article>
-            )
-          })}
-        </div>
+        <GalleryGridClient items={displayItems} expanded={expanded} />
       </div>
     </section>
   )

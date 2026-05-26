@@ -135,31 +135,31 @@
   }
 
   .about-compact-grid {
-    @apply grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-center;
+    @apply grid gap-8 lg:grid-cols-[1.02fr_0.98fr] lg:items-center;
   }
 
   .about-compact-copy {
-    @apply mt-5 max-w-[62ch] text-lg leading-10 text-ink-700;
+    @apply mt-5 max-w-[58ch] text-base leading-8 text-ink-700;
   }
 
   .about-compact-points {
-    @apply mt-8 grid gap-4;
+    @apply mt-7 grid gap-3 sm:grid-cols-2;
   }
 
   .about-point-row {
-    @apply flex items-center gap-4 rounded-[24px] border border-line bg-white/90 px-4 py-4 shadow-soft;
+    @apply flex min-h-[96px] items-center gap-3 rounded-[20px] border border-line bg-white/90 px-4 py-3 shadow-soft;
   }
 
   .about-point-number {
-    @apply grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-maroon-700 font-display text-xl text-gold-100;
+    @apply grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-maroon-700 font-display text-lg text-gold-100;
   }
 
   .about-point-row h4 {
-    @apply text-xl font-semibold text-ink-900;
+    @apply text-base font-semibold text-ink-900;
   }
 
   .about-point-row p {
-    @apply mt-1 text-base leading-7 text-ink-500;
+    @apply mt-1 text-sm leading-6 text-ink-500;
   }
 
   .about-mentor-card {
