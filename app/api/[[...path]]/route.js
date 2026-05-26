@@ -15,6 +15,9 @@ import { getSupabasePublicConfig, hasSupabasePublicEnv, hasSupabaseServiceEnv } 
 import { createServiceSupabaseClient } from '@/lib/supabase/service'
 
 const attendanceStatuses = ['present', 'absent', 'late']
+const galleryBucketName = 'beat_drops_gallery'
+const galleryMaxUploadBytes = 1024 * 1024
+const galleryAllowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp']
 
 function getRoute(params) {
   const path = params?.path || []
@@ -61,11 +64,39 @@ function toNullableNumber(value) {
   return Number.isNaN(number) ? null : number
 }
 
+function toNullableUuid(value) {
+  const stringValue = toNullableString(value)
+  if (!stringValue) return null
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(stringValue)
+    ? stringValue
+    : null
+}
+
 function toBoolean(value, fallback = true) {
   if (typeof value === 'boolean') return value
   if (value === 'true') return true
   if (value === 'false') return false
   return fallback
+}
+
+function getUploadExtension(file) {
+  const extension = file.name?.split('.').pop()?.toLowerCase()
+  if (extension && ['jpg', 'jpeg', 'png', 'webp'].includes(extension)) return extension
+  if (file.type === 'image/jpeg') return 'jpg'
+  if (file.type === 'image/png') return 'png'
+  return 'webp'
+}
+
+function slugifyFileName(name) {
+  const basename = name.replace(/\.[^.]+$/, '')
+  return (
+    basename
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 60) || 'gallery-image'
+  )
 }
 
 async function getSchemaStatus() {
@@ -243,7 +274,9 @@ async function handleAdmissionSubmission(request) {
 async function handleAdminBootstrap() {
   const service = createServiceSupabaseClient()
 
-  const [leadResponse, studentResponse, galleryResponse, bannerResponse, testimonialResponse, attendanceResponse] = await Promise.all([
+  const [branchResponse, courseResponse, leadResponse, studentResponse, galleryResponse, bannerResponse, testimonialResponse, attendanceResponse] = await Promise.all([
+    service.from('branches').select('*').order('name', { ascending: true }),
+    service.from('courses').select('*').order('display_order', { ascending: true }),
     service.from('admission_leads').select('*').order('created_at', { ascending: false }),
     service.from('students').select('*, branches(name), courses(title)').order('created_at', { ascending: false }),
     service.from('gallery_images').select('*').order('sort_order', { ascending: true }),
@@ -264,23 +297,25 @@ async function handleAdminBootstrap() {
   }))
 
   const attendanceToday = attendance.filter((item) => item.attendance_date === new Date().toISOString().slice(0, 10)).length
+  const adminBranches = branchResponse.data?.length ? branchResponse.data : branches
+  const adminCourses = courseResponse.data?.length ? courseResponse.data : courses
 
   return {
     summary: {
       totalLeads: leadResponse.data?.length || 0,
       activeStudents: students.filter((student) => student.is_active).length,
       attendanceToday,
-      byBranch: (branches || []).map((branch) => ({
+      byBranch: (adminBranches || []).map((branch) => ({
         name: branch.name,
         count: students.filter((student) => student.branch_name === branch.name).length,
       })),
-      byCourse: (courses || []).map((course) => ({
+      byCourse: (adminCourses || []).map((course) => ({
         title: course.title,
         count: students.filter((student) => student.course_title === course.title).length,
       })),
     },
-    branches,
-    courses,
+    branches: adminBranches,
+    courses: adminCourses,
     leads: leadResponse.data || [],
     students,
     galleryImages: galleryResponse.data || [],
@@ -295,15 +330,15 @@ async function handleAdminBootstrap() {
 async function createOrUpdateStudent(service, payload, studentId = null) {
   const userId = await resolveUserIdByEmail(service, toNullableString(payload.email))
   const studentPayload = cleanPayload({
-    lead_id: toNullableString(payload.lead_id),
+    lead_id: toNullableUuid(payload.lead_id),
     user_id: userId,
     full_name: toNullableString(payload.full_name),
     parent_name: toNullableString(payload.parent_name),
     age: toNullableNumber(payload.age),
     phone_number: toNullableString(payload.phone_number),
     email: toNullableString(payload.email),
-    course_id: toNullableString(payload.course_id),
-    branch_id: toNullableString(payload.branch_id),
+    course_id: toNullableUuid(payload.course_id),
+    branch_id: toNullableUuid(payload.branch_id),
     class_timing: toNullableString(payload.class_timing),
     admission_status: toNullableString(payload.admission_status) || 'admitted',
     is_active: toBoolean(payload.is_active, true),
@@ -335,10 +370,54 @@ async function handleAdminEntity(request, route) {
   }
 
   const service = createServiceSupabaseClient()
-  const body = request.method === 'GET' || request.method === 'DELETE' ? {} : await request.json()
   const segments = route.split('/').filter(Boolean)
   const entity = segments[1]
   const entityId = segments[2]
+
+  if (entity === 'gallery-upload' && request.method === 'POST') {
+    try {
+      const formData = await request.formData()
+      const file = formData.get('file')
+
+      if (!file || typeof file === 'string') {
+        return json({ error: 'Please choose an image file to upload.' }, 400)
+      }
+
+      if (!galleryAllowedMimeTypes.includes(file.type)) {
+        return json({ error: 'Only JPG, PNG, and WebP images are allowed.' }, 400)
+      }
+
+      if (file.size > galleryMaxUploadBytes) {
+        return json({ error: 'Image must be 1 MB or smaller.' }, 400)
+      }
+
+      const extension = getUploadExtension(file)
+      const safeName = slugifyFileName(file.name || 'gallery-image')
+      const filePath = `gallery/${new Date().getFullYear()}/${safeName}-${Date.now()}.${extension}`
+      const bytes = await file.arrayBuffer()
+      const { error } = await service.storage.from(galleryBucketName).upload(filePath, bytes, {
+        cacheControl: '31536000',
+        contentType: file.type,
+        upsert: false,
+      })
+
+      if (error) {
+        throw new Error(error.message)
+      }
+
+      const { data } = service.storage.from(galleryBucketName).getPublicUrl(filePath)
+
+      return json({
+        message: 'Image uploaded successfully. Image URL populated.',
+        image_url: data.publicUrl,
+        image_path: filePath,
+      })
+    } catch (error) {
+      return json({ error: error.message || 'Image upload failed.' }, 500)
+    }
+  }
+
+  const body = request.method === 'GET' || request.method === 'DELETE' ? {} : await request.json()
 
   try {
     if (entity === 'bootstrap' && request.method === 'GET') {
@@ -392,7 +471,7 @@ async function handleAdminEntity(request, route) {
         title: toNullableString(body.title),
         image_url: toNullableString(body.image_url),
         image_path: toNullableString(body.image_path) || toNullableString(body.image_url) || 'external',
-        branch_id: toNullableString(body.branch_id),
+        branch_id: toNullableUuid(body.branch_id),
         sort_order: toNullableNumber(body.sort_order) || 0,
         is_active: toBoolean(body.is_active, true),
         created_by: adminCheck.context.userRow?.id || null,
@@ -478,7 +557,7 @@ async function handleAdminEntity(request, route) {
 
     if (entity === 'attendance') {
       const payload = cleanPayload({
-        student_id: toNullableString(body.student_id),
+        student_id: toNullableUuid(body.student_id),
         attendance_date: toNullableString(body.attendance_date),
         status: toNullableString(body.status) || 'present',
         notes: toNullableString(body.notes),

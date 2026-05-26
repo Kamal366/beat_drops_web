@@ -1,6 +1,7 @@
 import Link from 'next/link'
-import { MessageCircle, Music3, PhoneCall } from 'lucide-react'
+import { MessageCircle, PhoneCall } from 'lucide-react'
 import { academyProfile } from '@/lib/site-data'
+import SiteLogo from '@/components/site/site-logo'
 
 const navItems = [
   { href: '/', label: 'Home' },
@@ -16,16 +17,8 @@ export function MarketingShell({ activePath, children }) {
     <div className="page-shell text-ink-900">
       <header className="sticky top-0 z-50 border-b border-line/80 bg-ivory/80 backdrop-blur-xl">
         <div className="container flex h-16 items-center justify-between gap-4">
-          <Link href="/" className="flex min-w-0 items-center gap-3">
-            <div className="grid h-9 w-9 place-items-center rounded-xl bg-[linear-gradient(135deg,#6e1423,#4a0e1a)] text-gold-300 shadow-soft">
-              <Music3 className="h-4 w-4" />
-            </div>
-            <div className="min-w-0">
-              <p className="truncate font-display text-lg font-semibold tracking-[-0.02em] text-ink-900">
-                Beat <span className="text-maroon-700">Drops</span>
-              </p>
-              <p className="truncate text-xs text-ink-500">Music Academy • Bhubaneswar</p>
-            </div>
+          <Link href="/" className="min-w-0">
+            <SiteLogo compact />
           </Link>
 
           <nav className="hidden items-center gap-7 text-sm text-ink-700 lg:flex" aria-label="Primary">
@@ -105,7 +98,7 @@ function Footer() {
     <footer className="mt-8 bg-maroon-900 text-gold-100 md:mt-12">
       <div className="container grid gap-10 py-14 md:grid-cols-[1.2fr_0.8fr_0.8fr]">
         <div className="space-y-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-gold-300">Beat Drops Music Academy</p>
+          <SiteLogo compact light />
           <h2 className="font-display text-3xl font-medium text-white">Discover your rhythm. A premium music academy based in Bhubaneswar.</h2>
           <p className="max-w-xl text-sm leading-7 text-gold-100/80">
             Teaching tradition, modern instruments and performance, with guided admissions across both branches.

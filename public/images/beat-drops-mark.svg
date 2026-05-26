@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 240" width="360" height="240">
+
+  <!-- Letter "b" — slim, black -->
+  <g>
+    <rect x="30" y="18" width="20" height="190" rx="10" fill="#1A1A1A"/>
+    <circle cx="108" cy="168" r="68" fill="#1A1A1A"/>
+    <circle cx="108" cy="168" r="54" fill="#F5EFE0"/>
+    <circle cx="108" cy="168" r="28" fill="#1A1A1A"/>
+  </g>
+
+  <!-- Letter "d" — slim, maroon -->
+  <g>
+    <circle cx="250" cy="168" r="68" fill="#4A1528"/>
+    <circle cx="250" cy="168" r="54" fill="#F5EFE0"/>
+    <circle cx="250" cy="168" r="28" fill="#4A1528"/>
+    <rect x="310" y="18" width="20" height="190" rx="10" fill="#4A1528"/>
+  </g>
+
+</svg>

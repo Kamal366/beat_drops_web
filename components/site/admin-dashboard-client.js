@@ -78,6 +78,8 @@ export default function AdminDashboardClient({ adminName }) {
   const [leadFilters, setLeadFilters] = useState({ status: 'all', branch: 'all', course: 'all' })
   const [studentForm, setStudentForm] = useState(emptyStudentForm)
   const [galleryForm, setGalleryForm] = useState(emptyGalleryForm)
+  const [galleryUploadFile, setGalleryUploadFile] = useState(null)
+  const [galleryUploading, setGalleryUploading] = useState(false)
   const [bannerForm, setBannerForm] = useState(emptyBannerForm)
   const [testimonialForm, setTestimonialForm] = useState(emptyTestimonialForm)
   const [attendanceForm, setAttendanceForm] = useState(emptyAttendanceForm)
@@ -202,6 +204,50 @@ export default function AdminDashboardClient({ adminName }) {
     const isEditing = Boolean(galleryForm.id)
     await submitJson(isEditing ? `/api/admin/gallery/${galleryForm.id}` : '/api/admin/gallery', isEditing ? 'PATCH' : 'POST', galleryForm)
     setGalleryForm(emptyGalleryForm)
+    setGalleryUploadFile(null)
+  }
+
+  const uploadGalleryImage = async () => {
+    setFeedback({ error: '', success: '' })
+
+    if (!galleryUploadFile) {
+      setFeedback({ error: 'Please choose an image file first.', success: '' })
+      return
+    }
+
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(galleryUploadFile.type)) {
+      setFeedback({ error: 'Only JPG, PNG, and WebP images are allowed.', success: '' })
+      return
+    }
+
+    if (galleryUploadFile.size > 1024 * 1024) {
+      setFeedback({ error: 'Image must be 1 MB or smaller.', success: '' })
+      return
+    }
+
+    setGalleryUploading(true)
+
+    try {
+      const formData = new FormData()
+      formData.append('file', galleryUploadFile)
+
+      const response = await fetch('/api/admin/gallery-upload', {
+        method: 'POST',
+        body: formData,
+      })
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Image upload failed.')
+      }
+
+      setGalleryForm((prev) => ({ ...prev, image_url: result.image_url || prev.image_url }))
+      setFeedback({ error: '', success: result.message || 'Image uploaded successfully.' })
+    } catch (error) {
+      setFeedback({ error: error.message, success: '' })
+    } finally {
+      setGalleryUploading(false)
+    }
   }
 
   const saveBanner = async (event) => {
@@ -424,12 +470,25 @@ export default function AdminDashboardClient({ adminName }) {
             <form className="space-y-3" onSubmit={saveGallery}>
               <InputField label="Title" value={galleryForm.title} onChange={(value) => setGalleryForm((prev) => ({ ...prev, title: value }))} />
               <InputField label="Image URL" value={galleryForm.image_url} onChange={(value) => setGalleryForm((prev) => ({ ...prev, image_url: value }))} />
+              <ImageUploadField
+                file={galleryUploadFile}
+                uploading={galleryUploading}
+                onFileChange={setGalleryUploadFile}
+                onUpload={uploadGalleryImage}
+              />
               <div className="grid gap-3 md:grid-cols-3">
                 <SelectField label="Branch" value={galleryForm.branch_id} onChange={(value) => setGalleryForm((prev) => ({ ...prev, branch_id: value }))} options={['', ...(data?.branches || []).map((branch) => `${branch.id}|${branch.name}`)]} valueMap />
                 <InputField label="Sort order" type="number" value={galleryForm.sort_order} onChange={(value) => setGalleryForm((prev) => ({ ...prev, sort_order: value }))} />
                 <SelectField label="Active" value={String(galleryForm.is_active)} onChange={(value) => setGalleryForm((prev) => ({ ...prev, is_active: value === 'true' }))} options={['true', 'false']} />
               </div>
-              <ActionRow saving={saving} primaryLabel={galleryForm.id ? 'Update gallery' : 'Add gallery image'} onReset={() => setGalleryForm(emptyGalleryForm)} />
+              <ActionRow
+                saving={saving || galleryUploading}
+                primaryLabel={galleryForm.id ? 'Update gallery' : 'Add gallery image'}
+                onReset={() => {
+                  setGalleryForm(emptyGalleryForm)
+                  setGalleryUploadFile(null)
+                }}
+              />
             </form>
           }
           list={(data?.galleryImages || []).map((item) => (
@@ -537,6 +596,34 @@ function InputField({ label, value, onChange, type = 'text' }) {
       <span className="field-label">{label}</span>
       <input type={type} value={value} onChange={(event) => onChange(event.target.value)} className="field-input" />
     </label>
+  )
+}
+
+function ImageUploadField({ file, uploading, onFileChange, onUpload }) {
+  return (
+    <div className="rounded-[22px] border border-line bg-sand/60 p-4">
+      <span className="field-label">Upload image</span>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <input
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          onChange={(event) => onFileChange(event.target.files?.[0] || null)}
+          className="field-input file:mr-4 file:rounded-full file:border-0 file:bg-maroon-700 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white"
+        />
+        <button
+          type="button"
+          onClick={onUpload}
+          disabled={uploading || !file}
+          className="btn-ghost shrink-0 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {uploading ? 'Uploading...' : 'Upload image'}
+        </button>
+      </div>
+      <p className="mt-2 text-xs leading-5 text-ink-500">
+        JPG, PNG or WebP. Max 1 MB. Upload fills the Image URL automatically.
+      </p>
+      {file ? <p className="mt-2 text-xs font-medium text-maroon-700">Selected: {file.name}</p> : null}
+    </div>
   )
 }
 

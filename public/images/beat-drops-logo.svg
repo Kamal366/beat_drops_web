@@ -1,0 +1,19 @@
+<svg width="560" height="160" viewBox="0 0 560 160" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Beat Drops Music Academy</title>
+  <desc id="desc">Beat Drops logo with a BD tabla-inspired mark and black-maroon wordmark.</desc>
+  <rect width="560" height="160" rx="32" fill="#FAF6EE"/>
+  <g transform="translate(31 28)">
+    <rect x="0" y="0" width="116" height="104" rx="27" fill="#16110F"/>
+    <path d="M30 24C30 20.7 32.7 18 36 18C39.3 18 42 20.7 42 24V49.3C47 44.7 53.5 42.2 60.8 42.2C76.4 42.2 89.1 54.9 89.1 70.5C89.1 86.2 76.4 99 60.8 99H36C32.7 99 30 96.3 30 93V24ZM42 54.5V87H60.8C69.8 87 77.1 79.6 77.1 70.5C77.1 61.4 69.8 54.2 60.8 54.2C53.4 54.2 47 58.3 43.7 64.3C42.7 66.1 42 64.8 42 62.8V54.5Z" fill="#FAF6EE"/>
+    <path d="M73.5 18C76.8 18 79.5 20.7 79.5 24V49.6C84.6 44.9 91.2 42.2 98.6 42.2C104.7 42.2 110.3 44.1 115 47.4V64.5C112.5 58.5 106.6 54.2 99.7 54.2C90.8 54.2 83.5 61.5 83.5 70.5C83.5 79.6 90.8 87 99.7 87C106.6 87 112.5 82.7 115 76.6V94.2C110.3 97.2 104.8 99 98.6 99C83.1 99 70.4 86.2 70.4 70.5V24C70.4 20.7 70.2 18 73.5 18Z" fill="#6E1423"/>
+    <circle cx="61" cy="70.5" r="15.5" fill="#16110F"/>
+    <circle cx="61" cy="70.5" r="7" fill="#C8A96A"/>
+    <path d="M13 85C18.8 93.6 27.8 100.1 38.5 103" stroke="#C8A96A" stroke-width="4" stroke-linecap="round"/>
+    <path d="M14 19C20.2 10.8 29.1 4.9 39.5 2.5" stroke="#C8A96A" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <text x="172" y="75" fill="#16110F" font-family="Georgia, 'Times New Roman', serif" font-size="49" font-weight="700" letter-spacing="-1.2">Beat</text>
+  <text x="291" y="75" fill="#6E1423" font-family="Georgia, 'Times New Roman', serif" font-size="49" font-weight="700" letter-spacing="-1.2">Drops</text>
+  <rect x="175" y="91" width="122" height="5" rx="2.5" fill="#6E1423"/>
+  <rect x="306" y="91" width="76" height="5" rx="2.5" fill="#C8A96A"/>
+  <text x="175" y="120" fill="#4B403A" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="600" letter-spacing="2.4">MUSIC ACADEMY · BHUBANESWAR</text>
+</svg>
