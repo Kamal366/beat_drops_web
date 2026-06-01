@@ -54,7 +54,9 @@ export default function AdmissionForm({ courseOptions = courses }) {
     const data = await response.json()
 
     if (!response.ok) {
-      throw new Error(data.error || 'Something went wrong while sending your inquiry.')
+      const fieldErrors = data.details?.fieldErrors || {}
+      const firstFieldError = Object.values(fieldErrors).flat().find(Boolean)
+      throw new Error(firstFieldError || data.error || 'Something went wrong while sending your inquiry.')
     }
 
     reset()
